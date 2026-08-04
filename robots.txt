@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://djmangie0824-max.github.io/824-consultants/sitemap.xml

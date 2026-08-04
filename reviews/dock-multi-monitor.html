@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dock that keeps multi-monitor + NVMe hosts sane | 824 Consultants</title>
+  <meta name="description" content="Underspec docks drop displays under load. Criteria for docks with honest PD budget, DisplayPort alt-mode truth, and stable firmware." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/reviews/dock-multi-monitor.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"Dock that keeps multi-monitor + NVMe hosts sane","author":{"@type":"Person","name":"Douglas James Mangie II"},"publisher":{"@type":"Organization","name":"824 Consultants LLC"},"datePublished":"2026-08-04","mainEntityOfPage":"https://djmangie0824-max.github.io/824-consultants/reviews/dock-multi-monitor.html"}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    h3 { font-size:1rem; margin:16px 0 6px; color:var(--fg); }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:12px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin-top:10px; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    .btn.disabled { opacity:.55; pointer-events:none; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../history.html">History</a>
+        <a href="../index.html#reviews">Reviews</a>
+        <a href="../products/operator-checklist.html">Products</a>
+        <a href="../autonomy.html">Autonomy</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Links on this page may be affiliate links once the Associate tracking tag is live. Disclosure is always required.
+    </div>
+    <section>
+      <span class="badge">I/O · Dock · Bandwidth honesty</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Dock that keeps multi-monitor + NVMe hosts sane</h1>
+      <p class="meta">Published 2026-08-04 · 824 Consultants LLC · Problem-first notes</p>
+      <p>Underspec docks drop displays under load. Criteria for docks with honest PD budget, DisplayPort alt-mode truth, and stable firmware.</p>
+    </section>
+    <section>
+      <h2>The job, not the SKU</h2>
+      <p>We care about four outcomes only:</p>
+      <ol>
+        <li>Two displays stay up under simultaneous load.</li>
+        <li>Power delivery numbers are honest when displays + storage share the dock.</li>
+        <li>Firmware updates do not brick the unit.</li>
+        <li>Upstream bandwidth is enough for displays + external NVMe / cameras.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>What we actually check</h2>
+      <div class="card">
+        <ol>
+          <li><strong>PD budget under load</strong> — marketing 100W means nothing if displays steal the budget.</li>
+          <li><strong>Chipset / firmware path</strong> — no mystery chips with dead support pages.</li>
+          <li><strong>Port map clarity</strong> — which ports share bandwidth lanes.</li>
+          <li><strong>Would we still use with no commission?</strong> Only if it survives a full operator desk day.</li>
+        </ol>
+        <div class="warn">If the product page refuses to specify lane sharing or PD under dual display, it fails.</div>
+      </div>
+    </section>
+    <section>
+      <h2>Product path (placeholder until Associate tag is live)</h2>
+      <div class="card">
+        <h3>Thunderbolt / USB4 dock (dual display class)</h3>
+        <p>Target use: laptop host to dual monitors + storage. Gate: published dual-display modes and PD under load.</p>
+        <p><em>Tracking link:</em> <span style="color:var(--warn)">pending SiteStripe / Associate tag</span></p>
+        <a class="btn disabled" href="#" aria-disabled="true">Amazon link (after approval)</a>
+      </div>
+      <div class="card">
+        <h3>USB-C multiport (travel secondary)</h3>
+        <p>Target use: single external display + charging on the road. Gate: does not thermal-throttle mid-session.</p>
+        <p><em>Tracking link:</em> <span style="color:var(--warn)">pending SiteStripe / Associate tag</span></p>
+        <a class="btn disabled" href="#" aria-disabled="true">Amazon link (after approval)</a>
+      </div>
+    </section>
+    <section>
+      <h2>Capital honesty</h2>
+      <p>No guaranteed commissions. No invented income claims. When a tagged link is live and a qualifying purchase clears, the network pays. Until then, this page is research — not a cash printer fantasy.</p>
+    </section>
+    <section>
+      <p><a href="../history.html">← History</a> · <a href="../index.html">Home</a> · <a href="../index.html#reviews">All reviews</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>
