@@ -17,194 +17,41 @@
   {"@context":"https://schema.org","@type":"Organization","name":"824 Consultants LLC","alternateName":["Lexxii","LEX XII"],"url":"https://djmangie0824-max.github.io/824-consultants/","email":"824consultants.llc@gmail.com","founder":{"@type":"Person","name":"Douglas James Mangie II","sameAs":["https://x.com/DJMangie0824"]},"description":"Product research, tool reviews, and disclosed Amazon Associates partner links.","areaServed":"US","sameAs":["https://x.com/DJMangie0824"]}
   </script>
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #070708;
-      --bg-elevated: #0e0e11;
-      --bg-subtle: #16161a;
-      --fg: #f4f4f5;
-      --fg-muted: #a1a1aa;
-      --fg-subtle: #71717a;
-      --border: #27272a;
-      --border-strong: #3f3f46;
-      --signal: #22c55e;
-      --signal-dim: rgba(34, 197, 94, 0.12);
-      --ice: #a5f3fc;
-      --warn: #f59e0b;
-      --radius: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 20px;
-      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      --max: 720px;
-    }
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-height: 100dvh;
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--fg);
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--ice); text-decoration: none; }
-    a:hover { text-decoration: underline; text-underline-offset: 3px; }
-    header {
-      position: sticky; top: 0; z-index: 40;
-      background: rgba(7, 7, 8, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    header .wrap, main, footer .wrap {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-    header .wrap { padding-top: 14px; padding-bottom: 14px; }
-    .brand {
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin: 0;
-    }
-    .sub {
-      color: var(--fg-subtle);
-      font-size: 0.8rem;
-      margin-top: 2px;
-    }
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 12px;
-      margin-top: 12px;
-    }
-    nav a {
-      color: var(--fg-muted);
-      font-size: 0.85rem;
-      padding: 6px 0;
-      text-decoration: none;
-    }
-    nav a:hover { color: var(--fg); }
-    main { padding: 32px 16px 96px; }
-    section { margin-bottom: 40px; }
-    h2 {
-      font-size: clamp(1.15rem, 2.5vw, 1.35rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin: 0 0 14px;
-    }
-    h3 {
-      font-size: 0.98rem;
-      font-weight: 600;
-      margin: 0 0 6px;
-      color: var(--fg);
-    }
-    p, li { color: var(--fg-muted); font-size: 0.95rem; }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      background: var(--signal-dim);
-      color: var(--signal);
-      border-radius: 999px;
-      padding: 3px 11px;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      margin-bottom: 14px;
-    }
-    .card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 16px 18px;
-      margin: 12px 0;
-      background: var(--bg-elevated);
-      transition: border-color 0.15s ease;
-    }
-    .card:hover { border-color: var(--border-strong); }
-    .grid-2 {
-      display: grid;
-      gap: 12px;
-    }
-    @media (min-width: 560px) {
-      .grid-2 { grid-template-columns: 1fr 1fr; }
-    }
-    .disc {
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      background: var(--signal-dim);
-      color: #bbf7d0;
-      border-radius: var(--radius-lg);
-      padding: 14px 16px;
-      font-size: 0.9rem;
-      margin-bottom: 28px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 40px;
-      margin-top: 12px;
-      padding: 8px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--border-strong);
-      color: var(--fg);
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.15s ease, border-color 0.15s ease;
-    }
-    .btn:hover { background: var(--bg-subtle); text-decoration: none; }
-    .btn.primary {
-      border-color: rgba(34, 197, 94, 0.5);
-      color: var(--signal);
-    }
-    .btn.disabled { opacity: 0.5; pointer-events: none; }
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 0 48px;
-      color: var(--fg-subtle);
-      font-size: 0.8rem;
-    }
-    code {
-      font-family: var(--mono);
-      font-size: 0.85em;
-      background: var(--bg-subtle);
-      padding: 1px 6px;
-      border-radius: 4px;
-    }
-    strong { color: var(--fg); }
-    .status-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 1px solid var(--border);
-      background: var(--bg-elevated);
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 0.72rem;
-      color: var(--fg-muted);
-    }
-    .pill .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--signal);
-      box-shadow: 0 0 0 3px var(--signal-dim);
-    }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    h3 { font-size:1rem; margin:16px 0 6px; color:var(--fg); }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:12px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin-top:10px; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    .btn.disabled { opacity:.55; pointer-events:none; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+
+    .btn:not(.disabled) { border-color: var(--true); color: var(--true); }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
-      <p class="brand">824 Consultants LLC</p>
+      <h1>824 Consultants LLC</h1>
       <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
       <nav>
         <a href="index.html">Home</a>
@@ -221,44 +68,36 @@
       <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
       Links on this page may be affiliate links once the Associate tracking tag is live. Disclosure is always required.
     </div>
-
     <section id="about">
-      <div class="status-row">
-        <span class="pill"><span class="dot"></span> Public property live</span>
-        <span class="pill">Associates-ready</span>
-        <span class="pill">Design law locked</span>
-      </div>
-      <span class="badge">Official Amazon Associates surface</span>
+      <span class="badge">Public site · Amazon Associates property · Autonomous surface</span>
       <h2>About</h2>
       <p>824 Consultants LLC publishes honest product research and tool notes for operators building software, local AI hosts, and capital rails. Owner: Douglas James Mangie II. Brand: Lexxii.</p>
-      <p>This site is the public property listed on our Amazon Associates application. Research criteria, build log, problem-first notes, digital product landings, contact — not a private vault dump.</p>
-      <p><a href="history.html">History &amp; build log →</a> · <a href="autonomy.html">Autonomy status →</a></p>
+      <p>This site is the public property listed on our Amazon Associates application. It carries research criteria, a public build log, problem-first notes, digital product landings, and contact — not a private vault dump.</p>
+      <p><a href="history.html">Read the history & build log →</a> · <a href="autonomy.html">Autonomy status →</a></p>
     </section>
 
     <section id="research">
-      <h2>Research criteria</h2>
-      <div class="grid-2">
-        <div class="card">
-          <h3>Problem first</h3>
-          <p>Start with the job, not the SKU. Pricing honesty and support quality gate every write-up.</p>
-        </div>
-        <div class="card">
-          <h3>Zero-commission test</h3>
-          <p>Would we still use this with no commission? If not, it does not earn a link.</p>
-        </div>
-        <div class="card">
-          <h3>SiteStripe discipline</h3>
-          <p>Tracking links only after Associates approval. No secrets in public fields. #ad on social.</p>
-        </div>
-        <div class="card">
-          <h3>Capital honesty</h3>
-          <p>No invented commissions. Bankable cash only when a network pays and a receipt exists.</p>
-        </div>
+      <h2>Research</h2>
+      <div class="card">
+        <h3>How we evaluate tools before recommending them</h3>
+        <p>We start with the problem, not the product. Pricing honesty, support quality, and “would we still use this with no commission?” gate every write-up.</p>
+      </div>
+      <div class="card">
+        <h3>SiteStripe and honest affiliate links</h3>
+        <p>After Associates approval, public SiteStripe tracking links only. No API secrets in public fields. No fake clicks. Disclose with #ad / Associate notice.</p>
+      </div>
+      <div class="card">
+        <h3>SEO that answers real jobs</h3>
+        <p>One page = one problem (e.g. NVMe install order). Original paragraphs first, then a disclosed product path. Mobile-first, fast, clear titles. <code>robots.txt</code> + <code>sitemap.xml</code> shipped.</p>
+      </div>
+      <div class="card">
+        <h3>Capital honesty</h3>
+        <p>We do not invent commissions. Bankable cash only when a network pays and a real receipt is recorded. No guaranteed income claims.</p>
       </div>
     </section>
 
     <section id="reviews">
-      <h2>Reviews</h2>
+      <h2>Reviews (live pages)</h2>
       <div class="card">
         <h3><a href="reviews/nvme-ubuntu-local-ai.html">NVMe · Ubuntu local AI hosts</a></h3>
         <p>Install order, endurance, thermal honesty. Tracking links pending SiteStripe.</p>
@@ -277,18 +116,30 @@
       </div>
     </section>
 
-    <section id="products">
+        <section id="products">
       <h2>Digital products</h2>
       <div class="card">
         <h3><a href="products/operator-checklist.html">Empire Operator Checklist — $29</a></h3>
-        <p>Zero-idle daily/weekly checklist. Gumroad slot ready. Cash rail independent of Amazon approval.</p>
-        <a class="btn disabled" href="#" aria-disabled="true">Gumroad checkout (pending listing)</a>
+        <p>Zero-idle daily/weekly spine. Content packaged. Checkout pending Gumroad URL.</p>
       </div>
+      <div class="card">
+        <h3><a href="products/24h-money-forecaster.html">24h Money Forecaster — $49</a></h3>
+        <p>Rolling net-dollar discipline for thin capital. Independent of Amazon.</p>
+      </div>
+      <div class="card">
+        <h3><a href="products/agent-prompt-pack.html">Agent Prompt Pack — $39</a></h3>
+        <p>Zero-idle + public ship + capital honesty prompts.</p>
+      </div>
+      <div class="card">
+        <h3><a href="products/nvme-install-pack.html">NVMe Install Pack — $19</a></h3>
+        <p>Companion pack to the live NVMe review page.</p>
+      </div>
+      <p style="margin-top:14px"><a href="launch.html">Full launch matrix →</a></p>
     </section>
 
     <section id="partners">
       <h2>Partners</h2>
-      <p>Primary path: Amazon Associates (US / amazon.com). Public tracking links only. Secrets never pasted into affiliate fields.</p>
+      <p>Primary path: Amazon Associates (US / amazon.com). Optional networks later: Impact, Awin. Public tracking links only. Secrets never pasted into affiliate fields.</p>
       <div class="card">
         <h3>Amazon Associates disclosure</h3>
         <p>As an Amazon Associate I earn from qualifying purchases. Social posts use <code>#ad</code> in the same post as the recommendation.</p>

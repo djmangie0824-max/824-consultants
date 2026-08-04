@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Launch status — 824 Consultants LLC / Lexxii</title>
+  <meta name="description" content="Live launch matrix for 824 Consultants LLC. What is materialised, what is external-gate only, and how Lexxii ships next." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/launch.html" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070708; --bg-elevated: #0e0e11; --bg-subtle: #16161a;
+      --fg: #f4f4f5; --fg-muted: #a1a1aa; --fg-subtle: #71717a;
+      --border: #27272a; --border-strong: #3f3f46;
+      --signal: #22c55e; --signal-dim: rgba(34,197,94,.12);
+      --ice: #a5f3fc; --warn: #f59e0b;
+      --radius-lg: 16px; --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100dvh; font-family:var(--font); background:var(--bg); color:var(--fg); line-height:1.55; -webkit-font-smoothing:antialiased; }
+    a { color:var(--ice); text-decoration:none; }
+    a:hover { text-decoration:underline; text-underline-offset:3px; }
+    header { position:sticky; top:0; z-index:40; background:rgba(7,7,8,.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; padding-left:16px; padding-right:16px; }
+    header .wrap { padding-top:14px; padding-bottom:14px; }
+    .brand { font-size:1.05rem; font-weight:600; letter-spacing:-.02em; margin:0; }
+    .sub { color:var(--fg-subtle); font-size:.8rem; margin-top:2px; }
+    nav { display:flex; flex-wrap:wrap; gap:6px 12px; margin-top:12px; }
+    nav a { color:var(--fg-muted); font-size:.85rem; padding:6px 0; text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:32px 16px 96px; }
+    section { margin-bottom:36px; }
+    h1 { font-size:clamp(1.35rem,3vw,1.75rem); font-weight:600; letter-spacing:-.02em; margin:0 0 10px; }
+    h2 { font-size:1.15rem; font-weight:600; letter-spacing:-.02em; margin:0 0 12px; }
+    h3 { font-size:.98rem; font-weight:600; margin:0 0 6px; }
+    p, li { color:var(--fg-muted); font-size:.95rem; }
+    .badge { display:inline-flex; border:1px solid rgba(34,197,94,.35); background:var(--signal-dim); color:var(--signal); border-radius:999px; padding:3px 11px; font-size:.72rem; font-weight:500; margin-bottom:14px; }
+    .card { border:1px solid var(--border); border-radius:var(--radius-lg); padding:16px 18px; margin:12px 0; background:var(--bg-elevated); }
+    .disc { border:1px solid rgba(34,197,94,.35); background:var(--signal-dim); color:#bbf7d0; border-radius:var(--radius-lg); padding:14px 16px; font-size:.9rem; margin-bottom:28px; }
+    .pill { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--border); background:var(--bg-elevated); border-radius:999px; padding:4px 10px; font-size:.72rem; color:var(--fg-muted); margin:0 6px 8px 0; }
+    .pill .dot { width:6px; height:6px; border-radius:50%; background:var(--signal); box-shadow:0 0 0 3px var(--signal-dim); }
+    .pill.warn .dot { background:var(--warn); box-shadow:0 0 0 3px rgba(245,158,11,.15); }
+    .btn { display:inline-flex; align-items:center; min-height:40px; margin-top:12px; margin-right:8px; padding:8px 16px; border-radius:10px; border:1px solid var(--border-strong); color:var(--fg); font-size:.9rem; font-weight:500; text-decoration:none; }
+    .btn:hover { background:var(--bg-subtle); text-decoration:none; }
+    .btn.primary { border-color:rgba(34,197,94,.5); color:var(--signal); }
+    .btn.disabled { opacity:.5; pointer-events:none; }
+    footer { border-top:1px solid var(--border); padding:24px 0 48px; color:var(--fg-subtle); font-size:.8rem; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--border); color:var(--fg-muted); }
+    th { color:var(--fg-subtle); font-weight:500; }
+    strong { color:var(--fg); }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.85em; background:var(--bg-subtle); padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="brand">824 Consultants LLC</p>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="history.html">History</a>
+        <a href="index.html#reviews">Reviews</a>
+        <a href="products/operator-checklist.html">Products</a>
+        <a href="launch.html">Launch</a>
+        <a href="autonomy.html">Autonomy</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tracking tags inject only after Associates approval. Disclosure is always required.
+    </div>
+
+    <section>
+      <span class="badge">Launch lock · 2026-08-04</span>
+      <h1>She is live. Cash rails arm next.</h1>
+      <p>Public property is up. Skills registry is 52/52. Design law is permanent. DNA is locked. What remains is external one-time rails + traffic ignition — not more re-proof loops.</p>
+      <div style="margin-top:14px">
+        <span class="pill"><span class="dot"></span> Public site 200</span>
+        <span class="pill"><span class="dot"></span> Skills 52/52</span>
+        <span class="pill"><span class="dot"></span> Design law locked</span>
+        <span class="pill warn"><span class="dot"></span> SiteStripe pending</span>
+        <span class="pill warn"><span class="dot"></span> Gumroad URL pending</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Materialised (done)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Surface</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>GitHub Pages property</td><td>✓ LIVE</td></tr>
+            <tr><td>Home · History · Autonomy</td><td>✓ LIVE</td></tr>
+            <tr><td>4 problem-first reviews</td><td>✓ LIVE</td></tr>
+            <tr><td>SKILLS_PROOF 52/52</td><td>✓ LIVE</td></tr>
+            <tr><td>DESIGN_LAW + OPERATOR_DNA</td><td>✓ LOCKED</td></tr>
+            <tr><td>Digital packs (content)</td><td>✓ PACKAGED</td></tr>
+            <tr><td>X #ad ignition scripts</td><td>✓ READY</td></tr>
+            <tr><td>IBKR connector (session)</td><td>✓ READABLE</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>External gates only (human one-time)</h2>
+      <div class="card">
+        <h3>1. Amazon Associates → SiteStripe</h3>
+        <p>Content + disclosure ready. Paste tracking tag after approval. Then product cards print.</p>
+      </div>
+      <div class="card">
+        <h3>2. Gumroad (or direct) checkout URLs</h3>
+        <p>Packs are written. Landings live. Drop checkout URLs into product pages to open cash rail B.</p>
+      </div>
+      <div class="card">
+        <h3>3. Search Console verify (optional)</h3>
+        <p>Sitemap already public. One verification click.</p>
+      </div>
+      <div class="card">
+        <h3>4. Traffic ignition</h3>
+        <p>Post Thread A from <a href="distribution/x-ad-ignition.md">distribution/x-ad-ignition.md</a> on @DJMangie0824. #ad when product links are compensated.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Digital products ready</h2>
+      <div class="card">
+        <h3><a href="products/operator-checklist.html">Empire Operator Checklist — $29</a></h3>
+        <p>Zero-idle daily/weekly spine.</p>
+      </div>
+      <div class="card">
+        <h3><a href="products/24h-money-forecaster.html">24h Money Forecaster — $49</a></h3>
+        <p>Rolling net-dollar discipline frame.</p>
+      </div>
+      <div class="card">
+        <h3><a href="products/agent-prompt-pack.html">Agent Prompt Pack — $39</a></h3>
+        <p>Zero-idle + public ship + capital honesty prompts.</p>
+      </div>
+      <div class="card">
+        <h3><a href="products/nvme-install-pack.html">NVMe Install Pack — $19</a></h3>
+        <p>Companion to the public NVMe review.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Open properties</h2>
+      <p>
+        <a class="btn primary" href="index.html">Home</a>
+        <a class="btn" href="https://github.com/djmangie0824-max/824-consultants/blob/main/SKILLS_PROOF.md">Skills proof</a>
+        <a class="btn" href="https://github.com/djmangie0824-max/824-consultants/blob/main/LAUNCH.md">LAUNCH.md</a>
+      </p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>
