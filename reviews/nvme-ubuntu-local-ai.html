@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NVMe install order that doesn’t brick Ubuntu on a local AI host | 824 Consultants</title>
+  <meta name="description" content="Problem-first NVMe notes for Ubuntu local AI hosts: install order, endurance, and how we gate recommendations. Amazon Associate disclosure included." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/reviews/nvme-ubuntu-local-ai.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","headline":"NVMe install order that doesn’t brick Ubuntu on a local AI host","author":{"@type":"Person","name":"Douglas James Mangie II"},"publisher":{"@type":"Organization","name":"824 Consultants LLC"},"datePublished":"2026-08-04","description":"Operator-focused NVMe evaluation criteria and install order for Ubuntu local AI hosts."}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    h3 { font-size:1rem; margin:16px 0 6px; color:var(--fg); }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin-top:10px; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--ice); text-decoration:none; font-size:.9rem; }
+    .btn.disabled { opacity:.55; pointer-events:none; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../">Home</a>
+        <a href="../history.html">History</a>
+        <a href="../#reviews">Reviews</a>
+        <a href="../#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Links on this page may be affiliate links once the Associate tracking tag is live. Disclosure is always required.
+    </div>
+
+    <section>
+      <span class="badge">Storage · NVMe · Ubuntu</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">NVMe install order that doesn’t brick Ubuntu on a local AI host</h1>
+      <p class="meta">Published 2026-08-04 · 824 Consultants LLC · Problem-first notes (criteria before product links)</p>
+      <p>Local AI hosts die more often from bad storage procedure than from bad model choice. This page is the evaluation gate we use before any NVMe earns a recommendation on this site.</p>
+    </section>
+
+    <section>
+      <h2>The job, not the SKU</h2>
+      <p>We care about three outcomes only:</p>
+      <ol>
+        <li>Ubuntu boots cleanly after the drive is installed (no silent firmware / boot-order traps).</li>
+        <li>The drive survives sustained write load from model weights, vector stores, and logs without lying about endurance.</li>
+        <li>What arrives matches the product page (capacity, DRAM/cache class, warranty).</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Install order we actually use</h2>
+      <div class="card">
+        <ol>
+          <li><strong style="color:var(--fg)">Image the OS on a known-good medium first</strong> when the host is new. Do not dual-purpose a half-configured NVMe as the only boot device until you have a recovery path.</li>
+          <li><strong style="color:var(--fg)">Confirm UEFI boot order</strong> and that the board sees the drive as NVMe, not as a mystery SATA alias.</li>
+          <li><strong style="color:var(--fg)">Partition with a modern GPT layout</strong> (EFI + root, optional separate data). Avoid exotic RAID for single-host operator boxes unless you already own the failure mode.</li>
+          <li><strong style="color:var(--fg)">Run a short write soak</strong> (fio or similar) before moving irreplaceable model caches onto the drive.</li>
+          <li><strong style="color:var(--fg)">Record SMART / health baseline</strong> the day it goes into production so future drops are measurable.</li>
+        </ol>
+      </div>
+      <div class="warn">
+        If a vendor page hides whether the drive is DRAM-less, or buries TBW under marketing, it fails our “would we buy this with zero commission?” gate until we can verify endurance in real use.
+      </div>
+    </section>
+
+    <section>
+      <h2>What we refuse to recommend (yet)</h2>
+      <div class="card">
+        <p>We do not drop product names + live Associate links on day one of a thin site. That looks like a link farm and gets accounts killed. This page ships the <em>criteria and procedure</em> first. Specific models get cards only after:</p>
+        <ul>
+          <li>Associates account + tracking tag are confirmed live, and</li>
+          <li>We have at least one honest install or endurance note for that SKU class.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Product path (placeholder until Associate tag is live)</h2>
+      <div class="card">
+        <h3>High-endurance PCIe 4.0 NVMe (1–2 TB class)</h3>
+        <p>Target use: Ubuntu local AI host OS + model cache. Gate: TBW published, thermal behavior under sustained load, Ubuntu recognition without vendor-only tools.</p>
+        <p><em>Tracking link:</em> <span style="color:var(--warn)">pending SiteStripe / Associate tag</span></p>
+        <a class="btn disabled" href="#" aria-disabled="true">Amazon link (after approval)</a>
+      </div>
+      <div class="card">
+        <h3>Value DRAM-less NVMe (data only, not sole boot)</h3>
+        <p>Target use: secondary store for datasets. Gate: we still verify it never becomes the only boot device without a recovery plan.</p>
+        <p><em>Tracking link:</em> <span style="color:var(--warn)">pending SiteStripe / Associate tag</span></p>
+        <a class="btn disabled" href="#" aria-disabled="true">Amazon link (after approval)</a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Capital honesty</h2>
+      <p>No guaranteed commissions. No invented “we make $X/day” claims. When a tagged link is live and a qualifying purchase clears, that is the only money this page claims. Same standard as the rest of 824 Consultants LLC.</p>
+    </section>
+
+    <section>
+      <p><a href="../history.html">← History &amp; build log</a> · <a href="../">Home</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

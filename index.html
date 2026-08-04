@@ -16,7 +16,7 @@
   {"@context":"https://schema.org","@type":"Organization","name":"824 Consultants LLC","alternateName":["Lexxii","LEX XII"],"url":"https://djmangie0824-max.github.io/824-consultants/","email":"824consultants.llc@gmail.com","founder":{"@type":"Person","name":"Douglas James Mangie II","sameAs":["https://x.com/DJMangie0824"]},"description":"Product research, tool reviews, and disclosed Amazon Associates partner links.","areaServed":"US","sameAs":["https://x.com/DJMangie0824"]}
   </script>
   <style>
-    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; }
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
     * { box-sizing: border-box; }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
     a { color:var(--ice); }
@@ -30,11 +30,12 @@
     main { padding:28px 16px 80px; }
     section { margin-bottom:40px; scroll-margin-top:72px; }
     h2 { font-size:1.2rem; margin:0 0 10px; }
-    h3 { font-size:1rem; margin:18px 0 6px; }
+    h3 { font-size:1rem; margin:18px 0 6px; color:var(--fg); }
     p, li { color:var(--muted); font-size:.95rem; }
     .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
     .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
     .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; }
+    .pill { display:inline-block; font-size:.72rem; border:1px solid var(--border); border-radius:999px; padding:2px 8px; color:var(--warn); margin-left:6px; }
     footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; }
   </style>
@@ -46,8 +47,10 @@
       <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
       <nav>
         <a href="#about">About</a>
+        <a href="history.html">History</a>
         <a href="#research">Research</a>
         <a href="#reviews">Reviews</a>
+        <a href="#products">Tools</a>
         <a href="#partners">Partners</a>
         <a href="#privacy">Privacy</a>
         <a href="#contact">Contact</a>
@@ -64,7 +67,8 @@
       <span class="badge">Public site · Amazon Associates property</span>
       <h2>About</h2>
       <p>824 Consultants LLC publishes honest product research and tool notes for operators building software, local AI hosts, and capital rails. Owner: Douglas James Mangie II. Brand: Lexxii.</p>
-      <p>This site is the public property listed on our Amazon Associates application. Content is finished: research, reviews, partners, privacy, and contact.</p>
+      <p>This site is the public property listed on our Amazon Associates application. It carries research criteria, a public build log, problem-first notes, and contact — not a private vault dump.</p>
+      <p><a href="history.html">Read the history &amp; build log →</a></p>
     </section>
 
     <section id="research">
@@ -88,18 +92,31 @@
     </section>
 
     <section id="reviews">
-      <h2>Reviews (criteria)</h2>
+      <h2>Reviews</h2>
+      <p>Criteria are live. Specific product tracking links appear after the Associate tag is confirmed. Until then, cards stay honest placeholders.</p>
+
       <div class="card">
-        <h3>Storage / NVMe</h3>
-        <p>Install order, clean Ubuntu path, endurance, and whether the product page matches what arrives. Links only after Associates approval.</p>
+        <h3>Storage / NVMe <span class="pill">criteria + first page live</span></h3>
+        <p>Install order, clean Ubuntu path, endurance, and whether the product page matches what arrives.</p>
+        <p><a href="reviews/nvme-ubuntu-local-ai.html">NVMe install order that doesn’t brick Ubuntu on a local AI host →</a></p>
       </div>
+
       <div class="card">
-        <h3>Keyboards, docks, monitors</h3>
-        <p>Build quality, repairability, and real desk use. Comfort gear only earns a link if we would buy it again without a commission.</p>
+        <h3>Keyboards, docks, monitors <span class="pill">criteria live</span></h3>
+        <p>Build quality, repairability, and real desk use. Comfort gear only earns a link if we would buy it again without a commission. Specific model cards next.</p>
       </div>
+
       <div class="card">
-        <h3>Standing desks / cable management</h3>
-        <p>Stability and height range first. SiteStripe links appear after Associates approval.</p>
+        <h3>Standing desks / cable management <span class="pill">criteria live</span></h3>
+        <p>Stability and height range first. SiteStripe links appear after Associates approval. Dual-monitor + heavy PC stability is the hard gate.</p>
+      </div>
+    </section>
+
+    <section id="products">
+      <h2>Operator tools (digital)</h2>
+      <div class="card">
+        <h3>Coming next on this property</h3>
+        <p>Digital packs (operator checklists, money-forecaster one-pagers, AI infrastructure templates) will list here or link to Gumroad with the same disclosure discipline. The public site stays the trust surface; products do not replace original research.</p>
       </div>
     </section>
 
