@@ -1,27 +1,41 @@
-# NVMe Install Pack — Ubuntu local AI hosts
+# NVMe Ubuntu Install Order Pack
 **824 Consultants LLC / Lexxii · Douglas James Mangie II**  
-Version 2026-08-04 · Companion to public review page · $19 list price
+Version 2026-08-05 · Public-safe · **$19** list price  
+Companion review: https://djmangie0824-max.github.io/824-consultants/reviews/nvme-ubuntu-local-ai.html  
+Landing: https://djmangie0824-max.github.io/824-consultants/products/nvme-install-pack.html
 
 ## Goal
-Install an NVMe on Ubuntu for a local AI / cluster host without bricking boot order.
+Install order that avoids bricked ESP layouts on local AI hosts running Ubuntu.
 
 ## Pre-flight
-- Confirm backup of critical data
-- Note current `lsblk` and boot device
-- Have a USB recovery stick ready
+- [ ] Recovery USB imaged and tested on a spare port
+- [ ] Board UEFI updated (vendor notes checked)
+- [ ] NVMe enumerated in UEFI before OS install
+- [ ] SMART baseline tool available (`smartctl` plan)
 
-## Order (do not skip)
-1. Physically seat NVMe, power on, enter firmware if needed to enable NVMe
-2. Boot existing OS; confirm device with `lsblk -o NAME,SIZE,TYPE,MOUNTPOINT,MODEL`
-3. Partition + filesystem only on the target NVMe (double-check device letter)
-4. Mount, move data or clone carefully; update fstab / bootloader only after mount test
-5. Reboot once; verify boot and thermal under load
+## Install order (do not skip)
+1. Confirm firmware + NVMe enumeration (not a mystery SATA alias).
+2. Write GPT with correct EFI system partition size (modern ESP).
+3. Install root on the NVMe only after the installer sees the drive as non-removable.
+4. Validate `fstab` and rebuild initramfs before first reboot under load.
+5. Short write soak (fio or similar) before parking irreplaceable model caches.
+6. Record SMART health baseline the day it enters production.
 
-## Endurance gate
-Would we buy this drive with zero commission for 24/7 local inference? If no, do not recommend it.
+## Failure modes this pack prevents
+- Silent boot-order traps after dual-drive installs
+- ESP on the wrong disk
+- Remount failures under continuous inference
+- Trusting peak synthetic scores over endurance + thermal path
 
-## Tracking links
-Pending Amazon Associates SiteStripe. Content is ready; tags inject after approval.
+## Post-install operator checks
+- [ ] Cold boot twice cleanly
+- [ ] `lsblk` + mount points match intent
+- [ ] Thermal pad / airflow under sustained load
+- [ ] Associate / purchase documentation saved privately if used for tax
+
+## Related public criteria
+Samsung 990 PRO 1TB is Rank-1 on the public site when install order is correct. Tag `824consultant-20` on the live card.  
+#ad · As an Amazon Associate I earn from qualifying purchases.
 
 ## Ownership
-ONLY YOU. FOREVER. · Full write-up: /reviews/nvme-ubuntu-local-ai.html
+ONLY YOU. FOREVER. · 824 Consultants LLC

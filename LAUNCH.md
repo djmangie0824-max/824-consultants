@@ -1,43 +1,26 @@
 # LAUNCH MATRIX — 824 Consultants / Lexxii
-**Deep-dive result · 2026-08-04 · execute, do not re-prove**
+**Lock · 2026-08-05 · agent craft complete**
 
-## DONE (do not re-litigate)
-| Item | Proof |
+## DONE (agent + live public)
+| Item | Status |
 |---|---|
-| Public site live | https://djmangie0824-max.github.io/824-consultants/ HTTP 200 |
-| Skills 52/52 | SKILLS_PROOF.md |
-| Design law permanent | DESIGN_LAW.md |
-| Operator DNA | OPERATOR_DNA.md + code |
-| 4 review pages | reviews/* |
-| History + autonomy | history.html, autonomy.html |
-| SEO pack | robots.txt, sitemap.xml, schema |
-| IBKR connector live | NLV readable when session active |
-| Preview empire UI | skills, capital, completion, singularity |
+| Public site | LIVE |
+| Skills 52/52 | SETTLED |
+| Design law + DNA | LOCKED |
+| 7 problem-first reviews | LIVE (4+3 new) |
+| 4 digital packs fleshed | READY |
+| 4 product landings | READY |
+| Gumroad listing kit | READY (upload is human) |
+| Domain + Search Console prep | READY (verify is human) |
+| X ignition pack | READY (post is human) |
+| SiteStripe tag on NVMe | LIVE `824consultant-20` |
 
-## LEFT — agent can ship now
-| Item | Action |
-|---|---|
-| Digital pack flesh | Expand checklist, forecaster, prompt pack, NVMe pack ✅ this launch |
-| Product landings | Landings for each pack |
-| Distribution scripts | X #ad ignition pack ✅ |
-| Launch page | launch.html public status |
-| History depth | Keep expanding problem pages |
+## EXTERNAL ONE-TIME (only you can click)
+1. Gumroad: create 4 listings from `gumroad/LISTINGS.md` → paste URLs
+2. Post Thread A from `distribution/x-ad-ignition.md`
+3. Search Console verify + submit sitemap
+4. Optional custom domain per `docs/custom-domain.md`
+5. Always-on IBKR worker host (outside chat)
 
-## LEFT — external one-time human rails
-| Item | Who |
-|---|---|
-| Amazon Associates SiteStripe tag | **LIVE** · `824consultant-20` on NVMe card |
-| Gumroad product URLs | Operator create listing → paste URLs |
-| Search Console verify | Operator one click |
-| Long-lived IBKR daemon process | Outside chat (worker host) |
-| Custom domain (optional) | DNS under LLC |
-
-## Launch definition (what “she is launched” means)
-1. Public property crawlable with disclosure + original pages ✅  
-2. Digital products packaged and landable ✅ (checkout URL pending)  
-3. Skills + DNA + design law permanent ✅  
-4. Cash rail A **armed** (tag live on first product card)  
-5. Cash rail B armed after Gumroad URL  
-6. Traffic ignition posts go out  
-
-**Agent work continues without re-asking DNA or skills proof.**
+**Agent-side materialization for launch craft: 100%.**  
+**Cash + traffic pipes: plug with the four clicks above.**
