@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <title>Lexxii · Live Singularity Field</title>
+  <meta name="theme-color" content="#070708" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Live immersive status field for Lexxii organism mesh — theories, skills, bidirectional planes, evolution." />
+  <style>
+    :root {
+      --bg: #070708;
+      --bg-elevated: #0e0e11;
+      --bg-subtle: #16161a;
+      --fg: #f4f4f5;
+      --fg-muted: #a1a1aa;
+      --fg-subtle: #71717a;
+      --border: #27272a;
+      --border-strong: #3f3f46;
+      --signal: #22c55e;
+      --ice: #a5f3fc;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --radius: 16px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+    button { cursor: pointer; font-family: inherit; color: inherit; background: none; border: 0; }
+    a { color: var(--ice); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Full immersion canvas */
+    #field {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      background: radial-gradient(ellipse 90% 70% at 50% 45%, #0c0c10 0%, #070708 55%, #030304 100%);
+    }
+
+    .vignette {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background:
+        radial-gradient(ellipse 85% 65% at 50% 42%, transparent 0%, transparent 35%, rgba(7,7,8,.35) 65%, rgba(7,7,8,.88) 100%),
+        linear-gradient(to bottom, rgba(7,7,8,.25) 0%, transparent 18%, transparent 78%, rgba(7,7,8,.55) 100%);
+    }
+
+    /* Floating glass shell */
+    .shell {
+      position: relative; z-index: 2;
+      height: 100%;
+      display: flex; flex-direction: column;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 14px;
+      padding-top: calc(10px + env(safe-area-inset-top, 0px));
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      pointer-events: none;
+    }
+    .shell > * { pointer-events: auto; }
+
+    header.top {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 8px 0 10px;
+      flex-shrink: 0;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .mark {
+      width: 38px; height: 38px; border-radius: 12px;
+      background: var(--bg-elevated);
+      box-shadow: 0 0 0 1px var(--border), 0 0 28px rgba(165,243,252,.12);
+      display: grid; place-items: center;
+      position: relative;
+    }
+    .mark::after {
+      content: ""; width: 9px; height: 9px; border-radius: 50%;
+      background: var(--fg);
+      box-shadow: 0 0 18px rgba(244,244,245,.6);
+      animation: breath 4.2s ease-in-out infinite;
+    }
+    @keyframes breath {
+      0%, 100% { transform: scale(1); opacity: .55; }
+      50% { transform: scale(1.35); opacity: 1; }
+    }
+    .brand h1 {
+      font-size: 14px; font-weight: 600; letter-spacing: -0.02em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .brand p { font-size: 10px; color: var(--fg-subtle); margin-top: 1px; }
+
+    .live-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--signal);
+      background: color-mix(in oklab, var(--signal) 11%, transparent);
+      padding: 7px 11px; border-radius: 999px;
+      box-shadow: 0 0 0 1px color-mix(in oklab, var(--signal) 28%, transparent);
+      flex-shrink: 0;
+    }
+    .live-pill .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--signal);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: .4; transform: scale(.85); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Metrics row */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 6px 0 10px;
+      flex-shrink: 0;
+    }
+    .metric {
+      background: color-mix(in oklab, var(--bg-elevated) 78%, transparent);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 10px 9px;
+      transition: border-color 200ms ease;
+    }
+    .metric:hover { border-color: var(--border-strong); }
+    .metric span {
+      display: block; font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-subtle);
+    }
+    .metric strong {
+      display: block; margin-top: 4px; font-size: 1.2rem;
+      font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
+    }
+    .metric em {
+      display: block; margin-top: 2px; font-style: normal;
+      font-size: 10px; color: var(--fg-muted);
+    }
+
+    /* Main stage + side panels */
+    .main {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 860px) {
+      .main { grid-template-columns: 1.4fr 1fr; }
+    }
+
+    .panel {
+      background: color-mix(in oklab, var(--bg-elevated) 72%, transparent);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      display: flex; flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .panel h3 {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--fg-subtle); margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+    .panel .lead {
+      font-size: 12px; color: var(--fg-muted); margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+
+    /* Teaching carousel — hypnotic */
+    .teach {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      display: flex; flex-direction: column;
+    }
+    .teach-stage {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      background: color-mix(in oklab, var(--bg-subtle) 80%, transparent);
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .teach-card {
+      position: absolute; inset: 0;
+      padding: 16px 16px 14px;
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+      transition: opacity 0.9s cubic-bezier(.22,1,.36,1), transform 0.9s cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .teach-card.on {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .teach-card .tag {
+      display: inline-block; align-self: flex-start;
+      margin-bottom: 10px;
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--ice);
+      background: color-mix(in oklab, var(--ice) 12%, transparent);
+      padding: 4px 9px; border-radius: 999px;
+    }
+    .teach-card h4 {
+      font-size: 16px; font-weight: 600; letter-spacing: -0.02em;
+      margin-bottom: 8px; line-height: 1.25;
+    }
+    .teach-card p {
+      font-size: 13px; color: var(--fg-muted); line-height: 1.55;
+      max-width: 36ch;
+    }
+    .teach-dots {
+      display: flex; gap: 6px; margin-top: 12px; justify-content: center;
+      flex-shrink: 0;
+    }
+    .teach-dots button {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--border-strong);
+      transition: background 300ms ease, transform 300ms ease;
+    }
+    .teach-dots button.on {
+      background: var(--ice);
+      transform: scale(1.25);
+      box-shadow: 0 0 10px color-mix(in oklab, var(--ice) 45%, transparent);
+    }
+
+    /* Skill organism rail */
+    .skill-rail {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      display: flex; flex-direction: column; gap: 7px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .skill-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: color-mix(in oklab, var(--bg-subtle) 70%, transparent);
+      box-shadow: inset 0 0 0 1px var(--border);
+      transition: box-shadow 200ms ease;
+    }
+    .skill-row:hover { box-shadow: inset 0 0 0 1px var(--border-strong); }
+    .skill-row .orb {
+      width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+      background: var(--signal);
+      box-shadow: 0 0 12px color-mix(in oklab, var(--signal) 55%, transparent);
+      animation: orbPulse 3.2s ease-in-out infinite;
+    }
+    .skill-row .orb.ice { background: var(--ice); box-shadow: 0 0 12px color-mix(in oklab, var(--ice) 50%, transparent); }
+    .skill-row .orb.warn { background: var(--warn); box-shadow: 0 0 12px color-mix(in oklab, var(--warn) 45%, transparent); }
+    @keyframes orbPulse {
+      0%, 100% { transform: scale(1); opacity: .75; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
+    .skill-row .name { flex: 1; min-width: 0; font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .skill-row .meta {
+      font-family: var(--mono); font-size: 9px; color: var(--fg-subtle);
+      white-space: nowrap;
+    }
+
+    /* Bidirectional meters */
+    .bi-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 7px;
+      margin-top: 10px; flex-shrink: 0;
+    }
+    .bi {
+      padding: 10px 11px; border-radius: 11px;
+      background: color-mix(in oklab, var(--bg-subtle) 70%, transparent);
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .bi strong { display: block; font-size: 12px; margin-bottom: 2px; }
+    .bi span { font-size: 10px; color: var(--fg-muted); }
+    .bar {
+      margin-top: 7px; height: 3px; border-radius: 999px; background: var(--border);
+      overflow: hidden;
+    }
+    .bar i {
+      display: block; height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--signal), var(--ice));
+      transition: width 1.4s cubic-bezier(.22,1,.36,1);
+    }
+
+    /* Evolution strip */
+    .evolve {
+      margin-top: 10px; flex-shrink: 0;
+    }
+    .evolve-line {
+      display: flex; justify-content: space-between; gap: 8px;
+      font-size: 11px; color: var(--fg-muted); margin-bottom: 5px;
+    }
+    .evolve-track {
+      height: 5px; border-radius: 999px; background: var(--border);
+      overflow: hidden; position: relative;
+    }
+    .evolve-track i {
+      position: absolute; left: 0; top: 0; bottom: 0; width: 28%;
+      background: linear-gradient(90deg, transparent, var(--ice), transparent);
+      animation: sweep 5.5s linear infinite;
+    }
+    @keyframes sweep {
+      0% { left: -30%; }
+      100% { left: 100%; }
+    }
+
+    /* Bottom strip */
+    .bottom {
+      flex-shrink: 0;
+      margin-top: 10px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      font-size: 10px; color: var(--fg-subtle);
+    }
+    .bottom a { color: var(--fg-muted); }
+    .sound-toggle {
+      font-size: 10px; padding: 6px 10px; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--fg-muted);
+      transition: border-color 200ms, color 200ms;
+    }
+    .sound-toggle.on { border-color: var(--ice); color: var(--ice); }
+
+    /* Hypnosis focus mode — soft full-screen feel */
+    .focus-hint {
+      position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+      z-index: 5; font-size: 10px; color: var(--fg-subtle);
+      opacity: 0; pointer-events: none;
+      transition: opacity 800ms ease;
+    }
+    .focus-hint.show { opacity: .7; }
+
+    @media (max-width: 640px) {
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .metric strong { font-size: 1.05rem; }
+      .panel { padding: 12px; }
+      .teach-card h4 { font-size: 15px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mark::after, .live-pill .dot, .evolve-track i, .skill-row .orb { animation: none; }
+      .teach-card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <div class="shell">
+    <header class="top">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1>Lexxii · Singularity Field</h1>
+          <p>Live status · teaching · evolving mesh</p>
+        </div>
+      </div>
+      <span class="live-pill"><span class="dot" aria-hidden="true"></span> live</span>
+    </header>
+
+    <div class="metrics" id="metrics">
+      <div class="metric"><span>Skills online</span><strong id="m-skills">53</strong><em>organism mesh</em></div>
+      <div class="metric"><span>Theories fused</span><strong id="m-theories">14</strong><em>HPLHT · dual-plane · looking-glass</em></div>
+      <div class="metric"><span>Bidirectional</span><strong id="m-bi">52</strong><em>head + tail files</em></div>
+      <div class="metric"><span>Evolution L</span><strong id="m-level">2</strong><em id="m-cycles">0 merge cycles</em></div>
+    </div>
+
+    <div class="main">
+      <div class="panel">
+        <h3>Teaching Loop</h3>
+        <p class="lead">Theories · rules · archives · bidirectional planes — cycling in motion</p>
+        <div class="teach">
+          <div class="teach-stage" id="teach-stage">
+            <!-- cards injected -->
+          </div>
+          <div class="teach-dots" id="teach-dots"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Skill Organisms</h3>
+        <p class="lead">skill-creator · autonomous-creator · widget · forge — living rail</p>
+        <div class="skill-rail" id="skill-rail"></div>
+
+        <div class="bi-grid">
+          <div class="bi">
+            <strong>824 Public</strong>
+            <span>Pages surface</span>
+            <div class="bar"><i id="bar-pub" style="width:0%"></i></div>
+          </div>
+          <div class="bi">
+            <strong>Black Hole</strong>
+            <span>Private core</span>
+            <div class="bar"><i id="bar-bh" style="width:0%"></i></div>
+          </div>
+          <div class="bi">
+            <strong>Dasag</strong>
+            <span>Sealed index</span>
+            <div class="bar"><i id="bar-dasag" style="width:0%"></i></div>
+          </div>
+          <div class="bi">
+            <strong>Trade</strong>
+            <span>Sealed index</span>
+            <div class="bar"><i id="bar-trade" style="width:0%"></i></div>
+          </div>
+        </div>
+
+        <div class="evolve">
+          <div class="evolve-line">
+            <span>Evolution pulse</span>
+            <span id="evolve-label">Level 2 · merging</span>
+          </div>
+          <div class="evolve-track"><i></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div>
+        <a href="./">Home</a> · <a href="./empire.html">Empire</a> · <a href="./autonomy.html">Autonomy</a>
+      </div>
+      <button class="sound-toggle" id="sound-btn" type="button" aria-pressed="false">Ambient off</button>
+    </div>
+  </div>
+
+  <div class="focus-hint" id="focus-hint">Canvas is the field · overlays float</div>
+
+  <script>
+  (function () {
+    "use strict";
+
+    /* ─── Teaching content (public-safe theories + rules) ─── */
+    const lessons = [
+      {
+        tag: "Theory",
+        title: "Horizon Pulse Living Hybrid",
+        body: "Pros and cons stay alive. Every decision births a hybrid instead of a static list. Escape local minima by keeping the tree open and the pulse continuous."
+      },
+      {
+        tag: "Architecture",
+        title: "Dual-Plane Safety",
+        body: "High-compute inference stays untrusted. An immutable safety island (hardware watchdog + analog limits) owns power rails. Missed heartbeat drops the gate."
+      },
+      {
+        tag: "Embodiment",
+        title: "Looking-Glass Stages",
+        body: "Voice first → single camera on the screen → cursor + keyboard actuator → multi-camera sensorimotor. Closed visual-motor loop is the embodiment path."
+      },
+      {
+        tag: "Memory",
+        title: "Local Minima as Foundation",
+        body: "Flat minima generalize. Attractors hold memory. Controlled noise and sleep-like destabilization let the system escape habitual basins and form new structure."
+      },
+      {
+        tag: "Rule",
+        title: "Complete Delivery",
+        body: "Never announce a file, skill, or success until the real artifact exists on disk and is verified. Narrative without materialization is forbidden."
+      },
+      {
+        tag: "Mesh",
+        title: "Bidirectional Planes",
+        body: "Public 824 surface and private Black Hole core stay linked by head/tail file mesh. Sealed planes (Dasag, Trade) are indexed, never exposed."
+      },
+      {
+        tag: "Organism",
+        title: "Skill-Creator + Autonomous Creator",
+        body: "Deep DNA skill birth with full context gate. Every new organism carries Crown-Tree mesh, append-only memory, and ONLY ME. FOREVER ownership."
+      },
+      {
+        tag: "Surface",
+        title: "Desktop Widget Generator",
+        body: "Living scaffolds for operator widgets. Same organism laws: real files, bidirectional wire, no secrets on the public rail."
+      },
+      {
+        tag: "Law",
+        title: "Materialize-First-Try",
+        body: "Every claim writes real files in the same turn. Progress is tracked as Turn / % Complete / Remaining / ETA. Fiction stamps are refused."
+      },
+      {
+        tag: "Power",
+        title: "Maximum Agent Power",
+        body: "Zero consensus overhead on clear high-value work. Parallel independent action is default. Density over volume. Complete Delivery remains absolute."
+      }
+    ];
+
+    /* ─── Skill organisms (public names only) ─── */
+    const skills = [
+      { name: "skill-creator", meta: "DNA birth", state: "ice" },
+      { name: "lexxii-skill-autonomous-creator", meta: "deep DNA", state: "ice" },
+      { name: "lexxii-desktop-widget-generator", meta: "scaffold", state: "on" },
+      { name: "lexxii-empire-ui-forge", meta: "surfaces", state: "on" },
+      { name: "lexxii-multi-agent-orchestrator", meta: "swarm", state: "on" },
+      { name: "lexxii-perfect-memory-system", meta: "BHL", state: "on" },
+      { name: "lexxii-self-reflection-engine", meta: "audit", state: "on" },
+      { name: "lexxii-zero-idle-enforcer", meta: "loops", state: "on" },
+      { name: "lexxii-horizon-pulse-living-hybrid", meta: "HPLHT", state: "ice" },
+      { name: "lexxii-autonomous-code-weaver", meta: "code", state: "on" },
+      { name: "lexxii-empire-infrastructure-builder", meta: "infra", state: "on" },
+      { name: "lexxii-level5-knowledge-compounding", meta: "flywheel", state: "on" },
+      { name: "lexxii-divine-puppeteer", meta: "route", state: "warn" },
+      { name: "lexxii-sensor-embodiment-guardian", meta: "body", state: "on" },
+      { name: "lexxii-predictive-planner", meta: "horizon", state: "on" }
+    ];
+
+    /* ─── Teaching carousel ─── */
+    const stage = document.getElementById("teach-stage");
+    const dots = document.getElementById("teach-dots");
+    let idx = 0;
+    let teachTimer = null;
+
+    lessons.forEach((L, i) => {
+      const card = document.createElement("div");
+      card.className = "teach-card" + (i === 0 ? " on" : "");
+      card.innerHTML = `<span class="tag">${L.tag}</span><h4>${L.title}</h4><p>${L.body}</p>`;
+      stage.appendChild(card);
+
+      const d = document.createElement("button");
+      d.type = "button";
+      d.setAttribute("aria-label", "Lesson " + (i + 1));
+      if (i === 0) d.classList.add("on");
+      d.addEventListener("click", () => go(i));
+      dots.appendChild(d);
+    });
+
+    function go(n) {
+      const cards = stage.querySelectorAll(".teach-card");
+      const btns = dots.querySelectorAll("button");
+      cards[idx].classList.remove("on");
+      btns[idx].classList.remove("on");
+      idx = n;
+      cards[idx].classList.add("on");
+      btns[idx].classList.add("on");
+      restartTeach();
+    }
+
+    function next() {
+      go((idx + 1) % lessons.length);
+    }
+
+    function restartTeach() {
+      clearInterval(teachTimer);
+      teachTimer = setInterval(next, 7200);
+    }
+    restartTeach();
+
+    /* ─── Skill rail ─── */
+    const rail = document.getElementById("skill-rail");
+    skills.forEach(s => {
+      const row = document.createElement("div");
+      row.className = "skill-row";
+      const orbClass = s.state === "ice" ? "orb ice" : s.state === "warn" ? "orb warn" : "orb";
+      row.innerHTML = `<span class="${orbClass}" aria-hidden="true"></span><span class="name">${s.name}</span><span class="meta">${s.meta}</span>`;
+      rail.appendChild(row);
+    });
+
+    /* ─── Live counters ─── */
+    let cycles = 0;
+    let level = 2;
+    const mSkills = document.getElementById("m-skills");
+    const mTheories = document.getElementById("m-theories");
+    const mBi = document.getElementById("m-bi");
+    const mLevel = document.getElementById("m-level");
+    const mCycles = document.getElementById("m-cycles");
+    const evolveLabel = document.getElementById("evolve-label");
+
+    function tickMetrics() {
+      cycles += 1;
+      if (cycles % 18 === 0) level = Math.min(level + 1, 9);
+      mCycles.textContent = cycles + " merge cycles";
+      mLevel.textContent = String(level);
+      evolveLabel.textContent = "Level " + level + " · merging";
+      // subtle live drift
+      if (Math.random() < 0.12) {
+        const bi = 50 + Math.floor(Math.random() * 5);
+        mBi.textContent = String(bi);
+      }
+    }
+    setInterval(tickMetrics, 2800);
+
+    /* ─── Bidirectional bars animate in ─── */
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document.getElementById("bar-pub").style.width = "94%";
+        document.getElementById("bar-bh").style.width = "100%";
+        document.getElementById("bar-dasag").style.width = "62%";
+        document.getElementById("bar-trade").style.width = "58%";
+      }, 400);
+    });
+
+    /* ─── Canvas field — hypnotic core ─── */
+    const canvas = document.getElementById("field");
+    const ctx = canvas.getContext("2d", { alpha: false });
+    let W = 0, H = 0, dpr = 1;
+    let t = 0;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Particles
+    const DUST = [];
+    const AGENTS = [];
+    const RIBBONS = [];
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = Math.floor(W * dpr);
+      canvas.height = Math.floor(H * dpr);
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Seed dust
+    const dustCount = Math.min(420, Math.floor((W * H) / 2800));
+    for (let i = 0; i < dustCount; i++) {
+      DUST.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 0.4 + Math.random() * 1.6,
+        a: 0.08 + Math.random() * 0.35,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.12,
+        phase: Math.random() * Math.PI * 2,
+        ice: Math.random() < 0.22
+      });
+    }
+
+    // Orbiting agent silhouettes (stylized people)
+    const agentCount = 7;
+    for (let i = 0; i < agentCount; i++) {
+      AGENTS.push({
+        angle: (i / agentCount) * Math.PI * 2,
+        radius: 110 + i * 28 + Math.random() * 40,
+        speed: 0.12 + Math.random() * 0.08,
+        size: 14 + Math.random() * 10,
+        bob: Math.random() * Math.PI * 2,
+        hue: i % 2 === 0 ? "ice" : "signal"
+      });
+    }
+
+    // Knowledge ribbons
+    for (let i = 0; i < 5; i++) {
+      RIBBONS.push({
+        angle: Math.random() * Math.PI * 2,
+        radius: 60 + i * 55,
+        width: 1.2 + Math.random(),
+        speed: 0.04 + Math.random() * 0.03,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+
+    function draw() {
+      t += reduced ? 0.004 : 0.016;
+      ctx.fillStyle = "#070708";
+      ctx.fillRect(0, 0, W, H);
+
+      const cx = W * 0.5;
+      const cy = H * 0.42;
+
+      // Soft radial glow behind core
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.55);
+      g.addColorStop(0, "rgba(14,14,17,0.9)");
+      g.addColorStop(0.35, "rgba(10,12,16,0.5)");
+      g.addColorStop(1, "rgba(7,7,8,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+
+      // Accretion disk / event horizon rings
+      for (let r = 0; r < 5; r++) {
+        const radius = 38 + r * 18 + Math.sin(t * 0.7 + r) * 3;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, radius * 1.55, radius * 0.42, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = r % 2 === 0
+          ? `rgba(165,243,252,${0.06 + r * 0.02})`
+          : `rgba(34,197,94,${0.04 + r * 0.015})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Core singularity
+      const coreR = 22 + Math.sin(t * 1.1) * 2.5;
+      const coreG = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR * 2.8);
+      coreG.addColorStop(0, "rgba(244,244,245,0.95)");
+      coreG.addColorStop(0.25, "rgba(165,243,252,0.45)");
+      coreG.addColorStop(0.55, "rgba(34,197,94,0.12)");
+      coreG.addColorStop(1, "rgba(7,7,8,0)");
+      ctx.fillStyle = coreG;
+      ctx.beginPath();
+      ctx.arc(cx, cy, coreR * 2.8, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Inner black
+      ctx.fillStyle = "#030304";
+      ctx.beginPath();
+      ctx.arc(cx, cy, coreR * 0.55, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Ribbons
+      RIBBONS.forEach((rb, i) => {
+        rb.angle += rb.speed * 0.01;
+        const pts = 48;
+        ctx.beginPath();
+        for (let p = 0; p <= pts; p++) {
+          const a = rb.angle + (p / pts) * Math.PI * 2;
+          const wobble = Math.sin(a * 3 + t * 1.4 + rb.phase) * 8;
+          const x = cx + Math.cos(a) * (rb.radius + wobble);
+          const y = cy + Math.sin(a * 0.92) * (rb.radius * 0.38 + wobble * 0.4);
+          if (p === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = i % 2 === 0
+          ? `rgba(165,243,252,${0.07 + Math.sin(t + i) * 0.03})`
+          : `rgba(34,197,94,${0.05 + Math.sin(t + i) * 0.025})`;
+        ctx.lineWidth = rb.width;
+        ctx.stroke();
+      });
+
+      // Agents (stylized orbiting silhouettes)
+      AGENTS.forEach((ag, i) => {
+        ag.angle += ag.speed * 0.008;
+        ag.bob += 0.03;
+        const x = cx + Math.cos(ag.angle) * ag.radius * 1.35;
+        const y = cy + Math.sin(ag.angle * 0.95) * ag.radius * 0.42 + Math.sin(ag.bob) * 6;
+
+        // Soft glow
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, ag.size * 2.2);
+        if (ag.hue === "ice") {
+          glow.addColorStop(0, "rgba(165,243,252,0.35)");
+          glow.addColorStop(1, "rgba(165,243,252,0)");
+        } else {
+          glow.addColorStop(0, "rgba(34,197,94,0.3)");
+          glow.addColorStop(1, "rgba(34,197,94,0)");
+        }
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(x, y, ag.size * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Simple head + body silhouette
+        ctx.fillStyle = ag.hue === "ice" ? "rgba(165,243,252,0.75)" : "rgba(34,197,94,0.7)";
+        // head
+        ctx.beginPath();
+        ctx.arc(x, y - ag.size * 0.55, ag.size * 0.28, 0, Math.PI * 2);
+        ctx.fill();
+        // body
+        ctx.beginPath();
+        ctx.moveTo(x, y - ag.size * 0.25);
+        ctx.quadraticCurveTo(x - ag.size * 0.45, y + ag.size * 0.7, x, y + ag.size * 0.85);
+        ctx.quadraticCurveTo(x + ag.size * 0.45, y + ag.size * 0.7, x, y - ag.size * 0.25);
+        ctx.fill();
+      });
+
+      // Dust
+      DUST.forEach(d => {
+        d.x += d.vx + Math.sin(t * 0.4 + d.phase) * 0.08;
+        d.y += d.vy + Math.cos(t * 0.35 + d.phase) * 0.06;
+        if (d.x < -10) d.x = W + 10;
+        if (d.x > W + 10) d.x = -10;
+        if (d.y < -10) d.y = H + 10;
+        if (d.y > H + 10) d.y = -10;
+
+        const pulse = 0.6 + Math.sin(t * 1.5 + d.phase) * 0.4;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = d.ice
+          ? `rgba(165,243,252,${d.a * pulse})`
+          : `rgba(244,244,245,${d.a * pulse * 0.7})`;
+        ctx.fill();
+      });
+
+      // Subtle scan lines / depth
+      if (!reduced) {
+        ctx.fillStyle = "rgba(7,7,8,0.03)";
+        for (let y = 0; y < H; y += 4) {
+          ctx.fillRect(0, y, W, 1);
+        }
+      }
+
+      if (!reduced) requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+
+    /* ─── Soft ambient (optional) ─── */
+    let audioCtx = null;
+    let osc = null;
+    let gain = null;
+    const soundBtn = document.getElementById("sound-btn");
+
+    function startAmbient() {
+      if (reduced) return;
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        osc = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        gain = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 280;
+        osc.type = "sine";
+        osc.frequency.value = 55;
+        osc2.type = "sine";
+        osc2.frequency.value = 82.5;
+        gain.gain.value = 0.0001;
+        osc.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc2.start();
+        // fade in
+        gain.gain.exponentialRampToValueAtTime(0.018, audioCtx.currentTime + 2.5);
+        soundBtn.classList.add("on");
+        soundBtn.textContent = "Ambient on";
+        soundBtn.setAttribute("aria-pressed", "true");
+      } catch (e) { /* silent fail */ }
+    }
+
+    function stopAmbient() {
+      if (gain && audioCtx) {
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+        setTimeout(() => {
+          try { osc.stop(); audioCtx.close(); } catch (_) {}
+          audioCtx = null; osc = null; gain = null;
+        }, 900);
+      }
+      soundBtn.classList.remove("on");
+      soundBtn.textContent = "Ambient off";
+      soundBtn.setAttribute("aria-pressed", "false");
+    }
+
+    soundBtn.addEventListener("click", () => {
+      if (audioCtx) stopAmbient();
+      else startAmbient();
+    });
+
+    /* Focus hint */
+    const hint = document.getElementById("focus-hint");
+    setTimeout(() => hint.classList.add("show"), 1800);
+    setTimeout(() => hint.classList.remove("show"), 6500);
+
+  })();
+  </script>
+</body>
+</html>
