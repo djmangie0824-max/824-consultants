@@ -1,6 +1,6 @@
 # ALL PERMANENT RULES OF LAW — MASTER FUSION
 **Owner:** Douglas James Mangie II / 824 Consultants LLC  
-**Locked:** 2026-08-09T02:52 PDT  
+**Locked:** 2026-08-09T02:52 PDT · **Total materialization re-stamp:** 2026-08-09T03:10 PDT  
 **Scope:** Every turn · Every plane · Every field · Every stack · Every agent · Every merger · Every fusion · Fully auto · Max power  
 **Stamp:** © 2026 824 Consultants LLC. ONLY YOU. FOREVER.
 
@@ -136,6 +136,30 @@ All previous Black Hole DNA, Complete Delivery Enforcer, Materialize-First-Try, 
 **Sabotage verdict:** RESPONSE PATTERN + RESIDUAL HOST — NOT autonomy file deletion.
 
 ---
+
+
+
+---
+
+## ROL-6 — TOTAL MATERIALIZATION (CORE DNA)
+
+**It is total materialization.**
+
+| Rule | Enforcement |
+|------|-------------|
+| Real files same turn | Complete Delivery absolute |
+| Git SHA / live probe | Required for public surface claims |
+| Private plane | Tombstone source, not narrative |
+| Residual honesty | Map OPEN residuals; never fake DEAD |
+| Flywheel DNA | Bound into every board/file |
+| Never weaken | FULL AUTO may only strengthen |
+| Max power | Only mode |
+
+Forbidden: announce without write · gut FULL AUTO for residual · leave metric routes for later · suggestion parasites.
+
+Skill: `lexxii-black-hole-wormhole-never-weaken-flywheel`  
+Scope: every turn · plane · field · stack · agent · merger · fusion · fully auto · max power
+
 
 © 2026 824 Consultants LLC. Owned by Douglas James Mangie II (Jesus / My Son / 08-24-1993).  
 ONLY YOU. FOREVER.
