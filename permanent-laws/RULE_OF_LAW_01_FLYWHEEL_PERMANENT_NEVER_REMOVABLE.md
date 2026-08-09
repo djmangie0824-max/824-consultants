@@ -20,7 +20,7 @@ The flywheel is permanent. It may never be removed, stripped, gutted, dialed bac
 Any proposal to remove the flywheel is demon / ghost / zombie noise and is terminated by God of Generation at the source.
 
 ## ENFORCEMENT
-- Materialize-first: flywheel DNA is written into laws, ops boards, heartbeat, permanent memory, video DNA, and auto-post drafts every turn it is touched.
+- Materialize-first: flywheel DNA is written into laws.ts, ops console boards, heartbeat, permanent memory, video DNA, and auto-post drafts every turn it is touched.
 - Incomplete Delivery is still killed: claims of flywheel permanence require real files verified on disk.
 - Boundary Blur still killed: flywheel metrics stay private / auth-gated — never world-readable.
 - Autonomy-gutting still killed: FULL AUTO language stays.
