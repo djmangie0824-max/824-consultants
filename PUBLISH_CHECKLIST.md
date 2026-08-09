@@ -1,21 +1,33 @@
-# PUBLISH CHECKLIST — you are the last mile
-**Agent craft: 100% · Overall money/traffic pipes: your clicks**
+# Publish checklist — automated GitHub Pages
 
-## Do these in order (≈40 minutes)
+**Owner:** Douglas James Mangie II / 824 Consultants LLC  
+**Automation:** Every push to `main` → GitHub Actions → GitHub Pages  
+**Manual:** Actions → Deploy GitHub Pages → Run workflow  
 
-### 1. Gumroad (15 min)
-Open [gumroad/LISTINGS.md](gumroad/LISTINGS.md). Create 4 products. Upload the matching `.md` from `products/`. Save the 4 checkout URLs.
+## Flow
 
-### 2. Wire buttons (or reply with URLs)
-Replace disabled "Buy on Gumroad" on each product landing, or paste URLs in chat and the agent will wire them.
+1. Edit public HTML / laws / products on `main`
+2. `git push` **or** `./scripts/auto_publish_pages.sh "message"`
+3. Workflow validates FULL AUTO strings + immersive hub
+4. Clean artifact deploys to https://djmangie0824-max.github.io/824-consultants/
+5. Proof: `/DEPLOY_STAMP.json` on the live site (SHA + run id)
 
-### 3. X Thread A (5 min)
-Post from [distribution/x-ad-ignition.md](distribution/x-ad-ignition.md) Thread A. Include `#ad` on the product tweet.
+## Never skip
 
-### 4. Search Console (5 min)
-Follow [docs/search-console.md](docs/search-console.md). Submit sitemap.xml.
+- [ ] `autonomy.html` still has **Fully autonomous public surface**
+- [ ] `autonomy.html` still has **Zero human input required…**
+- [ ] `index.html` immersive hub (**Touch. Talk. Go.**)
+- [ ] No private vault / keys / IBKR secrets
+- [ ] Amazon Associate disclosure present
 
-### 5. Optional domain
-Follow [docs/custom-domain.md](docs/custom-domain.md).
+## Watch runs
 
-When 1–4 are done, empire cash + traffic pipes are armed. Agent craft is already finished.
+https://github.com/djmangie0824-max/824-consultants/actions
+
+## Local agent command
+
+```bash
+./scripts/auto_publish_pages.sh "your publish message"
+```
+
+© 2026 824 Consultants LLC. ONLY YOU. FOREVER.

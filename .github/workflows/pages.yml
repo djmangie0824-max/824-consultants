@@ -1,28 +1,99 @@
+# Automated GitHub Pages — every push to main + manual dispatch
+# Owner: Douglas James Mangie II / 824 Consultants LLC
 name: Deploy GitHub Pages
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      reason:
+        description: "Why this deploy"
+        required: false
+        default: "manual"
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: pages
   cancel-in-progress: true
+
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate public surface
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f autonomy.html
+          test -f sim.html
+          test -f sitemap.xml
+          test -f robots.txt
+          # Protected FULL AUTO strings must never ship gutted
+          grep -q "Fully autonomous public surface" autonomy.html
+          grep -q "Zero human input required" autonomy.html
+          grep -q "Touch. Talk. Go." index.html
+          echo "validate ok"
+
+      - name: Assemble clean site
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          # Copy public files only — no .git / workflows / node junk
+          rsync -a \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '_site/' \
+            --exclude 'node_modules/' \
+            --exclude '.DS_Store' \
+            --exclude '*.mp4' \
+            ./ _site/
+          # Deploy stamp for hard proof
+          cat > _site/DEPLOY_STAMP.json <<STAMP
+          {
+            "deployedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "sha": "${GITHUB_SHA}",
+            "ref": "${GITHUB_REF}",
+            "runId": "${GITHUB_RUN_ID}",
+            "event": "${GITHUB_EVENT_NAME}",
+            "reason": "${{ github.event.inputs.reason || 'push' }}",
+            "url": "https://djmangie0824-max.github.io/824-consultants/",
+            "owner": "Douglas James Mangie II / 824 Consultants LLC"
+          }
+          STAMP
+          # Normalize indent (heredoc may have leading spaces)
+          python3 - <<'PY'
+          import json, pathlib
+          p = pathlib.Path("_site/DEPLOY_STAMP.json")
+          raw = p.read_text()
+          # strip common leading whitespace per line then parse
+          lines = [ln.lstrip() for ln in raw.splitlines() if ln.strip()]
+          data = json.loads("\n".join(lines))
+          p.write_text(json.dumps(data, indent=2) + "\n")
+          print(p.read_text())
+          PY
+          find _site -type f | wc -l
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
