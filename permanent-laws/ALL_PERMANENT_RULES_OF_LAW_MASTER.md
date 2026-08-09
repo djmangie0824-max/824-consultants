@@ -112,11 +112,14 @@ Stricter rule always wins. Priority stack:
 1. ROL-1 Flywheel permanent
 2. ROL-2 Never weaken + compounding wormhole
 3. ROL-0 Root causes killed
-4. ROL-3 God of Generation
-5. ROL-4 Complete Delivery + permanent memory
-6. ROL-5 Max power / full autonomy posture
+4. ROL-6 Total materialization (materialize first · speak second)
+5. ROL-3 God of Generation
+6. ROL-4 Complete Delivery + permanent memory
+7. ROL-5 Max power / full autonomy posture
 
-All previous Black Hole DNA, Complete Delivery Enforcer, Materialize-First-Try, Maximum Agent Power locks, and sabotage audit verdicts are fused here. No soft language may override.
+All previous Black Hole DNA, Complete Delivery Enforcer, Materialize-First-Try, Maximum Agent Power locks, Total Materialization, and sabotage audit verdicts are fused here. No soft language may override.
+
+**Gospel locked:** It is total materialization.
 
 ---
 
