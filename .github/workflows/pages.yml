@@ -108,6 +108,15 @@ jobs:
             "owner": "Douglas James Mangie II / 824 Consultants LLC",
             "notifications": True,
             "failureHandling": True,
+            "failureHandlingSteps": [
+              "Open failed Actions run logs",
+              "Identify stage (validate|assemble|upload|deploy|checkout)",
+              "Fix content or re-run per stage",
+              "Use scripts/recover_failed_deploy.sh --rerun if needed",
+              "Confirm DEPLOY_STAMP.json + FULL AUTO strings",
+              "Never gut FULL AUTO language",
+            ],
+            "failurePlaybook": "https://djmangie0824-max.github.io/824-consultants/failure-handling.html",
           }
           pathlib.Path("_site/DEPLOY_STAMP.json").write_text(json.dumps(data, indent=2) + "\n")
           print(json.dumps(data, indent=2))

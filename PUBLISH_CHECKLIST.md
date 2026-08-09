@@ -53,6 +53,17 @@ https://github.com/djmangie0824-max/824-consultants/actions
 © 2026 824 Consultants LLC. ONLY YOU. FOREVER.
 
 
+
+## Failure handling steps (summary)
+
+1. Open failed Actions run logs  
+2. Read stage (`validate` / `upload` / `deploy` / …)  
+3. Fix content **or** re-run (see stage table in `docs/FAILURE_HANDLING.md`)  
+4. CLI: `./scripts/recover_failed_deploy.sh` · re-run: `./scripts/recover_failed_deploy.sh --rerun`  
+5. Confirm live `DEPLOY_STAMP.json` + FULL AUTO strings  
+
+Public mirror: `/failure-handling.html`  
+
 ## Failure handling
 
 Full playbook: [docs/FAILURE_HANDLING.md](docs/FAILURE_HANDLING.md)
