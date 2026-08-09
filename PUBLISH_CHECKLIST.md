@@ -20,6 +20,26 @@
 - [ ] No private vault / keys / IBKR secrets
 - [ ] Amazon Associate disclosure present
 
+
+## Deployment notifications (automatic)
+
+On every deploy:
+
+| Channel | What you get |
+|---------|----------------|
+| **Actions summary** | Green/red deploy card on the workflow run |
+| **Commit comment** | ✅/❌ comment on the deploy commit |
+| **Issue log** | Open issue `Deploy notifications · 824 Consultants Pages` (label `deploy-notifications`) — table + comment per deploy |
+| **DEPLOY_STAMP.json** | Live site proof file |
+| **Optional webhook** | Repo secret `DEPLOY_NOTIFY_WEBHOOK` (Discord/Slack/custom) — POSTs JSON on success/failure |
+
+### Optional: Discord / Slack
+
+1. Create an incoming webhook URL
+2. Repo → Settings → Secrets → Actions → `DEPLOY_NOTIFY_WEBHOOK`
+3. Next deploy pings it automatically
+
+
 ## Watch runs
 
 https://github.com/djmangie0824-max/824-consultants/actions
