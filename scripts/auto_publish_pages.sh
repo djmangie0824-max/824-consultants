@@ -33,3 +33,4 @@ git push origin HEAD
 
 echo "Pushed. GitHub Actions will deploy Pages automatically."
 echo "Watch: https://github.com/djmangie0824-max/824-consultants/actions"
+echo "On failure: see docs/FAILURE_HANDLING.md + deploy issue comments"

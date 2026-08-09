@@ -51,3 +51,12 @@ https://github.com/djmangie0824-max/824-consultants/actions
 ```
 
 © 2026 824 Consultants LLC. ONLY YOU. FOREVER.
+
+
+## Failure handling
+
+Full playbook: [docs/FAILURE_HANDLING.md](docs/FAILURE_HANDLING.md)
+
+- Validate failures → fix content (never gut FULL AUTO) → push  
+- Upload/deploy blips → auto re-run once, then manual **Re-run failed jobs**  
+- Every failure posts recovery steps on the commit + deploy issue  
