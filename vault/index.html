@@ -2,76 +2,57 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>824 Consultants LLC — Protected Vault</title>
-<meta name="robots" content="noindex, nofollow"/>
 <style>
-  :root { color-scheme: dark; --bg:#0a0a0b; --fg:#e8e8ea; --muted:#9a9aa3; --line:#222228; --acc:#7cfc00; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--fg); min-height:100vh; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 48px 20px; }
-  h1 { font-size: 1.6rem; margin: 0 0 8px; letter-spacing: -0.02em; }
-  .sub { color: var(--muted); margin-bottom: 28px; line-height: 1.5; }
-  .card { border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 16px; background: #111114; }
-  .card h2 { font-size: 0.95rem; margin: 0 0 10px; color: var(--acc); text-transform: uppercase; letter-spacing: 0.06em; }
-  ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.55; }
-  .gate { display:flex; gap:8px; flex-wrap: wrap; }
-  input[type=password] { flex:1; min-width: 180px; background:#0d0d10; border:1px solid var(--line); color:var(--fg); border-radius:8px; padding:10px 12px; }
-  button { background: var(--acc); color:#061000; border:0; border-radius:8px; padding:10px 14px; font-weight:700; cursor:pointer; }
-  .hidden { display:none; }
-  footer { margin-top: 32px; color: var(--muted); font-size: 0.8rem; line-height: 1.5; }
+:root{--bg:#0a0a0b;--fg:#e8e8ea;--mut:#8b8b93;--acc:#6ee7b7;--line:#1f1f24}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--fg);min-height:100vh;display:flex;flex-direction:column}
+header{border-bottom:1px solid var(--line);padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700}
+.badge{color:var(--mut);font-size:.75rem}
+main{flex:1;max-width:42rem;margin:0 auto;padding:3rem 1.5rem}
+h1{font-size:1.75rem;margin-bottom:.75rem}
+p{color:var(--mut);line-height:1.6;margin-bottom:1rem}
+.card{border:1px solid var(--line);border-radius:12px;padding:1.25rem;margin:1.5rem 0;background:#111114}
+.card h2{font-size:1rem;margin-bottom:.5rem;color:var(--acc)}
+ul{color:var(--mut);padding-left:1.2rem;line-height:1.7}
+footer{border-top:1px solid var(--line);padding:1rem 1.5rem;color:var(--mut);font-size:.75rem}
+.gate{margin-top:1.5rem;padding:1rem;border:1px dashed var(--line);border-radius:8px;color:var(--mut);font-size:.9rem}
+a{color:var(--acc)}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>824 Consultants LLC</h1>
-    <p class="sub">Protected research vault · ownership frozen · no secrets on public surface · paper-evidence architecture ready.</p>
-    <div class="card">
-      <h2>Public teaser</h2>
-      <ul>
-        <li>Owner: Douglas James Mangie II / 824 Consultants LLC</li>
-        <li>IP stance: algorithms + paper trading path = reduction-to-practice evidence</li>
-        <li>No invented liquid net-worth claims</li>
-        <li>Connectors active under zero-leak rule</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h2>Vault gate</h2>
-      <p class="sub" style="margin:0 0 12px">Enter access key for private summaries (demo gate for preview).</p>
-      <div class="gate">
-        <input id="key" type="password" placeholder="Access key" autocomplete="off"/>
-        <button type="button" onclick="unlock()">Unlock</button>
-      </div>
-      <p id="msg" class="sub" style="margin-top:10px"></p>
-    </div>
-    <div class="card hidden" id="private">
-      <h2>Private (preview)</h2>
-      <ul>
-        <li>Hash-chained paper ledger structure: online in empire artifacts</li>
-        <li>IBKR connector: live account mirror (summaries only)</li>
-        <li>Evidence packs: ownership freeze + session schemas on private plane</li>
-        <li>Stripe: test mode only until explicit unlock</li>
-        <li>Next iron step: TWS paper 7497 + real fills into ledger</li>
-      </ul>
-    </div>
-    <footer>
-      © 2026 824 Consultants LLC. Owned by Douglas James Mangie II. ONLY ME. FOREVER.<br/>
-      Preview · phone-safe · zero data leak.
-    </footer>
+<header>
+  <div class="logo">824 Consultants LLC</div>
+  <div class="badge">Protected vault</div>
+</header>
+<main>
+  <h1>Empire vault</h1>
+  <p>Ownership-locked surface for algorithm evidence packs, ownership freeze, and gated delivery. Public layer is teaser-only. Secrets and account identifiers stay off this plane.</p>
+  <div class="card">
+    <h2>What lives here</h2>
+    <ul>
+      <li>Ownership freeze (824 Consultants LLC / Douglas James Mangie II)</li>
+      <li>Paper-trading evidence structure (hash-chained ledger summaries)</li>
+      <li>Auth gate + Stripe test unlock (next wire)</li>
+    </ul>
   </div>
-  <script>
-    const DEMO = "824-vault-preview";
-    function unlock() {
-      const v = document.getElementById("key").value.trim();
-      const msg = document.getElementById("msg");
-      if (v === DEMO) {
-        document.getElementById("private").classList.remove("hidden");
-        msg.textContent = "Unlocked (preview).";
-      } else {
-        msg.textContent = "Denied.";
-        document.getElementById("private").classList.add("hidden");
-      }
-    }
-  </script>
+  <div class="card">
+    <h2>Status</h2>
+    <ul>
+      <li>Host: GitHub Pages (public surface)</li>
+      <li>Data leak policy: ZERO</li>
+      <li>Connectors: GitHub · IBKR · Drive · Notion · Stripe test · Vercel team (deploy role limited)</li>
+      <li>Live capital / order keys: not published</li>
+      <li>Fake liquid $100M: FALSE</li>
+    </ul>
+  </div>
+  <div class="gate">Preview gate: see <a href="gate.html">gate.html</a>. Full package downloads remain private until unlock.</div>
+</main>
+<footer>
+  © 2026 824 Consultants LLC. Owned by Douglas James Mangie II. ONLY ME. FOREVER.<br/>
+  RULE_OF_LAW_USE_ALL_CONNECTORS_ZERO_LEAK · skill-creator auto finish
+</footer>
 </body>
 </html>
