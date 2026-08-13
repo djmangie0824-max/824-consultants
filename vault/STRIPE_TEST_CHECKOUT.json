@@ -1,0 +1,13 @@
+{
+  "mode": "test",
+  "livemode": false,
+  "product_id": "prod_V4Fxvesy2OSwNx",
+  "price_id": "price_1U47Re7VNlajCVXIEAo36L3i",
+  "payment_link_id": "plink_1U47Rk7VNlajCVXIZB71E1AD",
+  "checkout_url": "https://buy.stripe.com/test_cNidR35tq3DZ42Y8iCew807",
+  "success_redirect": "https://824-consultants.vercel.app/vault/?unlocked=1",
+  "amount_cents": 100,
+  "currency": "usd",
+  "owner": "824 Consultants LLC / Douglas James Mangie II",
+  "RESULT": "True"
+}
