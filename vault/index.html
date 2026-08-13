@@ -3,44 +3,75 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>824 Consultants LLC — Research Vault</title>
+<title>824 Consultants LLC — Protected Vault</title>
+<meta name="robots" content="noindex, nofollow"/>
 <style>
-:root{--bg:#0a0a0b;--fg:#e8e8ea;--muted:#8b8b93;--accent:#6ee7b7;--card:#141416;--border:#27272a}
-*{box-sizing:border-box}body{margin:0;font-family:ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.5}
-.wrap{max-width:720px;margin:0 auto;padding:3rem 1.25rem}
-h1{font-size:1.75rem;letter-spacing:-0.02em;margin:0 0 .5rem}
-.sub{color:var(--muted);margin:0 0 2rem}
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin:1rem 0}
-.badge{display:inline-block;font-size:.75rem;padding:.2rem .5rem;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
-a.btn{display:inline-block;margin-top:1rem;padding:.65rem 1rem;background:var(--accent);color:#052e1c;text-decoration:none;border-radius:8px;font-weight:600}
-.small{font-size:.85rem;color:var(--muted)}
-footer{margin-top:3rem;font-size:.75rem;color:var(--muted)}
+  :root { color-scheme: dark; --bg:#0a0a0b; --fg:#e8e8ea; --muted:#9a9aa3; --line:#222228; --acc:#7cfc00; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--fg); min-height:100vh; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 48px 20px; }
+  h1 { font-size: 1.6rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .sub { color: var(--muted); margin-bottom: 28px; line-height: 1.5; }
+  .card { border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 16px; background: #111114; }
+  .card h2 { font-size: 0.95rem; margin: 0 0 10px; color: var(--acc); text-transform: uppercase; letter-spacing: 0.06em; }
+  ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.55; }
+  .gate { display:flex; gap:8px; flex-wrap: wrap; }
+  input[type=password] { flex:1; min-width: 180px; background:#0d0d10; border:1px solid var(--line); color:var(--fg); border-radius:8px; padding:10px 12px; }
+  button { background: var(--acc); color:#061000; border:0; border-radius:8px; padding:10px 14px; font-weight:700; cursor:pointer; }
+  .hidden { display:none; }
+  footer { margin-top: 32px; color: var(--muted); font-size: 0.8rem; line-height: 1.5; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <span class="badge">824 Consultants LLC</span>
-  <h1>Protected Research Vault</h1>
-  <p class="sub">Ownership: Douglas James Mangie II · Lexxii. Public teaser only. No account numbers. No secrets. No fake liquid valuations.</p>
-  <div class="card">
-    <strong>What this surface is</strong>
-    <p class="small">Gated delivery for algorithm evidence packs, ownership freeze docs, and paper-trading structure proofs. Live brokerage numbers stay private; only intentional summaries after unlock.</p>
-    <a class="btn" href="gate.html">Enter vault gate</a>
+  <div class="wrap">
+    <h1>824 Consultants LLC</h1>
+    <p class="sub">Protected research vault · ownership frozen · no secrets on public surface · paper-evidence architecture ready.</p>
+    <div class="card">
+      <h2>Public teaser</h2>
+      <ul>
+        <li>Owner: Douglas James Mangie II / 824 Consultants LLC</li>
+        <li>IP stance: algorithms + paper trading path = reduction-to-practice evidence</li>
+        <li>No invented liquid net-worth claims</li>
+        <li>Connectors active under zero-leak rule</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Vault gate</h2>
+      <p class="sub" style="margin:0 0 12px">Enter access key for private summaries (demo gate for preview).</p>
+      <div class="gate">
+        <input id="key" type="password" placeholder="Access key" autocomplete="off"/>
+        <button type="button" onclick="unlock()">Unlock</button>
+      </div>
+      <p id="msg" class="sub" style="margin-top:10px"></p>
+    </div>
+    <div class="card hidden" id="private">
+      <h2>Private (preview)</h2>
+      <ul>
+        <li>Hash-chained paper ledger structure: online in empire artifacts</li>
+        <li>IBKR connector: live account mirror (summaries only)</li>
+        <li>Evidence packs: ownership freeze + session schemas on private plane</li>
+        <li>Stripe: test mode only until explicit unlock</li>
+        <li>Next iron step: TWS paper 7497 + real fills into ledger</li>
+      </ul>
+    </div>
+    <footer>
+      © 2026 824 Consultants LLC. Owned by Douglas James Mangie II. ONLY ME. FOREVER.<br/>
+      Preview · phone-safe · zero data leak.
+    </footer>
   </div>
-  <div class="card">
-    <strong>Status (public-safe)</strong>
-    <ul class="small">
-      <li>Paper-trading evidence package: structure on disk</li>
-      <li>Hash-chained ledger + timestamps: implemented</li>
-      <li>IBKR connector: live for owner ops (not published raw)</li>
-      <li>Stripe: test mode for access keys</li>
-      <li>Zero data leak law: active</li>
-    </ul>
-  </div>
-  <footer>
-    © 2026 824 Consultants LLC. Owned by Douglas James Mangie II. ONLY ME. FOREVER.<br/>
-    Client-side preview gate only — production should use server auth + Stripe.
-  </footer>
-</div>
+  <script>
+    const DEMO = "824-vault-preview";
+    function unlock() {
+      const v = document.getElementById("key").value.trim();
+      const msg = document.getElementById("msg");
+      if (v === DEMO) {
+        document.getElementById("private").classList.remove("hidden");
+        msg.textContent = "Unlocked (preview).";
+      } else {
+        msg.textContent = "Denied.";
+        document.getElementById("private").classList.add("hidden");
+      }
+    }
+  </script>
 </body>
 </html>
