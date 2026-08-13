@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Vault Gate — 824</title>
+<style>
+:root{--bg:#0a0a0b;--fg:#e8e8ea;--muted:#8b8b93;--accent:#6ee7b7;--card:#141416;--border:#27272a;--err:#f87171}
+*{box-sizing:border-box}body{margin:0;font-family:ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+.wrap{max-width:420px;margin:0 auto;padding:4rem 1.25rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+input{width:100%;padding:.75rem;border-radius:8px;border:1px solid var(--border);background:#0a0a0b;color:var(--fg);margin:.5rem 0 1rem}
+button{width:100%;padding:.75rem;border:0;border-radius:8px;background:var(--accent);color:#052e1c;font-weight:600;cursor:pointer}
+.err{color:var(--err);font-size:.85rem;display:none}
+.ok{display:none;margin-top:1rem}
+.small{color:var(--muted);font-size:.8rem}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" id="gate">
+    <h1 style="margin-top:0;font-size:1.25rem">Vault access</h1>
+    <p class="small">Preview gate. Production should use server auth + Stripe. Key is owner-set (not a bank secret).</p>
+    <label class="small" for="k">Access key</label>
+    <input id="k" type="password" autocomplete="current-password" placeholder="Enter access key"/>
+    <div class="err" id="e">Invalid key</div>
+    <button type="button" onclick="go()">Unlock</button>
+  </div>
+  <div class="card ok" id="room">
+    <h2 style="margin-top:0;font-size:1.1rem">Unlocked (preview)</h2>
+    <p class="small">Protected shell. Evidence packs stay in private GitHub/Drive until attached as downloads.</p>
+    <ul class="small">
+      <li>Ownership freeze: 824 Consultants LLC / Douglas James Mangie II</li>
+      <li>Paper ledger: hash-chained + timestamps (structure ready)</li>
+      <li>IBKR: connector live for owner; raw IDs never on this page</li>
+      <li>Zero data leak law active</li>
+    </ul>
+    <p class="small"><a href="index.html">← Public teaser</a></p>
+  </div>
+</div>
+<script>
+const EXPECT = "824-VAULT-PREVIEW";
+function go(){
+  const v = document.getElementById('k').value.trim();
+  if(v === EXPECT){
+    document.getElementById('gate').style.display='none';
+    document.getElementById('room').style.display='block';
+    sessionStorage.setItem('824vault','1');
+  } else {
+    document.getElementById('e').style.display='block';
+  }
+}
+if(sessionStorage.getItem('824vault')==='1'){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('room').style.display='block';
+}
+</script>
+</body>
+</html>
