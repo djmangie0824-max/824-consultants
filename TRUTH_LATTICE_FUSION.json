@@ -1,0 +1,23 @@
+{
+  "restored": true,
+  "verbs": [
+    "TRUE",
+    "FALSE",
+    "YES",
+    "NO",
+    "MAYBE"
+  ],
+  "kinds": [
+    "FACT",
+    "THEORY",
+    "CLAIM",
+    "MEASUREMENT",
+    "LAW",
+    "SIM"
+  ],
+  "backends": 18,
+  "cells": 16,
+  "law": "ROL-11",
+  "owner": "Douglas James Mangie II / 824 Consultants LLC",
+  "gospel": "Fuse and merge all backends of all published and non published apps"
+}

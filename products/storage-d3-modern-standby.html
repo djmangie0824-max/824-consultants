@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Storage D3 in Modern Standby vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Storport can put NVMe/SATA into PCI D3 during S0ix even after DISKIDLE is Never. First write after resume stalls. Task Scheduler still shows Ready. Not APST. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/storage-d3-modern-standby.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Storage D3 in Modern Standby vs a forever loop","description":"Set HKLM\\SYSTEM\\CurrentControlSet\\Control\\Storage\\StorageD3InModernStandby to 0 so StorNVMe/StorAHCI cannot put the boot disk in PCI D3 during Modern Standby after DISKIDLE is already Never. Not APST. Not network-in-standby. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm S0 Low Power Idle is the available standby and DISKIDLE is already Never on AC"},{"@type":"HowToStep","name":"Query StorageD3InModernStandby. Missing is not Disabled"},{"@type":"HowToStep","name":"Set the DWORD to 0. Reboot so Storport reloads"},{"@type":"HowToStep","name":"Soak a short S0ix. First write after resume is not a disk reset stall"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="hard-disk-idle-timeout.html">Disk idle timeout</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Storage D3 in Modern Standby vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Modern Standby diagnosis</a> page, not the <a href="hard-disk-idle-timeout.html">Turn off hard disk after</a> page, and not the <a href="network-standby-connectivity.html">Network connectivity in Standby</a> page. Sleep-vs-forever is whether S0ix paused the hourly. DISKIDLE is platter/STANDBY minutes while the session is still awake. Network-in-standby is the NIC during S0ix. NVMe APST is the drive dropping its own power states while the PCIe function is still D0. This page is the remaining storage PCI D-state during S0ix: Storport <strong>StorageD3InModernStandby</strong> can put inbox StorNVMe / StorAHCI into D3 (often D3cold) the moment the laptop enters Modern Standby.</p>
+      <a class="btn" href="storage-d3-modern-standby.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever first</a>
+      <a class="btn" href="hard-disk-idle-timeout.html">DISKIDLE first</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> pack already names S0 Low Power Idle as the standby that freezes Interactive-only tasks. The <a href="hard-disk-idle-timeout.html">DISKIDLE</a> pack already sets Turn off hard disk after to Never on AC so a SATA disk does not spin down while you are still “awake.” Both can be honest and the first Git object after a closed-lid hour still waits. Inbox StorNVMe / StorAHCI may still take the boot disk to PCI <strong>D3</strong> when the platform enters Modern Standby. Resume is not a boot. RAM is still there. The disk is the thing that left.</p>
+      <p><code>grok.exe</code> is alive. Task Scheduler still prints Ready and last result 267009 (still-running). Event Viewer shows stornvme or storahci <strong>Event 129</strong> — Reset to device, <code>\Device\RaidPort0</code>. The operator buys another <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a>. The policy was Enable Storage Device D3.</p>
+      <p>Missing registry value is not Disabled. If <code>StorageD3InModernStandby</code> is absent, Storport checks ACPI <code>_DSD</code> <code>StorageD3Enable</code>, then a platform allowlist. Many S0ix laptops D3 the disk with no GUI row and no DWORD. This Windows profile is not a Linux FULL AUTO daemon. Do not install systemd to paper over D3cold. Do not mint a Vercel slug because the first write after resume stalled. Do not kill Modern Standby with <code>PlatformAoAcOverride</code> on this page — that is a different layer.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>S0ix paused the hourly; tasks never ran</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>NIC died only after Standby; disk was fine</td><td>Different layer. <a href="network-standby-connectivity.html">Network connectivity in Standby</a>.</td></tr>
+            <tr><td>Session still awake. First write after ~20 minutes waits on a spun-down disk. DISKIDLE is not Never</td><td>Different layer. <a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a>.</td></tr>
+            <tr><td>Disk stalls while still in D0 / session unlocked. NVMe dropped to a non-operational power state on its own</td><td>Different layer. NVMe APST (Autonomous Power State Transition). Not this click.</td></tr>
+            <tr><td>Thunderbolt/USB4 dock or NVMe vanishes while awake; ASPM still Moderate/Maximum</td><td>Different layer. <a href="pcie-link-state-power.html">PCIe ASPM</a>.</td></tr>
+            <tr><td>SATA PHY flaps; HIPM/DIPM is not Active</td><td>Different layer. <a href="ahci-link-power-management.html">AHCI LPM</a>.</td></tr>
+            <tr><td><code>powercfg /a</code> lists S0 Low Power Idle. DISKIDLE already Never if the row exists. Session resumes. First write stalls or Event 129. StorageD3InModernStandby is 1 or missing</td><td>This page. Storage D3 during Modern Standby.</td></tr>
+            <tr><td><code>powercfg /a</code> has no S0 Low Power Idle (classic S3 only)</td><td>This page does not apply. Stop. Not a fail.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set StorageD3InModernStandby to 0 as the first click on a new host. Sleep / lid / DISKIDLE first if those rows exist. Do not use PlatformAoAcOverride to hide a D3 stall. Do not treat a missing DWORD as already off — missing can still mean allowlist D3. Classic S3 desktops skip this page.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the standby layer is already named</strong> — <code>powercfg /a</code> lists Standby (S0 Low Power Idle). If S0ix is eating the hourly itself, that is still <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>. This page does not disable Modern Standby. It stops Storport from D3’ing the disk <em>during</em> it.</li>
+          <li><strong>Confirm DISKIDLE is already Never on AC if the row exists</strong> — if Turn off hard disk after is still 20 minutes, that is <a href="hard-disk-idle-timeout.html">hard-disk-idle-timeout</a>, not this page. PCIe ASPM Off and AHCI LPM Active on AC if those buses exist.</li>
+          <li><strong>Query before you write</strong> — Microsoft’s documented Storport key is <code>HKLM\SYSTEM\CurrentControlSet\Control\Storage\StorageD3InModernStandby</code>. DWORD <strong>0</strong> = Disable D3 support. DWORD <strong>1</strong> = Enable D3 support. There is usually no Power Options row. Windows Configuration Designer calls the same policy StorageD3InModernStandby / Enable Storage Device D3.</li>
+          <li><strong>Set 0 on this plugged-in desk</strong> — elevated. Then reboot so Storport reloads. On a travel cube that actually lives on battery, leaving 1 can be honest. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Leave ACPI <code>_DSD</code> StorageD3Enable alone</strong> — that is firmware. The registry override is the operator click. Do not flash BIOS to “fix” a DWORD.</li>
+          <li><strong>Leave APST, DISKIDLE, and PlatformAoAcOverride alone on this click</strong> — APST is the NVMe controller while D0. DISKIDLE is minutes while awake. PlatformAoAcOverride kills S0ix itself. Wrong page for all three.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one Storport DWORD, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+reg query HKLM\SYSTEM\CurrentControlSet\Control\Storage /v StorageD3InModernStandby
+reg add HKLM\SYSTEM\CurrentControlSet\Control\Storage /v StorageD3InModernStandby /t REG_DWORD /d 0 /f</pre>
+      <p>Reboot after the add. Query again. <strong>0x0</strong> is the pass. ERROR: The system was unable to find the specified registry key or value — before the add — means Storport is still allowed to follow <code>_DSD</code> / allowlist. That is not Disabled. After reboot, a still-missing key means the write did not stick; do not invent a second path under <code>Control\Power</code>. Inbox driver only: StorNVMe / StorAHCI. A third-party RAID/NVMe stack is a skip, not a registry paste under a vendor key you guessed.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — S0ix paused user tasks. Not the disk D-state inside that S0ix.</li>
+        <li><a href="network-standby-connectivity.html">Network connectivity in Standby</a> — NIC during S0ix. Not Storport D3.</li>
+        <li><a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a> — DISKIDLE minutes while awake. Not PCI D3 in Modern Standby.</li>
+        <li>NVMe APST — drive-autonomous NVMe power states while the PCIe function is still D0. Microsoft’s inbox StorNVMe path for Modern Standby is host-directed D3, not APST. Wrong click here.</li>
+        <li><a href="pcie-link-state-power.html">PCI Express Link State Power Management</a> — ASPM on the link while the device can still be D0. Not the D3 policy for storage in MS.</li>
+        <li><a href="ahci-link-power-management.html">AHCI Link Power Management</a> — HIPM/DIPM on the SATA PHY. Not D3cold of the storage function.</li>
+        <li>This page — AC <code>StorageD3InModernStandby</code> = 0 so Storport cannot D3 the boot disk during S0ix while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>DISKIDLE already Never on AC if the row exists. ASPM / AHCI LPM already honest if those rows exist. Otherwise this soak is lying about the bus.</li>
+          <li><code>StorageD3InModernStandby</code> is 0 after reboot. Missing after the add is a fail of the write, not a skip.</li>
+          <li>Short S0ix: lid closed or Sleep, cooling stand in place. Resume without a BitLocker recovery prompt caused by a vanished disk. Device Manager disk stays Present. No re-enumerate.</li>
+          <li>First Git object / Grok session write after resume is not a multi-second stall. One silent Event 129 reset storm on stornvme/storahci is a fail if the DWORD was not 0.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a D3cold boot disk is not forever.</li>
+          <li>Classic S3-only host = skip, not a red soak. Do not invent S0ix to make this page apply. Do not “fix” a stall by switching the whole plan to High performance. No fourth Grok TUI.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not <code>PlatformAoAcOverride</code>. That kills Modern Standby. Wrong layer.</li>
+        <li>Not DISKIDLE, not NVMe APST, not Network connectivity in Standby, not PCIe ASPM, not AHCI LPM.</li>
+        <li>Not a claim every NVMe honors this DWORD. Third-party RAID/NVMe miniport is a skip.</li>
+        <li>Not an NVMe enclosure SKU and not a commission claim.</li>
+        <li>Not a High-performance plan essay. One Storport setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="hard-disk-idle-timeout.html">DISKIDLE</a> · <a href="network-standby-connectivity.html">Network in Standby</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

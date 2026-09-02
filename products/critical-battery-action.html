@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Critical battery action vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="CRITBATACTION Hibernate or Sleep still dumps an Interactive Grok desk when a flaky pack reports critical on a docked AC brick. Distinct from S4-off, Energy saver, and UPS hardware. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/critical-battery-action.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Critical battery action vs a forever loop","description":"Set Critical battery action to Do nothing on a closed-lid docked Grok desk so a flaky battery gauge cannot Hibernate or Sleep the Interactive session after sleep timeouts, lid-close, and S4-off are already honest. Not Energy saver. Not a UPS SKU. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep, lid, and S4-off layers are already honest"},{"@type":"HowToStep","name":"Query SUB_BATTERY CRITBATACTION on AC and DC"},{"@type":"HowToStep","name":"Set Critical battery action to Do nothing on AC and DC for this docked desk"},{"@type":"HowToStep","name":"Soak a docked hour. Named task last-run advances. No resume-from-hibernate splash"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="hibernate-off-forever.html">Hibernate off</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Critical battery action vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not <a href="hibernate-off-forever.html">Hibernate Off</a>, not the Battery saver / Energy saver overlay on an AC desk, and not the <a href="../reviews/ups-windows-operator-host.html">UPS review</a>. S4-off deletes the hiberfile. The saver overlay throttles an <em>awake</em> session. A UPS is wall-side runtime. This page is the Battery subgroup verb: Power Options → Battery → <strong>Critical battery action</strong>. That is <code>CRITBATACTION</code>. Default is often Hibernate at ~5%. A closed-lid docked Grok desk with a flaky gauge can still fire Hibernate or Sleep while the GaN brick is in the wall. Interactive-only <code>LEXXII-Materialize-Forever</code> misses the hour. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="critical-battery-action.md" download>Download markdown</a>
+      <a class="btn" href="hibernate-off-forever.html">S4-off first</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Lid can already be Do nothing on AC. Sleep after can already be Never. Fast Startup can already be off. <code>powercfg /h off</code> can already have deleted S4. The tray can still lie. Aged packs, swollen cells, OEM embedded controllers, and dock PD that reports “plugged in, not charging” will jump the reported percent from a healthy number to 0–5% in one sample. Windows then runs the <strong>Critical battery action</strong>. Balanced default is Hibernate. Some plans Sleep. Either one dumps the Interactive session the named task needs.</p>
+      <p>The AC index is not the whole story. Critical battery action is a DC-path verb. A flaky gauge that stops reporting charge current makes Windows treat a docked brick as On battery. Setting only Plugged in to Do nothing leaves the DC index armed. That is the liar this page exists for. <code>grok.exe</code> is gone. <code>schtasks</code> still prints Ready and last result 267009 (still-running) after a resume. The operator thinks S4-off failed. The Battery subgroup fired.</p>
+      <p>If S4 is already gone and the action is still Hibernate, Windows often falls through to Shut down. That is worse, not safer. Do not use <code>/h off</code> to hide this row. Do not buy a UPS to silence a laptop fuel-gauge. Do not install systemd on this Windows profile.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>What happened</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Idle timeout 5–20 minutes, gauge honest, no critical toast</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>. <code>STANDBYIDLE</code>.</td></tr>
+            <tr><td>Closing the lid was the trigger</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>Start-menu Hibernate / remaining S4 after Fast Startup is honest</td><td>Different layer. <a href="hibernate-off-forever.html">hibernate-off-forever</a>. <code>powercfg /h off</code> deletes the state. This page is the Battery verb that still calls it.</td></tr>
+            <tr><td>Session stayed awake. Leaf on. CPU capped. Power mode greyed</td><td>Different layer. Battery saver / Energy saver overlay on AC. Throttle, not a dump. Wrong page.</td></tr>
+            <tr><td>Wall flicker. Dock dropped. PD brick died. Gauge was fine</td><td>Different layer. <a href="../reviews/ups-windows-operator-host.html">UPS for a Windows operator host</a>. Wall-side, not the pack.</td></tr>
+            <tr><td>Chassis or dock power key Sleeps the session</td><td>Different layer. <a href="power-button-action-ac.html">Power button action</a>. <code>PBUTTONACTION</code>.</td></tr>
+            <tr><td>Low battery action (not Critical) Sleeps at ~10%</td><td>Sibling. <code>LOWBATACTION</code>. Not this click. Do not invent a registry paste here.</td></tr>
+            <tr><td>Lid already Do nothing. Sleep already not 5–20 minutes. S4 already off or idle-to-S4 already Never. Tray shows 0–5% or “plugged in, not charging” on a docked brick. Resume-from-hibernate splash, or a shutdown, then the hourly fires late</td><td>This page. <code>CRITBATACTION</code>. Critical battery action still Hibernate or Sleep.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Critical battery action to Do nothing as the first click on a new host. Sleep timeouts, lid-close, and the S4 decision first. Do not copy DC Do nothing onto a commute laptop that actually unplugs — that cube should keep Hibernate on battery. This desk is closed-lid, docked, AC, and the gauge is the liar. Do not disable the Microsoft ACPI-Compliant Control Method Battery device. Do not yank the pack. Do not <code>powercfg /h off</code> to hide this row.</div>
+    </section>
+    <section>
+      <h2>What to change (closed-lid docked Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the earlier layers are already done</strong> — plugged-in sleep is not 5–20 minutes. Lid close on AC is Do nothing. Fast Startup is already honest. If this desk still <em>intends</em> to Hibernate on a measured drain, stop here and keep S4. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>, <a href="lid-close-do-nothing.html">lid-close</a>, and <a href="hibernate-off-forever.html">hibernate-off-forever</a>.</li>
+          <li><strong>Query before you cut</strong> — <code>powercfg /query SCHEME_CURRENT SUB_BATTERY CRITBATACTION</code>. Read <em>both</em> indexes. AC 0 with DC 2 is not a pass on a flaky pack. Query <code>BATLEVELCRIT</code> so you see the percent that arms the verb (often 5). Do not set that percent to 0 as the fix. 0 is not “never.” The action is the click.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Battery → Critical battery action</strong> — set <em>Plugged in</em> to <strong>Do nothing</strong>. On this forever desk, set <em>On battery</em> to <strong>Do nothing</strong> as well, because the liar is the DC path. A travel cube keeps Hibernate on battery. Do not Shut down from this row to “make it obvious.”</li>
+          <li><strong>Leave Low battery action, Critical battery notification, and Reserve battery level as siblings</strong> — <code>LOWBATACTION</code> is not this click. The notification toast is not the dump. Reserve level is not the dump. Do not uncheck “Critical battery notification” and call the action done.</li>
+          <li><strong>Leave the current plan in place</strong> — this page is one Battery-subgroup verb, not a switch to High performance. Do not rename the plan. Do not invent a fleet GPO. Do not install systemd on this Windows profile.</li>
+          <li><strong>Confirm, then soak</strong> — both indexes 0. Hidden in the GUI is not Do nothing; query anyway. If <code>powercfg</code> omits <code>SUB_BATTERY</code>, this firmware or edition did not expose the subgroup — stop; do not invent a registry hack on a public page. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_BATTERY
+powercfg /query SCHEME_CURRENT SUB_BATTERY CRITBATACTION
+powercfg /query SCHEME_CURRENT SUB_BATTERY BATLEVELCRIT
+powercfg /setacvalueindex SCHEME_CURRENT SUB_BATTERY CRITBATACTION 0
+powercfg /setdcvalueindex SCHEME_CURRENT SUB_BATTERY CRITBATACTION 0
+powercfg /setactive SCHEME_CURRENT</pre>
+      <p><code>SUB_BATTERY</code> is the Battery subgroup. <code>CRITBATACTION</code> is Critical battery action. Typical values: <strong>0 = Do nothing</strong>, <strong>1 = Sleep</strong>, <strong>2 = Hibernate</strong>, <strong>3 = Shut down</strong>. 0 on AC <em>and</em> DC is the pass for this docked desk. <code>BATLEVELCRIT</code> is the percent that arms the verb — leave it; do not cargo-cult 0. <code>/setactive SCHEME_CURRENT</code> commits the indexes. <code>powercfg /batteryreport</code> can prove a lying pack (design vs full, recent “suspended” while the brick was in). Keep that report off Pages. If Hibernate is still the DC index after the set, the command did not stick (needs the active scheme commit, or a policy we do not run).</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="hibernate-off-forever.html">Windows Hibernate Off vs a forever loop</a> — deletes ACPI S4 with <code>powercfg /h off</code>. This page is the Battery verb that still asks for Hibernate or Sleep after that cut, or instead of it.</li>
+        <li>Battery saver / Energy saver on an AC desk — the leaf overlay. Caps CPU, dims, pauses background work. Session stays Interactive. Wrong layer. See <a href="energy-saver-ac.html">energy-saver-ac</a> if that pack is live. Do not treat Always-use Off as <code>CRITBATACTION</code> 0.</li>
+        <li><a href="../reviews/ups-windows-operator-host.html">UPS for a Windows operator host</a> — wall-side brown-out runtime. Vendor “hibernate on remaining minutes” is UPS software, not the laptop fuel-gauge. Size the UPS. Do not keep laptop <code>CRITBATACTION</code> Hibernate to paper over a wall flicker.</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — idle <code>STANDBYIDLE</code>. Not a critical-percent trigger.</li>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — hinge. Not the pack.</li>
+        <li><a href="power-button-action-ac.html">Power button action</a> — chassis key. <code>PBUTTONACTION</code>, not <code>CRITBATACTION</code>.</li>
+        <li>This page — Critical battery action = Do nothing on a docked AC desk so a flaky gauge cannot dump the Interactive session.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep timeouts already honest. Lid already Do nothing on AC. S4 decision already made on purpose. Otherwise this soak is lying about which state killed the hour.</li>
+          <li><code>CRITBATACTION</code> AC index 0 and DC index 0. GUI matches. <code>LOWBATACTION</code> was not the click you just made.</li>
+          <li>Plugged in. Lid closed on the dock for sixty minutes. If the tray already shows 0–5% or “plugged in, not charging,” the session must stay Interactive across that hour. <code>LEXXII-Materialize-Forever</code> last-run must advance. A resume-from-hibernate splash, a shutdown, or a Sleep wake is a fail — the Battery verb still fired.</li>
+          <li>Do not discharge the forever-desk pack on purpose to “prove” 5%. Query is the proof on this host. A travel cube can keep Hibernate on DC and is not this soak.</li>
+          <li>Do not spawn a fourth Grok TUI because last result is <code>267009</code>. That code is still-running, not proof the Battery verb is already Do nothing.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Host-forever is Task Scheduler <code>LEXXII-Materialize-Forever</code>.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not <a href="hibernate-off-forever.html">hibernate-off-forever</a>. That pack deletes S4. This pack is the Battery verb.</li>
+        <li>Not battery-saver-ac-desk. Saver overlay on AC. Leaf. Always-use. Session stays awake.</li>
+        <li>Not a UPS SKU. Brown-out hardware stays on the <a href="../reviews/ups-windows-operator-host.html">UPS review</a>.</li>
+        <li>Not Low battery action, not Critical battery notification, not Reserve battery level.</li>
+        <li>Not a claim every laptop should lose critical Hibernate. Travel cubes on battery may keep it. This desk is closed-lid, docked, AC.</li>
+        <li>Not a Device Manager disable of the ACPI battery. Not a pack-pull. Not a registry paste.</li>
+        <li>Not a High-performance plan essay. One Battery-subgroup verb.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="hibernate-off-forever.html">Hibernate off</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="energy-saver-ac.html">Energy saver</a> · <a href="../reviews/ups-windows-operator-host.html">UPS</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

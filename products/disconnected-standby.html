@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Disconnected Standby vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="powercfg /a on this Yoga is S0 Low Power Idle Network Connected. DisconnectedStandbyMode is missing. Do not invent the DWORD. DS is still S0ix, not S3. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/disconnected-standby.html" />
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="connected-standby-csenabled.html">CSEnabled</a>
+        <a href="network-standby-connectivity.html">Network in Standby</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note"><strong>As an Amazon Associate I earn from qualifying purchases.</strong> Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.</div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Disconnected Standby vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not <a href="connected-standby-csenabled.html">Connected Standby / CSEnabled</a> and not <a href="network-standby-connectivity.html">Network connectivity in Standby</a>. CSEnabled asks whether this class can leave Modern Standby and get S3 back. Network-standby is the NIC policy <em>during</em> Connected Standby. This page is the remaining flavor: <code>powercfg /a</code> reports <strong>Standby (S0 Low Power Idle) Network Connected</strong> vs <strong>Network Disconnected</strong>. Disconnected Standby is still S0ix. It is not S3. On this Yoga the DWORD is missing. <strong>Do not invent <code>DisconnectedStandbyMode=1</code>.</strong></p>
+      <a class="btn" href="disconnected-standby.md" download>Download markdown</a>
+      <a class="btn" href="connected-standby-csenabled.html">CSEnabled first</a>
+      <a class="btn" href="network-standby-connectivity.html">Network in Standby</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>CSEnabled conversion already skipped. Operators then hunt a quieter S0ix: Disconnected Standby. Forums paste <code>DisconnectedStandbyMode=1</code> as if that were safer sleep. DS keeps Modern Standby and drops the network. GitHub MCP dies if the session actually enters that idle. Both flavors pause user tasks. Do not install systemd. Do not mint a Vercel slug because <code>powercfg /a</code> said Network Connected.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>What happened</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Want S3. Firmware does not support it. CsEnabled missing</td><td><a href="connected-standby-csenabled.html">CSEnabled skip</a></td></tr>
+            <tr><td>NIC dies only after S0ix. Settings row exists</td><td><a href="network-standby-connectivity.html">Network connectivity in Standby</a></td></tr>
+            <tr><td>Storage walks D3 only in Modern Standby</td><td><a href="storage-d3-modern-standby.html">storage D3</a></td></tr>
+            <tr><td>S0ix paused the hourly. Timeouts still lying</td><td><a href="windows-sleep-vs-forever.html">sleep vs forever</a></td></tr>
+            <tr><td>Session already never sleeps. Flavor never fires</td><td>Skip. Not a fail.</td></tr>
+            <tr><td>powercfg /a says Network Connected. Forum recipe writes DisconnectedStandbyMode=1</td><td>This page. Skip the DWORD.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not write DisconnectedStandbyMode as the first click. Sleep, lid, and CSEnabled skip first. Forcing DS does not restore S3. It drops the NIC. Hidden is not Disconnected.</div>
+    </section>
+    <section>
+      <h2>What to change</h2>
+      <div class="card">
+        <ol>
+          <li>Confirm S0ix is the sleep that pauses the hourly. If STANDBYIDLE is still 5–20 minutes, stop.</li>
+          <li>Confirm CSEnabled conversion already skipped on this class.</li>
+          <li>Query <code>powercfg /a</code>. Network Connected plus S3 firmware-disabled is the skip tell.</li>
+          <li>Query the DWORD. Missing is not Off. Missing means no policy knob.</li>
+          <li><strong>Stop.</strong> Do not create <code>DisconnectedStandbyMode</code>. Do not create <code>CsEnabled</code>. Keep the session out of S0ix instead.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+Get-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Power | Select-Object DisconnectedStandbyMode, CsEnabled, PlatformAoAcOverride</pre>
+      <p><code>powercfg /a</code> is the source of truth for Connected vs Disconnected flavor. Empty <code>DisconnectedStandbyMode</code> plus Network Connected is a green skip. Measured this fire: S0 Low Power Idle Network Connected. S3 firmware-disabled. DWORD absent. No <code>DISCONNECTEDSTANDBY</code> alias. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</p>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep-vs-forever and CSEnabled skip already honest.</li>
+          <li><code>powercfg /a</code> still shows S0 Low Power Idle Network Connected and no S3.</li>
+          <li><code>DisconnectedStandbyMode</code> still absent. A DWORD that appeared from a forum paste is a fail — delete the experiment.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code> because the session stayed out of S0ix, not because DS was “enabled.” Grok schedulers expire in 7 days even when durable. Host-forever is that named Windows task. Not systemd.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the flavor flipped. Skip is not a red soak.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not CSEnabled / S3 conversion. Not Network connectivity in Standby Always/Never.</li>
+        <li>Not storage D3 in Modern Standby. Not lid-close. Not sleep-after.</li>
+        <li>Not a Linux systemd unit. Not a SKU. Not live capital.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="connected-standby-csenabled.html">CSEnabled</a> · <a href="network-standby-connectivity.html">Network in Standby</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">© 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />As an Amazon Associate I earn from qualifying purchases.</div>
+  </footer>
+</body>
+</html>

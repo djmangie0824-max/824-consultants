@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lid close Do nothing vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Windows lid-close action on a plugged-in Grok desk: Do nothing so Interactive-only Task Scheduler keeps firing under a closed lid. Companion to sleep-vs-forever. Not a cooling-stand page. Not a Linux daemon." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/lid-close-do-nothing.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Lid close Do nothing vs a forever loop","description":"Set Windows lid-close to Do nothing on AC so a closed-lid Grok host keeps Interactive-only tasks firing. Companion to sleep-vs-forever. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Open Choose what closing the lid does"},{"@type":"HowToStep","name":"Set Plugged in to Do nothing"},{"@type":"HowToStep","name":"Confirm with powercfg LIDACTION"},{"@type":"HowToStep","name":"Soak-test closed lid against named tasks"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="windows-task-forever.html">Create the task</a>
+        <a href="../flywheel.html">Flywheel</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Lid close Do nothing vs a forever loop</h1>
+      <p class="meta">Published 2026-08-31 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Modern Standby diagnosis</a> page, not the <a href="usb-selective-suspend.html">USB selective suspend</a> page, and not the <a href="../reviews/laptop-cooling-stand-14h.html">cooling-stand</a> review. Sleep-vs-forever explains why a Ready task looks dead. Selective suspend sleeps the NIC. The cooling stand is the air under a closed lid. This page is the lid <em>action</em>: what Windows does the moment the operator closes the laptop on a plugged-in Grok desk.</p>
+      <a class="btn" href="lid-close-do-nothing.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+      <a class="btn" href="../reviews/laptop-cooling-stand-14h.html">Cooling stand (hardware)</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The operator architecture on this class of Windows Grok host is closed-lid on a cooling stand, docked, Ethernet dedicated, Task Scheduler Interactive-only. The default lid action is Sleep. Closing the lid then pauses user tasks even when the machine “looks on.” <code>LEXXII-Materialize-Forever</code> misses the hour. Grok in-session schedulers are already a 7-day layer. A sleeping lid makes the Windows host-forever layer fake-dead too.</p>
+      <p>Hibernate is worse: the session is gone. Shut down is a hard stop. Sleep on battery can stay Sleep — this desk is not a travel cube pretending to be a server. Plugged-in must be <strong>Do nothing</strong> or the named tasks never see the closed-lid interval they were built for.</p>
+    </section>
+    <section>
+      <h2>Lid actions (what each one actually does)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Plugged-in lid action</th><th>What happens to the forever loop</th></tr></thead>
+          <tbody>
+            <tr><td>Sleep</td><td>User tasks pause. Interactive-only Task Scheduler does not fire. The host may still show a LED.</td></tr>
+            <tr><td>Hibernate</td><td>Session written and powered off. Worse than Sleep for an hourly loop.</td></tr>
+            <tr><td>Shut down</td><td>Hard stop. No loop.</td></tr>
+            <tr><td>Do nothing</td><td>Lid is a thermal lid, not a power button. Tasks can still fire if Modern Standby and USB suspend are also healed.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do nothing is necessary and not sufficient. Connected standby can still freeze Task Scheduler with the lid already set to Do nothing — that remaining layer is <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>. A dead NIC under a closed lid is <a href="usb-selective-suspend.html">USB selective suspend</a>. Do not cargo-cult all three into one click.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Control Panel → Hardware and Sound → Power Options → Choose what closing the lid does</strong> — set <em>When I close the lid</em> / <em>Plugged in</em> to <strong>Do nothing</strong>. On battery may stay Sleep if this laptop actually leaves the desk.</li>
+          <li><strong>Same screen: When I press the power button</strong> — leave that as Shut down or Sleep. Do nothing on the lid is not a license to make the power button a no-op.</li>
+          <li><strong>Confirm with powercfg (AC only)</strong> — lid action index <code>0</code> is Do nothing, <code>1</code> Sleep, <code>2</code> Hibernate, <code>3</code> Shut down.</li>
+          <li><strong>Do not change the lid action via a fleet GPO we do not run.</strong> This is one Windows profile. Agents do not invent a domain.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_BUTTONS LIDACTION
+powercfg /setacvalueindex SCHEME_CURRENT SUB_BUTTONS LIDACTION 0
+powercfg /setactive SCHEME_CURRENT</pre>
+      <p>Read the AC index before writing it. If AC already shows <code>0x00000000</code>, the lid layer is set — remaining closed-lid death is Standby or USB, not this page. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-task-forever.html">Windows Task Scheduler forever</a> — creating the named tasks.</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — Modern Standby, Interactive-only logon, result 267009 still-running.</li>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — the NIC/hub power policy under a lid that is already Do nothing.</li>
+        <li><a href="../reviews/laptop-cooling-stand-14h.html">Laptop cooling stand</a> — air under the closed lid. Hardware, SKU pending.</li>
+        <li>This page — the lid action so closing the lid is not a Sleep key.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Plugged in. Close the lid on the cooling stand for ten minutes. The machine must not enter Sleep/Hibernate from the lid. A black-then-resume cycle is a fail on this page.</li>
+          <li>With the lid still closed, query <code>LEXXII-Materialize-Forever</code>. Next-run must still be in the future. A Ready task that never fires while the lid is shut failed the layer this page owns.</li>
+          <li>Open the lid. No “resuming” splash. If Windows is waking from Sleep, the AC lid action is not Do nothing.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim the setting is already applied on every host. It is the click path.</li>
+        <li>Not a cooling-stand SKU. Not a UPS. Not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="usb-selective-suspend.html">USB selective suspend</a> · <a href="../reviews/laptop-cooling-stand-14h.html">Cooling stand</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

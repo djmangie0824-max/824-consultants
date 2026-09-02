@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Primary NVMe latency tolerance vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Primary NVMe Power State Transition Latency Tolerance picks how deep StorNVMe may go after the idle timeout fires. Higher milliseconds choose deeper F-states. 0 ms on AC matches Performance. Not the idle timeout. Not APST. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/nvme-primary-latency-tolerance.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Primary NVMe latency tolerance vs a forever loop","description":"Set Primary NVMe Power State Transition Latency Tolerance to 0 ms on AC after Primary NVMe Idle Timeout, APST, and ASPM are already honest so StorNVMe cannot pick a deep F-state when the timeout fires. Not the idle timeout. Not APST. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Primary NVMe Idle Timeout, APST, and ASPM are already honest on AC"},{"@type":"HowToStep","name":"Unhide Primary NVMe Power State Transition Latency Tolerance if ATTRIB_HIDE"},{"@type":"HowToStep","name":"Set Plugged in to 0 milliseconds"},{"@type":"HowToStep","name":"Soak. If the timeout still fires, first write is not a 10–60 ms F-state hitch. Named task still next-runs"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="nvme-idle-timeout.html">Primary NVMe timeout</a>
+        <a href="secondary-nvme-idle-timeout.html">Secondary timeout</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Primary NVMe latency tolerance vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="nvme-idle-timeout.html">Primary NVMe Idle Timeout</a> page, not <a href="secondary-nvme-idle-timeout.html">Secondary NVMe Idle Timeout</a>, not <a href="nvme-apst.html">NVMe APST</a>, and not <a href="pcie-link-state-power.html">PCIe ASPM</a>. Those packs are when StorNVMe starts looking, the second timer, the controller table, or the PCIe link. This page is the remaining depth knob: Power Options → Hard disk → <strong>Primary NVMe Power State Transition Latency Tolerance</strong>. GUID <code>fc95af4d-40e7-4b6d-835a-56d131dbc80e</code>. Units are milliseconds. Microsoft min 0, max <code>0xea60</code> = <strong>60000</strong>. After the primary idle timeout expires, StorNVMe picks the deepest non-operational F-state whose ENLAT+EXLAT is still ≤ this value. <strong>Higher milliseconds make a deeper F-state more likely.</strong> Balanced S0 Working default is <strong>15 ms AC / 50 ms DC</strong>. Performance scheme AC is <strong>0 ms</strong>. The NVMe stays Present. The first write after idle hitch-pauses on a 10–60 ms exit. Task Scheduler still shows Ready. The tolerance is not the timeout.</p>
+      <a class="btn" href="nvme-primary-latency-tolerance.md" download>Download markdown</a>
+      <a class="btn" href="nvme-idle-timeout.html">Primary timeout first</a>
+      <a class="btn" href="secondary-nvme-idle-timeout.html">Secondary timeout</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="nvme-idle-timeout.html">Primary timeout</a> pack already tells you to unhide GUID <code>d639518a-e56d-4345-8af2-b9f32fb26109</code> and raise it on AC. APST can already be Off. ASPM can already be Off. A ship still hitch-pauses on the first write whenever that timeout still fires. Device Manager still says Present. No re-enumerate. <code>grok.exe</code> looks hung. <code>schtasks</code> still prints Ready and last result 267009. The operator lengthens the timeout again. Microsoft’s documented maximum for both NVMe idle-timeout GUIDs is <strong>60000 ms</strong>, not “Never.” When 60 seconds of quiet expire, StorNVMe still walks the F-state table. <strong>Primary NVMe Power State Transition Latency Tolerance</strong> is still 15 ms on Balanced AC. A power state with ~10–15 ms ENLAT+EXLAT is legal. The first write pays that exit. Lengthening the timer does not set the depth.</p>
+      <p>This is not a vanished NVMe. A device that disappears is ASPM or D3. This page is Present + a legal F-state because the tolerance was wide enough. Do not paste <code>nvme_core.default_ps_max_latency_us=0</code> on this Windows profile. Do not install systemd. Do not mint a Vercel slug because the first write paused. Do not cargo-cult this GUID to 60000. On this row, bigger is deeper, not safer.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>NVMe <em>disappears</em> then re-enumerates</td><td>Different layer. <a href="pcie-link-state-power.html">PCIe ASPM</a> or PCI D3.</td></tr>
+            <tr><td>Spinning or USB disk waits on spin-up; DISKIDLE is not 0</td><td>Different layer. <a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a>.</td></tr>
+            <tr><td>ASPM Off. BIOS APST still Enabled. First write stalls in ~100–200 ms</td><td>Different layer first. <a href="nvme-apst.html">NVMe APST</a>, then <a href="nvme-idle-timeout.html">Primary timeout</a>.</td></tr>
+            <tr><td>Primary timeout still 100–200 ms</td><td>Different layer first. <a href="nvme-idle-timeout.html">Primary NVMe Idle Timeout</a>.</td></tr>
+            <tr><td>Primary already raised. First write hitch-pauses after ~1–2 s</td><td>Different layer first. <a href="secondary-nvme-idle-timeout.html">Secondary NVMe Idle Timeout</a>.</td></tr>
+            <tr><td>GUID missing from powercfg after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+            <tr><td>Primary timeout already raised (or at the 60000 ms GUID max). Device stays Present. Named task Ready / 267009. First write after the timeout still hitch-pauses. This GUID on AC is still 15–100 ms</td><td>This page. Depth after the timeout. Not the timer. Not APST.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set latency tolerance as the first click. Sleep, lid, ASPM, DISKIDLE, APST, and both NVMe idle timeouts first. Hidden is not 0 ms. A vanished NVMe is ASPM or D3, not this click. On this GUID, 0 ms on AC is the pass. 60000 ms is the opposite of a forever desk.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the earlier layers are already done</strong> — plugged-in sleep is not 5–20 minutes. Lid close on AC is Do nothing. ASPM Off on AC. DISKIDLE Never if the row exists. APST Off where firmware exposes it, or skip if missing. Primary NVMe Idle Timeout already raised on AC. Secondary timeout already at the GUID maximum if that row exists. See <a href="nvme-idle-timeout.html">nvme-idle-timeout</a>, <a href="secondary-nvme-idle-timeout.html">secondary-nvme-idle-timeout</a>, <a href="nvme-apst.html">nvme-apst</a>, and <a href="pcie-link-state-power.html">pcie-link-state-power</a>.</li>
+          <li><strong>Unhide the row if it is missing</strong> — Primary NVMe Power State Transition Latency Tolerance is ATTRIB_HIDE on many images. Missing from Hard disk before this step is expected, not a skip.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Hard disk → Primary NVMe Power State Transition Latency Tolerance</strong> — set <em>Plugged in</em> to <strong>0</strong> milliseconds. That is Microsoft’s Performance-scheme AC default. On battery may stay 50–200 ms if the laptop actually travels.</li>
+          <li><strong>Leave both idle-timeout GUIDs and Secondary latency tolerance as siblings</strong> — those are not this click. Secondary tolerance GUID <code>dbc9e238-6de9-49e3-92cd-8c2b4946b472</code> is a later pack. Do not cargo-cult this GUID to 60000. Bigger is deeper.</li>
+          <li><strong>Leave APST, ASPM, write-cache, and TRIM alone on this click</strong> — the tolerance is not the table. Do not switch RST to Microsoft storNVMe on a public page.</li>
+          <li><strong>Leave the current plan in place</strong> — not a switch to High performance. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the GUID. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg -attributes SUB_DISK fc95af4d-40e7-4b6d-835a-56d131dbc80e -ATTRIB_HIDE
+powercfg /query SCHEME_CURRENT SUB_DISK fc95af4d-40e7-4b6d-835a-56d131dbc80e
+powercfg /setacvalueindex SCHEME_CURRENT SUB_DISK fc95af4d-40e7-4b6d-835a-56d131dbc80e 0
+powercfg /setactive SCHEME_CURRENT</pre>
+      <p><code>SUB_DISK</code> / GUID <code>fc95af4d-40e7-4b6d-835a-56d131dbc80e</code> is Primary NVMe Power State Transition Latency Tolerance. Units are milliseconds. Microsoft min 0, max <code>0xea60</code> = 60000, increment 1. StorNVMe Balanced S0 Working default is 15 ms AC / 50 ms DC. Power Saver is 100 ms AC / 200 ms DC. Performance AC is 0 ms. <strong>0 ms on AC</strong> is the pass for this forever desk: when the idle timeout still fires, only F-states with essentially zero ENLAT+EXLAT stay legal. If powercfg omits the GUID after unhide, this edition did not expose the knob — stop. The timeout is <a href="nvme-idle-timeout.html">nvme-idle-timeout</a>. Secondary timeout is <a href="secondary-nvme-idle-timeout.html">secondary-nvme-idle-timeout</a>. APST enable is <a href="nvme-apst.html">nvme-apst</a>. Do not paste <code>nvme_core.default_ps_max_latency_us</code>. That is Linux. This host is Windows.</p>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>ASPM already Off. APST already Off or skip. DISKIDLE already Never if present. Primary and Secondary idle timeouts already raised. Otherwise this soak is lying about the link, the table, or the timers.</li>
+          <li>Idle past the primary timeout (covers leftover 200 ms and the 60000 ms GUID max). First write to the boot NVMe is not a 10–60 ms F-state hitch. Device Manager still says Present. No re-enumerate.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a stalled first write is not forever if this tolerance is still 15–100 ms. Grok schedulers expire in 7 days even when durable. Host-forever is that named Windows task. Not systemd.</li>
+          <li>Missing GUID after unhide = skip, not a red soak. Do not invent the millisecond value in the registry.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof this GUID is already 0. 0 ms here is not “Never idle.” It is “do not pick a deep F-state.”</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Primary NVMe Idle Timeout. That first timer is <a href="nvme-idle-timeout.html">nvme-idle-timeout</a>.</li>
+        <li>Not Secondary NVMe Idle Timeout. That second timer is <a href="secondary-nvme-idle-timeout.html">secondary-nvme-idle-timeout</a>.</li>
+        <li>Not NVMe APST enable/disable. That table is <a href="nvme-apst.html">nvme-apst</a>.</li>
+        <li>Not PCIe ASPM. That link is <a href="pcie-link-state-power.html">pcie-link-state-power</a>.</li>
+        <li>Not DISKIDLE. That minutes timer is <a href="hard-disk-idle-timeout.html">hard-disk-idle-timeout</a>.</li>
+        <li>Not an enclosure SKU. That review is <a href="../reviews/nvme-enclosure-operator.html">nvme-enclosure-operator</a>.</li>
+        <li>Not a Linux sysfs paste. This host is Windows.</li>
+        <li>Not a High-performance plan essay. One Hard disk row.</li>
+        <li>Not live capital. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="nvme-idle-timeout.html">Primary timeout</a> · <a href="secondary-nvme-idle-timeout.html">Secondary timeout</a> · <a href="nvme-apst.html">NVMe APST</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

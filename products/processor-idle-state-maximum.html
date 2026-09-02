@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Processor idle state maximum vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="IDLESTATEMAX is the C-state depth cap, not IDLEDISABLE and not the 60/40 promote pair. This desk: AC/DC 0 = no cap. Cap AC at 1 so package C6 is illegal while Enable idle remains. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/processor-idle-state-maximum.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Processor idle state maximum vs a forever loop","description":"Query Processor idle state maximum (IDLESTATEMAX / GUID 9943e905-9a30-4ec1-9b99-44dd3b76f7a2) under SUB_PROCESSOR. On a plugged-in Grok desk that still has Enable idle, cap AC at 1 so the idle-state list cannot walk package C6/C7 while C1-class idle remains. Distinct from Processor idle disable, promote/demote percents, idle time check, and idle threshold scaling.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm IDLEDISABLE is still Enable idle (0). If it is already Disable idle (1), stop — the depth cap is unused"},{"@type":"HowToStep","name":"Query powercfg IDLESTATEMAX on SCHEME_CURRENT. This Yoga measured 0x0 = no cap AC and DC. Legal max on this SKU is 0x14 = 20"},{"@type":"HowToStep","name":"Set AC IDLESTATEMAX 1. Activate the scheme. Leave DC at 0 if the laptop travels"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. Quiet TUI is not a C6 wake stall"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="processor-idle-disable.html">Idle disable</a>
+        <a href="processor-idle-promote-threshold.html">Promote / demote</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Processor idle state maximum vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-idle-disable.html">Processor idle disable</a> page, not the <a href="processor-idle-promote-threshold.html">promote / demote percent pair</a>, not <a href="processor-idle-time-check.html">idle time check</a>, and not a BIOS Package C-state essay. Disable is the allow/deny: Enable idle vs stay C0. Promote/demote are how idle a <em>window</em> must be before the engine walks. Time check is how long that window is. This page is the <em>ceiling</em> after Enable idle is still on: Power Options → Processor power management → <strong>Processor idle state maximum</strong>. Alias <code>IDLESTATEMAX</code>. GUID <code>9943e905-9a30-4ec1-9b99-44dd3b76f7a2</code>. Units are <strong>State Type</strong> (an index into the processor’s enumerated idle-state list), not percent, not microseconds.</p>
+      <a class="btn" href="processor-idle-state-maximum.md" download>Download markdown</a>
+      <a class="btn" href="processor-idle-disable.html">Idle disable first</a>
+      <a class="btn" href="processor-idle-promote-threshold.html">Percent pair</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The idle-disable pack already exists. On this Yoga the measured row is still <strong>Enable idle</strong> (index 0) on AC and DC. That is honest: Disable idle keeps the package in C0, watts and heat go up, and a closed-lid desk without a stand cooks. Enable idle remains. The idle engine is still allowed to walk as deep as the hardware list goes. Microsoft’s 2021 server-tuning note is blunt: <code>IDLESTATEMAX</code> ranges from shallow (1) to a deep cap; <strong>0 means no limit is imposed on how deep</strong>. This host printed AC/DC <code>0x00000000</code>. No cap. Package C6/C7/C10 are legal. The quiet stretch still looks like a hung Interactive Grok CLI. <code>grok.exe</code> is alive. Task Scheduler still prints Ready and last result 267009. The package was in a deep idle state because <em>nothing forbade that index</em>.</p>
+      <p>Promote 100 / demote 80 is a residency-percent gate. It does not write a depth ceiling. A 60/40 Balanced pair with <code>IDLESTATEMAX</code> 0 still walks deep C on a quiet TUI. A 100/80 pair with <code>IDLESTATEMAX</code> 0 still permits C1 and can still surprise you if the engine’s idea of “promote” and the hardware list disagree. The depth cap is the hard ceiling: even when idle residency would promote, the index cannot pass this number.</p>
+      <p>Do not install systemd to paper over an uncapped idle list. Do not mint a Vercel slug because the TUI paused after a quiet minute. Do not switch the whole plan to High performance to hide six other forever-loop bugs. Do not confuse this index with <a href="hard-disk-idle-timeout.html">Turn off hard disk after</a> — that is <code>DISKIDLE</code>, a spindle timeout.</p>
+    </section>
+    <section>
+      <h2>Live query on this host (2026-09-01)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Field</th><th>This desk</th></tr></thead>
+          <tbody>
+            <tr><td>Scheme</td><td><code>SCHEME_BALANCED</code> <code>381b4222-f694-41f0-9685-ff5bb260df2e</code></td></tr>
+            <tr><td>Subgroup</td><td><code>SUB_PROCESSOR</code> <code>54533251-82be-4824-96c1-47b60b740d00</code></td></tr>
+            <tr><td>Setting GUID</td><td><code>9943e905-9a30-4ec1-9b99-44dd3b76f7a2</code> alias <code>IDLESTATEMAX</code></td></tr>
+            <tr><td>Friendly name</td><td>Processor idle state maximum</td></tr>
+            <tr><td>Units</td><td>State Type. Min 0. Max <code>0x00000014</code> = 20. Increment 1.</td></tr>
+            <tr><td>AC / DC</td><td><code>0x00000000</code> = 0 = no depth cap</td></tr>
+            <tr><td>Sibling <code>IDLEDISABLE</code></td><td>AC 0 / DC 0 Enable idle — this page still applies</td></tr>
+            <tr><td>Sibling <code>IDLEPROMOTE</code> / <code>IDLEDEMOTE</code></td><td>Percent pair. Different pack. <a href="processor-idle-promote-threshold.html">promote-threshold</a></td></tr>
+            <tr><td>Sibling <code>IDLECHECK</code></td><td>AC/DC <code>0x0000c350</code> = 50 ms. Different pack. <a href="processor-idle-time-check.html">idle-time-check</a></td></tr>
+            <tr><td>Sibling <code>IDLESCALING</code></td><td>Disable scaling (0). Different pack. Not this click.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Microsoft marks this row hidden in the GUI. Hidden is not missing. <code>powercfg /qh</code> printed it on this SKU. Do not cargo-cult <code>-ATTRIB_HIDE</code> on a public page to “unhide” a row you can already write with <code>/setacvalueindex</code>. The blog example that cites a deep cap of 14 is a server-tuning illustration. This Yoga’s legal max is <strong>20</strong>. Do not write 14 as if it were universal. Do not write 20 to “allow deepest” — 0 already means no limit.</p>
+    </section>
+    <section>
+      <h2>A depth cap is not a C-state deny</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Layer</th><th>What it actually is</th></tr></thead>
+          <tbody>
+            <tr><td>Processor idle disable</td><td>Allow/deny. <code>IDLEDISABLE</code>. 0 = Enable idle. 1 = Disable idle (stay C0). Heat.</td></tr>
+            <tr><td>Processor idle promote / demote</td><td>Percent hysteresis. <code>IDLEPROMOTE</code> / <code>IDLEDEMOTE</code>. How idle the window must be.</td></tr>
+            <tr><td>Processor idle time check</td><td>Window length. <code>IDLECHECK</code>. Microseconds.</td></tr>
+            <tr><td>Processor idle state maximum</td><td>Depth cap. <code>IDLESTATEMAX</code>. 0 = no cap. 1 = shallowest non-zero cap on the enumerated list. This page.</td></tr>
+            <tr><td>Processor idle threshold scaling</td><td>Whether the engine rescales the percent pair. <code>IDLESCALING</code>. Not this click.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Index 1 is the shallowest <em>allowed idle state after C0</em> on the processor’s list. Forum cargo-cult treats that as ACPI C1. The list is firmware + PPM, not a promise that “1 = C1, 3 = C3, 6 = C6.” SuperUser’s working click for “limit to C1-class, do not stay C0” is <code>IDLESTATEMAX 1</code>, not <code>IDLEDISABLE 1</code>. This pack uses that click on AC. If a soak still shows package C6 after AC 1, stop. Do not invent a BIOS paste. The next honest layer is Disable idle (heat) or the percent pair, not a registry fiction.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>IDLEDISABLE already 1 on AC (Disable idle)</td><td>Different layer. Depth cap unused. <a href="processor-idle-disable.html">Idle disable</a> already took the heat.</td></tr>
+            <tr><td>Promote / demote still 60 / 40 and the quiet TUI sits in C6</td><td>Percent gate. <a href="processor-idle-promote-threshold.html">Promote / demote</a>. Can stack with this cap; do not confuse them.</td></tr>
+            <tr><td>First token after a quiet gap hitch-pauses; IDLECHECK still 50 ms</td><td>Sample window. <a href="processor-idle-time-check.html">Idle time check</a>.</td></tr>
+            <tr><td>Minimum processor state still 5% on AC</td><td>Frequency floor. <a href="processor-min-state-ac.html">Minimum processor state</a>.</td></tr>
+            <tr><td>Task Manager shows most cores Parked</td><td>Scheduler flag. <a href="processor-core-parking.html">Core parking</a>.</td></tr>
+            <tr><td>Enable idle still 0. IDLESTATEMAX still 0. Session awake. Named task Ready / 267009. Quiet TUI looks frozen, then snaps back from a deep C</td><td>This page. Cap AC at 1. Leave DC at 0 if the laptop travels.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not write this index as the first click on a new host. Timeouts, lid, requests, min-state, parking, boost, and cooling first. Do not Disable idle and also slam IDLESTATEMAX 1 — pick one layer. Leave DC at 0 (no cap) if the laptop actually travels. If <code>powercfg</code> omits the alias, stop; do not invent a registry paste. Do not cargo-cult 14 as the deep cap on a SKU whose max is 20. Do not write 0 after a soak just to “save watts” on a forever desk.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm Enable idle is still the truth</strong> — <code>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR IDLEDISABLE</code>. AC index 0 means this page applies. AC index 1 means stop; the deny pack already ran. Do not stack both.</li>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. A depth cap is not a substitute for Sleep never.</li>
+          <li><strong>Query the alias before you write</strong> — this desk printed <code>0x0</code> on AC and DC, legal max 20. If the row is missing, stop. Hidden in the GUI is not missing in <code>powercfg</code>.</li>
+          <li><strong>Set Plugged in to 1</strong> — that is <code>IDLESTATEMAX</code> <code>0x1</code>. On battery stays 0 if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Activate the current scheme after the AC index write</strong> — <code>/setacvalueindex</code> does not apply until <code>/setactive SCHEME_CURRENT</code>. Query again. AC <code>0x00000001</code> is the pass. <code>0x00000000</code> still sitting there is a fail for this desk.</li>
+          <li><strong>Leave promote, demote, time check, and scaling as siblings</strong> — this click does not write 100/80 and does not write 10 ms. <a href="processor-idle-promote-threshold.html">Percent pair</a> and <a href="processor-idle-time-check.html">time check</a> stay their own packs.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one processor index, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR IDLEDISABLE
+powercfg /qh SCHEME_CURRENT SUB_PROCESSOR IDLESTATEMAX
+powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR IDLESTATEMAX 1
+powercfg /setactive SCHEME_CURRENT
+powercfg /qh SCHEME_CURRENT SUB_PROCESSOR IDLESTATEMAX</pre>
+      <p><code>SUB_PROCESSOR</code> is the processor subgroup. Typical Balanced value: 0 (no cap). AC pass for this desk: 1 (shallowest non-zero cap). Run the <code>/qh</code> lines first. If the alias is omitted, skip the <code>/setacvalueindex</code> line — do not invent a registry hack. <code>IDLEDISABLE</code> 1 is a sibling that makes this cap unused. BIOS Package C-state / C1E is firmware, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="processor-idle-disable.html">Processor idle disable</a> — allow/deny (<code>IDLEDISABLE</code>). Stay C0 vs walk C-states. Heat. This page keeps Enable idle and caps how deep the walk may go.</li>
+        <li><a href="processor-idle-promote-threshold.html">Processor idle promote / demote</a> — percent hysteresis (<code>IDLEPROMOTE</code> / <code>IDLEDEMOTE</code>). The engine’s opinion of idle residency. Not a hard index ceiling.</li>
+        <li><a href="processor-idle-time-check.html">Processor idle time check</a> — sample window (<code>IDLECHECK</code>). Microseconds. Not an index.</li>
+        <li><a href="processor-min-state-ac.html">Minimum processor state</a> — frequency floor (<code>PROCTHROTTLEMIN</code>). How slow C0 may run. Unused in C6.</li>
+        <li><a href="processor-core-parking.html">Core parking</a> — unparked-core floor (<code>CPMINCORES</code>). Parked is a scheduler flag. C7 is idle residency.</li>
+        <li><a href="processor-boost-mode.html">Processor performance boost mode</a> — turbo allow (<code>PERFBOOSTMODE</code>). Turbo only exists while executing.</li>
+        <li><a href="system-cooling-policy.html">System cooling policy</a> — Passive vs Active fans. Prerequisite if you later take Disable idle. Not this click.</li>
+        <li>This page — AC <code>IDLESTATEMAX</code> 1 so an uncapped Balanced idle list cannot stall an Interactive Grok CLI while Enable idle is still the honest heat choice.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. <code>powercfg /requests</code> already None. Min-state / parking / boost already honest. IDLEDISABLE still 0. Otherwise this soak is lying about the wrong layer.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. The Grok TUI still accepts input on the first keystroke. A session that paints once a minute then takes a beat to “wake the CPU” after quiet is a fail on this page even if <code>grok.exe</code> never exited.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with IDLESTATEMAX 0 is not forever. A 5-minute pulse that fires late because the package was in C10 is this layer, not a missed <code>schtasks</code> trigger.</li>
+          <li>AC still 1. If someone restored 0 to “save watts,” write it again. Do not “fix” it by switching the whole plan to High performance. Do not slam 1 on DC as a cargo-cult. Do not write 14 because a blog used 14 on a server SKU.</li>
+          <li>No extra Grok TUI. Last result 267009 is still-running, not proof the cap is already honest. Isolation-empty <code>scheduler_list</code> is skip recreate, not missing-forever. The Windows task is the host-forever pulse. Headless mill effort is <code>xhigh</code>. In-session grok-4.6 effort is <code>max</code>. A 400 Invalid reasoning effort is not operator cancel. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not Processor idle disable. That is <a href="processor-idle-disable.html">processor-idle-disable</a>. This desk still has Enable idle; that is why the cap matters.</li>
+        <li>Not Processor idle promote / demote, not Processor idle time check, not Processor idle threshold scaling.</li>
+        <li>Not Minimum processor state, not core parking, not Processor performance boost mode, not Intel Speed Shift / EPP.</li>
+        <li>Not a BIOS Package C-state / C1E essay. Firmware stays firmware. Do not paste a BIOS screenshot on Pages.</li>
+        <li>Not a guaranteed ACPI Cx map. Index 1 is the shallowest non-zero cap on this SKU’s list, not a public claim that “1 = C1” on every laptop.</li>
+        <li>Not <code>DISKIDLE</code> and not Modern Standby. Disk spin-down and S0ix stay on their own pages.</li>
+        <li>Not a High-performance plan essay. One processor index. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="processor-idle-disable.html">Idle disable</a> · <a href="processor-idle-promote-threshold.html">Promote / demote</a> · <a href="processor-idle-time-check.html">Idle time check</a> · <a href="processor-min-state-ac.html">Minimum processor state</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

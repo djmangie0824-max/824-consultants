@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NVMe Autonomous Power State Transition vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="APST can park an NVMe controller in PS3/PS4 after PCIe ASPM is already Off and DISKIDLE is already Never. Disk stays Present. First write after idle stalls. Task Scheduler still shows Ready. Not ASPM. Not HIPM. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/nvme-apst.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"NVMe Autonomous Power State Transition vs a forever loop","description":"After PCI Express ASPM is Off on AC and Turn off hard disk after is Never, stop NVMe APST from autonomously entering PS3/PS4 so the first Git write after idle is not an exit-latency stall. Companion to PCIe ASPM. Not HIPM/DIPM. Not DISKIDLE. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm PCIe ASPM is already Off on AC and DISKIDLE is already Never"},{"@type":"HowToStep","name":"Identify Microsoft storNVMe versus Intel RST on the NVMe controller"},{"@type":"HowToStep","name":"Clear PCI D3 on the NVMe controller, then disable APST in BIOS or the vendor tool if that row exists"},{"@type":"HowToStep","name":"Soak idle. Disk stays Present. First write after idle is not a multi-second stall"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="pcie-link-state-power.html">PCIe ASPM</a>
+        <a href="hard-disk-idle-timeout.html">DISKIDLE</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">NVMe Autonomous Power State Transition vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="pcie-link-state-power.html">PCI Express ASPM</a> page, not the <a href="ahci-link-power-management.html">AHCI HIPM/DIPM</a> page, and not <a href="hard-disk-idle-timeout.html">Turn off hard disk after</a>. ASPM is the PCIe PHY. HIPM is SATA. DISKIDLE is Windows minutes. This page is the remaining NVMe controller table: <strong>Autonomous Power State Transition</strong>. The disk stays Present. The first write after idle waits on PS3/PS4 exit. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="nvme-apst.md" download>Download markdown</a>
+      <a class="btn" href="pcie-link-state-power.html">PCIe ASPM first</a>
+      <a class="btn" href="hard-disk-idle-timeout.html">DISKIDLE</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="pcie-link-state-power.html">PCIe ASPM</a> pack already tells you to set Link State Power Management to Off on AC so a Thunderbolt/USB4 dock or NVMe function does not vanish. The <a href="hard-disk-idle-timeout.html">DISKIDLE</a> pack already sets Turn off hard disk after to Never. That work can be done and a ship still stalls on the first Git object after a quiet minute. NVMe Identify Controller advertises an APST table. The controller walks PS0 → PS3/PS4 on its own idle timers. No host Set Features required. Device Manager still says Present. <code>grok.exe</code> is alive. The named task still prints Ready and last result 267009 (still-running). The operator thinks Git hung. An NVMe power state napped.</p>
+      <p>This is not ASPM L0s/L1. This is not PCI D3 by itself. This is not HIPM/DIPM. <code>powercfg /a</code> still reports the same standby type. Requests can still be None. Stock Windows Power Options has no honest <code>APST</code> alias — do not invent one. The liar is the NVMe controller’s autonomous table. Do not install systemd to paper over PS4 exit latency. Do not paste Linux <code>nvme_core.default_ps_max_latency_us=0</code> on this Windows profile. Do not mint a Vercel slug because a write blinked. Do not buy another <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a> until APST is honest. The <a href="nvme-install-pack.html">Ubuntu install order pack</a> is ESP layout, not this click.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Thunderbolt/USB4 dock or NVMe <em>disappears</em> then re-enumerates</td><td>Different layer. <a href="pcie-link-state-power.html">PCIe ASPM</a>.</td></tr>
+            <tr><td>SATA PHY flaps; HIPM/DIPM is not Active</td><td>Different layer. <a href="ahci-link-power-management.html">AHCI LPM</a>.</td></tr>
+            <tr><td>Mechanical or USB spinning disk waits on spin-up; DISKIDLE is not 0</td><td>Different layer. <a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a>.</td></tr>
+            <tr><td>USB hub / USB NIC slept</td><td>Different layer. USB playbooks.</td></tr>
+            <tr><td>USB-C NVMe stick brown-out or UASP drop</td><td>Different layer. <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a>.</td></tr>
+            <tr><td>ASPM already Off on AC. DISKIDLE already Never if the row exists. Session awake. Named task Ready / 267009. NVMe stays Present. First write after seconds-to-minutes is a stall</td><td>This page. NVMe APST.</td></tr>
+            <tr><td>No BIOS APST row, no vendor APST toggle, Device Manager has no Power Management tab, soak writes are clean</td><td>This firmware did not expose a host click, or APST is already harmless. Stop. Not a fail. Not a registry hack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not hunt APST as the first click on a new host. Sleep / lid / USB / PCIe ASPM / DISKIDLE / AHCI LPM first if those rows exist. This page is the remaining NVMe controller table after the bus and the minutes knob are honest. APST can fire in seconds, not only at the 20-minute DISKIDLE lie. Missing host click plus a clean soak is a skip.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm PCIe ASPM is already Off on AC</strong> — if Link State Power Management is still Moderate or Maximum, that is <a href="pcie-link-state-power.html">PCIe ASPM</a>, not this page. A device that vanishes is the link. A device that stays Present and stalls is APST.</li>
+          <li><strong>Confirm DISKIDLE is already Never on AC if the row exists</strong> — <a href="hard-disk-idle-timeout.html">Turn off hard disk after</a> is minutes, not NVMe PS3. AHCI LPM already Active if a SATA row exists.</li>
+          <li><strong>Name the NVMe driver before you click</strong> — Device Manager → Storage controllers. <em>Standard NVM Express Controller</em> is Microsoft <code>stornvme</code>. Intel RST / “Chipset SATA/PCIe RST Premium Controller” is a different UI. Do not switch RST to Microsoft storNVMe on a public page. That can hide the boot volume.</li>
+          <li><strong>Clear PCI D3 on the NVMe function</strong> — Device Manager → the NVMe controller → Properties → Power Management → uncheck <em>Allow the computer to turn off this device to save power</em>. That is PCI D3, not APST. Do it so D3 is not the remaining liar. It is not the APST table itself.</li>
+          <li><strong>Disable APST where the firmware actually exposes it</strong> — BIOS/UEFI: a row named Autonomous Power State Transition / NVMe APST / NVMe power state. Off / Disabled on an AC desk. If the only BIOS row is PCI Express ASPM or L1 Substates, that is the <a href="pcie-link-state-power.html">PCIe page</a> — leave it. Intel Memory and Storage Tool or the RST UI: APST / Autonomous Power State Transition = Disabled only if that tool is already the driver path. Do not download a vendor dashboard as a required step. Do not flash firmware from this page.</li>
+          <li><strong>Leave write-cache, TRIM, and High performance alone</strong> — Policies → write caching is not APST. Do not rename the plan. Do not claim a fleet GPO. Do not paste <code>nvme_core.default_ps_max_latency_us</code>. That is Linux. This host is Windows.</li>
+          <li><strong>Confirm, then soak</strong> — query ASPM and DISKIDLE so the prerequisites still hold. There is no stock <code>powercfg</code> APST alias. If BIOS and vendor UI both omit APST, stop; do not invent a registry GUID on a public page. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_PCIEXPRESS
+powercfg /query SCHEME_CURRENT SUB_DISK DISKIDLE
+powercfg /a
+powershell -NoProfile -Command "Get-PnpDevice | Where-Object { $_.FriendlyName -match 'NVM|NVMe|RST' } | Format-Table Status, Class, FriendlyName -AutoSize"</pre>
+      <p><code>SUB_PCIEXPRESS</code> must already read Off on AC. <code>DISKIDLE</code> AC index 0 is Never. The PowerShell line names the controller so you do not treat RST as storNVMe. APST itself is BIOS / vendor / firmware — not a fake <code>powercfg</code> subgroup. If the NVMe stays Present and the first write after idle is still a multi-second stall after D3 is cleared and every exposed APST row is Off, that is firmware-autonomous with no host click. Stop. Not a registry paste. Not a new enclosure until the <a href="../reviews/nvme-enclosure-operator.html">enclosure criteria</a> are the actual fail.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="pcie-link-state-power.html">PCI Express Link State Power Management</a> — ASPM L0s/L1 on the PCIe PHY. Device can vanish. Not NVMe PS3.</li>
+        <li><a href="ahci-link-power-management.html">AHCI Link Power Management</a> — HIPM/DIPM on SATA. Not NVMe.</li>
+        <li><a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a> — DISKIDLE minutes. Not the APST table.</li>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — USB device-power policy. Not storNVMe.</li>
+        <li><a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a> — USB-C box criteria. Buy after the controller table is honest, not instead of it.</li>
+        <li><a href="nvme-install-pack.html">NVMe Ubuntu Install Order Pack</a> — ESP layout on a Linux AI host. Not this Windows click.</li>
+        <li>This page — AC NVMe APST Off so the controller cannot walk to PS3/PS4 while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. PCIe ASPM already Off on AC. DISKIDLE already 0 if the row exists. AHCI LPM already Active if the row exists. Otherwise this soak is lying about the bus or the minutes knob.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, dedicated NIC plugged. Also fail a 2-minute quiet if the first write already stalls — APST timers are often seconds, not 20 minutes.</li>
+          <li>Device Manager still shows the NVMe Present. A disappear/re-enumerate is <a href="pcie-link-state-power.html">ASPM</a>, not this page.</li>
+          <li>The Grok TUI still accepts input. First Git object / Pages write after idle is not a multi-second wait. One silent stall is a fail if an APST row existed and was not Off.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a napping NVMe power state is not forever.</li>
+          <li>No host APST click + clean first write = skip, not a red soak. Do not invent an APST GUID in the registry to make this page apply.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof PS0 held. Do not “fix” it by switching the whole plan to High performance. Do not install systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not <code>nvme_core.default_ps_max_latency_us=0</code> and not a systemd unit.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every NVMe exposes a host APST click. Missing row plus a clean soak is a skip.</li>
+        <li>Not PCIe ASPM, not AHCI LPM, not DISKIDLE, not USB selective suspend.</li>
+        <li>Not the <a href="nvme-install-pack.html">Ubuntu install order pack</a> and not an NVMe enclosure SKU.</li>
+        <li>Not a High-performance plan essay. One controller table. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a driver swap from Intel RST to Microsoft storNVMe.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="pcie-link-state-power.html">PCIe ASPM</a> · <a href="hard-disk-idle-timeout.html">DISKIDLE</a> · <a href="ahci-link-power-management.html">AHCI LPM</a> · <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

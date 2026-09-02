@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows sleep vs a forever loop — 824 Consultants LLC</title>
+  <meta name="description" content="Why a named hourly Windows task still looks dead: Modern Standby, Interactive-only logon, battery saver, 267009 still-running. Not systemd. Not a fake cluster." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/windows-sleep-vs-forever.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Windows sleep vs a forever loop","description":"Diagnose why LEXXII-Materialize-Forever looks dead after it was created. Modern Standby, Interactive-only logon, battery policy, still-running 267009.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Query the named tasks"},{"@type":"HowToStep","name":"Read last result 267009 as still running"},{"@type":"HowToStep","name":"Allow batteries and ignore overlapping instances"},{"@type":"HowToStep","name":"Check Modern Standby vs sleep timeouts"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-task-forever.html">Create the task</a>
+        <a href="git-node-windows-host.html">Git + Node</a>
+        <a href="../flywheel.html">Flywheel</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>.
+    </div>
+    <section>
+      <span class="badge">Live playbook · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Windows sleep vs a forever loop</h1>
+      <p>Creating <code>LEXXII-Materialize-Forever</code> is necessary and not sufficient. Sleep, Modern Standby, Interactive-only logon, and a still-running result code will make an hourly task look like it never existed. This is not systemd. This is not a fake cluster.</p>
+      <a class="btn" href="windows-sleep-vs-forever.md" download>Download markdown</a>
+      <a class="btn" href="windows-task-forever.html">Create-the-task playbook</a>
+      <a class="btn" href="../reviews/ups-windows-operator-host.html">UPS (different layer)</a>
+    </section>
+    <section>
+      <h2>Failure modes that fake a dead loop</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom</th><th>What it actually is</th></tr></thead>
+          <tbody>
+            <tr><td>Last run <code>1999-11-30</code></td><td>Windows never-run sentinel. The task has not fired since create.</td></tr>
+            <tr><td>Last result <code>267009</code></td><td>Still running. Overlap policy must ignore a new instance — do not stack a 4th TUI.</td></tr>
+            <tr><td>Last result <code>267011</code></td><td>Ready / last-run recorded. Not a mysterious cluster error.</td></tr>
+            <tr><td>Ready, never hourly</td><td>Daily trigger with no 60-minute repeat.</td></tr>
+            <tr><td>Ready, plugged-in only</td><td><code>DisallowStartIfOnBatteries</code> still true.</td></tr>
+            <tr><td>Ready, lid closed</td><td>Modern Standby (S0) paused user tasks. The host “looks on.”</td></tr>
+            <tr><td>Missed while logged out</td><td>Logon mode Interactive only.</td></tr>
+            <tr><td>Hourly start then silence</td><td>Stop-on-battery or a 2-hour runtime cap killed the process.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not spawn another Grok window because last result is <code>267009</code>. That code means the current run is still alive. Extra TUIs still cap at three.</div>
+    </section>
+    <section>
+      <h2>Heal order (Windows, not systemd)</h2>
+      <div class="card">
+        <ol>
+          <li>Query <code>LEXXII-Materialize-Forever</code>, <code>LEXXII-Pages-Heal</code>, <code>LEXXII-Ship</code>.</li>
+          <li>Confirm Enabled, hourly / PT30M / PT2H repeat, batteries allowed, start-when-available on, new-instance ignore.</li>
+          <li>Power settings: 5–20 minute sleep on an operator desk will eat the loop. Connected standby that freezes Task Scheduler is a host bug, not a Grok bug.</li>
+          <li>Recreate the Grok durable hourly scheduler if it vanished. Honest cap: 7 days even when durable.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+schtasks /Query /TN "LEXXII-Materialize-Forever" /FO LIST /V</pre>
+      <p><code>powercfg /a</code> tells you whether S0 connected standby is the sleep that is eating the loop. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</p>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <div class="card">
+        <ul>
+          <li>Not a UPS review — wall-side brown-outs are <a href="../reviews/ups-windows-operator-host.html">UPS for a Windows operator host</a>.</li>
+          <li>Not the create-the-task playbook — that is <a href="windows-task-forever.html">windows-task-forever</a>.</li>
+          <li>Not a Linux systemd unit. This host is Windows.</li>
+          <li>Not live capital. NLV stays off Pages.</li>
+        </ul>
+      </div>
+    </section>
+    <p><a href="index.html">← Product hub</a> · <a href="../flywheel.html">Flywheel inventory</a> · <a href="git-node-windows-host.html">Git + Node</a></p>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allow Throttle States vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Automatic Allow Throttle States (THROTTLING) lets ACPI T-states clock-modulate below 100% even when PROCTHROTTLEMAX is 100. Grok TUI looks hung. Task Scheduler Ready. Not max-state. Not EcoQoS. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/allow-throttle-states.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Allow Throttle States vs a forever loop","description":"Set Allow Throttle States (THROTTLING / GUID 3b04d4fd-1cc7-4f23-ab1c-d1337819c4bb) to Off (0) on AC so Automatic ACPI T-state clock modulation cannot starve an Interactive Grok CLI after Maximum processor state is already 100. Not PROCTHROTTLEMAX. Not EcoQoS. Not IDLEDISABLE. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm min-state, max-state, boost mode, and idle disable are already honest on AC"},{"@type":"HowToStep","name":"Query THROTTLING with powercfg /qh. Stop if the GUID is missing after unhide"},{"@type":"HowToStep","name":"Set Allow Throttle States Plugged in to Off (0). Activate the scheme"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. TUI still accepts input without a T-state duty-cycle stall"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="processor-max-state-ac.html">Maximum processor state</a>
+        <a href="processor-idle-disable.html">Idle disable</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Allow Throttle States vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-max-state-ac.html">Maximum processor state</a> page, not the <a href="processor-power-throttling.html">processor power throttling</a> page, not <a href="processor-idle-disable.html">Processor idle disable</a>, and not an EcoQoS essay. Max-state is the P-state percent ceiling (<code>PROCTHROTTLEMAX</code>). That catalog throttling page is the same ceiling plus the Task Manager “Power throttling” overlay. Idle disable is C-states. This page is ACPI <strong>T-states</strong>: Power Options → Processor power management → <strong>Allow Throttle States</strong>. That is alias <code>THROTTLING</code>. GUID <code>3b04d4fd-1cc7-4f23-ab1c-d1337819c4bb</code>. Possible values: <strong>0 Off</strong>, <strong>1 On</strong>, <strong>2 Automatic</strong>. Automatic or On lets the package enter throttle states below 100% duty even when Maximum processor state is already 100. An Interactive Grok CLI looks hung. Task Scheduler still shows Ready / 267009.</p>
+      <a class="btn" href="allow-throttle-states.md" download>Download markdown</a>
+      <a class="btn" href="processor-max-state-ac.html">Max-state first</a>
+      <a class="btn" href="processor-idle-disable.html">Idle disable</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The sibling processor knobs can already be honest on AC. Frequency floor 100. Frequency ceiling 100. Turbo allowed. Cores unparked. Idle policy named. EPP already 0. The TUI still starves after a quiet stretch. Windows still lets the processor power manager use ACPI throttle states — clock modulation, STPCLK duty-cycle cuts — when Allow Throttle States is <strong>On</strong> or <strong>Automatic</strong>. T0 is 100% duty. T1/T2/… chop the clock without leaving the current P-state. <code>PROCTHROTTLEMAX</code> 100 does not deny T-states. That percent is a P-state cap. This GUID is the T-state <em>allow</em>. <code>grok.exe</code> is alive. The named task still prints Ready and last result 267009 (still-running). The operator thinks the loop died. The package was in a T-state.</p>
+      <p>This Grok host queried <code>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR</code> before this pack was written. Balanced <code>THROTTLING</code> was <strong>AC 2 Automatic</strong>, <strong>DC 2 Automatic</strong>. Hidden is not Off. Automatic is not Off. The word “throttling” in three other playbooks is not this row. Do not install systemd to paper over Automatic T-states. Do not mint a Vercel slug because the TUI paused after a duty-cycle cut. Do not switch the whole plan to High performance to hide nine other forever-loop bugs. Do not confuse this GUID with <a href="processor-max-state-ac.html">processor-max-state-ac</a> — 100% max-state is a ceiling, not a T-state deny.</p>
+    </section>
+    <section>
+      <h2>T-states are not P-states</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Layer</th><th>What it actually is</th></tr></thead>
+          <tbody>
+            <tr><td>Minimum processor state</td><td>P-state floor. <code>PROCTHROTTLEMIN</code>. How slow C0 is allowed to run.</td></tr>
+            <tr><td>Maximum processor state</td><td>P-state ceiling. <code>PROCTHROTTLEMAX</code>. 100 is not T-state Off. The alias contains “THROTTLE”. That is not this GUID.</td></tr>
+            <tr><td>Processor power throttling page</td><td>Catalog mix of that same ceiling plus EcoQoS process overlay. Filename collision. Not ACPI T-states.</td></tr>
+            <tr><td>Processor idle disable</td><td>C-state allow. <code>IDLEDISABLE</code>. Package sleep, not clock modulation.</td></tr>
+            <tr><td>Allow Throttle States</td><td>ACPI T-state allow. <code>THROTTLING</code>. 0 Off · 1 On · 2 Automatic. Duty-cycle cuts below 100% even when the P-state ceiling is 100.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Microsoft named min/max processor state with a “throttle” percent because ACPI mixed frequency and duty cycle in the same era. That history is why this row is easy to skip. A 100 ceiling with Automatic T-states can still chop the clock. Task Manager “Power throttling” on <code>grok.exe</code> is EcoQoS. Resource Monitor / a T-state residency counter is this page. Do not diagnose clock modulation with the EcoQoS column.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Minimum processor state still 5% on AC</td><td>Different layer. <a href="processor-min-state-ac.html">Minimum processor state</a>. Floor, not T-state allow.</td></tr>
+            <tr><td>Maximum processor state is 99% or 80%</td><td>Different layer. <a href="processor-max-state-ac.html">Maximum processor state</a>. P-state ceiling, not this GUID. Do not treat 100 max-state as Off.</td></tr>
+            <tr><td>Task Manager shows most cores Parked</td><td>Different layer. <a href="processor-core-parking.html">Core parking</a>.</td></tr>
+            <tr><td>Boost mode is Disabled; clocks sit at base while executing</td><td>Different layer. <a href="processor-boost-mode.html">Processor performance boost mode</a>.</td></tr>
+            <tr><td>Wake stall after a quiet minute; C-states still Enabled</td><td>Different layer. <a href="processor-idle-disable.html">Processor idle disable</a>. C-states, not T-states.</td></tr>
+            <tr><td>Task Manager Details shows Power throttling Enabled on grok.exe while this GUID is already Off</td><td>Different layer. EcoQoS process overlay. See <a href="processor-power-throttling.html">processor power throttling</a>. Not ACPI T-states.</td></tr>
+            <tr><td>PERFEPP on AC is still 60–70</td><td>Different layer. <a href="intel-speed-shift-epp.html">Intel Speed Shift / EPP</a>. HWP bias, not duty cycle.</td></tr>
+            <tr><td>Ultra 7 dumps grok.exe onto E-cores</td><td>Different layer. <a href="heterogeneous-thread-scheduling.html">Heterogeneous thread scheduling</a>.</td></tr>
+            <tr><td>Remaining percent busy still 60 before a P-state step-up</td><td>Different layer. <a href="processor-perf-increase-threshold.html">Increase threshold</a>.</td></tr>
+            <tr><td>GUID missing from <code>powercfg /qh</code> after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+            <tr><td>Min-state 100, max-state 100, boost Enabled, idle named. Session awake. Named task Ready / 267009. Grok TUI looks frozen. <code>THROTTLING</code> on AC is 2 Automatic or 1 On</td><td>This page. Allow Throttle States on AC.</td></tr>
+            <tr><td>THROTTLING already 0 on AC; clocks still collapse under heat</td><td>Different layer. Firmware PL1 / RAPL / closed-lid thermal is not this click. Do not invent a registry paste here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Allow Throttle States as the first click on a new host. Timeouts, requests, Minimum processor state, Maximum processor state, core parking, boost mode, and idle disable first. Off keeps ACPI T-states out of the duty cycle — watts and heat can go up if the package was using T-states as a cheap thermal brake. Active cooling and a stand under a closed lid are prerequisites. Leave DC on Automatic if the laptop actually travels. Hidden is not Off. Missing GUID after unhide is skip, not a registry paste. Automatic is a fail for this desk even when max-state is 100.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Fast Startup is already honest. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here. T-state Off is not a substitute for Sleep never.</li>
+          <li><strong>Confirm Minimum processor state, Maximum processor state, core parking min cores, Processor performance boost mode, and Processor idle disable are already honest on AC</strong> — 100 / 100 / 100 / Enabled / named. If the ceiling is still 99 or 80, that is <a href="processor-max-state-ac.html">max-state</a>, not this page. Off T-states under an 80% P-state cap is still a capped desk.</li>
+          <li><strong>Query this GUID with <code>/qh</code> before you write</strong> — <code>powercfg /query</code> omits ATTRIB_HIDE rows. This host’s Balanced scheme hid <code>3b04d4fd-1cc7-4f23-ab1c-d1337819c4bb</code>. Hidden is not Off. If <code>/qh</code> still omits the GUID after the unhide line, this edition did not expose the knob. <strong>Stop.</strong> Do not invent a registry paste. Do not guess a GUID from a forum. Do not treat the <a href="processor-power-throttling.html">processor-power-throttling</a> filename as this alias.</li>
+          <li><strong>Unhide, then open Power Options → Change plan settings → Change advanced power settings → Processor power management → Allow Throttle States</strong> — set <em>Plugged in</em> to <strong>Off</strong>. That is index <strong>0</strong>. On battery stays <strong>Automatic</strong> (2) if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Do not leave Automatic as “the OS will be smart”</strong> — Automatic is index <strong>2</strong>. On is index <strong>1</strong>. Both allow T-states. Both are a fail for this desk. Off is the host-forever try on AC.</li>
+          <li><strong>Leave Maximum processor state at 100% on AC</strong> — this page does not write <code>PROCTHROTTLEMAX</code>. 100 max-state plus Automatic T-states is still this page’s fail. 99 max-state is the other page’s fail. Do not “fix” T-states by dropping the ceiling to 99.</li>
+          <li><strong>Leave idle disable, EcoQoS, and EPP alone on this click</strong> — C-state deny is <a href="processor-idle-disable.html">idle disable</a>. The green-leaf overlay is <a href="processor-power-throttling.html">processor power throttling</a>. HWP bias is <a href="intel-speed-shift-epp.html">Speed Shift EPP</a>. This GUID is T-state allow only.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one processor knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Activate the scheme after the AC index write — <code>/setacvalueindex</code> does not apply until <code>/setactive SCHEME_CURRENT</code>.</li>
+          <li><strong>Confirm, then soak</strong> — AC Current AC Power Setting Index <code>0x00000000</code> (Off) is the pass. <code>0x00000002</code> (Automatic) and <code>0x00000001</code> (On) are fails for this desk. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR 3b04d4fd-1cc7-4f23-ab1c-d1337819c4bb
+powercfg -attributes SUB_PROCESSOR 3b04d4fd-1cc7-4f23-ab1c-d1337819c4bb -ATTRIB_HIDE
+powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR 3b04d4fd-1cc7-4f23-ab1c-d1337819c4bb 0
+powercfg /setactive SCHEME_CURRENT</pre>
+      <p><code>SUB_PROCESSOR</code> is the processor subgroup. GUID <code>3b04d4fd-1cc7-4f23-ab1c-d1337819c4bb</code> is Allow Throttle States. Alias <code>THROTTLING</code>. Possible values: <strong>0 = Off</strong>, <strong>1 = On</strong>, <strong>2 = Automatic</strong>. This Grok host’s Balanced query before this pack was written: AC <code>0x00000002</code> (Automatic), DC <code>0x00000002</code> (Automatic). <strong>Off (0) on AC</strong> is the honest host-forever try — so Automatic T-states cannot clock-modulate an Interactive CLI after max-state is already 100. If <code>/qh</code> omits the GUID after unhide, this edition did not expose the knob — stop. Max-state is <a href="processor-max-state-ac.html">processor-max-state-ac</a>, not this click. EcoQoS is <a href="processor-power-throttling.html">processor-power-throttling</a>, not this click. Idle disable is C-states, not this click. Do not paste a Linux <code>intel_idle</code> / <code>cpufreq</code> governor on this Windows profile.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="processor-max-state-ac.html">Maximum processor state</a> — P-state ceiling (<code>PROCTHROTTLEMAX</code>). 100% max is not T-state Off. This page is the allow switch that still cuts duty cycle under that ceiling.</li>
+        <li><a href="processor-power-throttling.html">Processor power throttling</a> — catalog ceiling / EcoQoS overlay. Same English word. Different object. Do not set max-state 100 and call this GUID done.</li>
+        <li><a href="processor-min-state-ac.html">Minimum processor state</a> — P-state floor (<code>PROCTHROTTLEMIN</code>). Floor 100 of a clock that T-states are chopping is still a slow desk.</li>
+        <li><a href="processor-idle-disable.html">Processor idle disable</a> — C-states (<code>IDLEDISABLE</code>). Wake from C6 is not a T-state duty cut. Disable idle with Automatic T-states can still modulate in C0.</li>
+        <li><a href="processor-boost-mode.html">Processor performance boost mode</a> — turbo allow (<code>PERFBOOSTMODE</code>). Enabled turbo under Automatic T-states can still lose duty cycle.</li>
+        <li><a href="processor-core-parking.html">Core parking</a> — unparked-core floor (<code>CPMINCORES</code>). Parking is not clock modulation.</li>
+        <li><a href="intel-speed-shift-epp.html">Intel Speed Shift / EPP</a> — HWP bias 0–100 (<code>PERFEPP</code>). A hint is not a T-state deny.</li>
+        <li><a href="processor-perf-increase-threshold.html">Processor performance increase threshold</a> — remaining percent busy before a P-state step-up. Utilization gate, not ACPI T-states.</li>
+        <li><a href="system-cooling-policy.html">System cooling policy</a> — Passive vs Active fans. T-state Off without Active cooling is a thermal own-goal. Prerequisite, not this click.</li>
+        <li><a href="../reviews/laptop-cooling-stand-14h.html">Laptop cooling stand</a> — air under a closed lid. Hardware. T-state Off does not replace a stand.</li>
+        <li>This page — AC Allow Throttle States = Off (0) so Automatic ACPI T-states cannot stall an Interactive Grok CLI while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. <code>powercfg /requests</code> already None. Min-state 100. Max-state 100. Parking 100. Boost Enabled. Otherwise this soak is lying about the floor, the ceiling, or the turbo allow — and T-state Off will only add heat.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. The Grok TUI still accepts input on the first keystroke. A session that paints once a minute then takes a beat to “wake” after quiet, with max-state already 100, is a fail on this page even if <code>grok.exe</code> never exited.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with Automatic (2) is not forever. A 5-minute pulse that fires late because the package was clock-modulated is this layer, not a missed <code>schtasks</code> trigger.</li>
+          <li>THROTTLING still 0 on AC. If someone set Automatic to “let Windows manage heat,” restore Off on AC. Do not “fix” it by dropping Maximum processor state to 99. Do not “fix” it by switching the whole plan to High performance. Do not Off T-states on DC as a cargo-cult. Missing GUID after unhide = skip, not a red soak.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof T-states are already denied. Grok in-session schedulers expire in 7 days even when durable. Isolation-empty <code>scheduler_list</code> is skip recreate, not missing forever. The Windows task is the host-forever pulse. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim the knob is already Off on this host. The live Balanced query before write was Automatic on AC and Automatic on DC.</li>
+        <li>Not Maximum processor state. That ceiling is <a href="processor-max-state-ac.html">processor-max-state-ac</a>.</li>
+        <li>Not the <a href="processor-power-throttling.html">processor power throttling</a> catalog page. That mix is <code>PROCTHROTTLEMAX</code> plus EcoQoS. This alias is <code>THROTTLING</code>.</li>
+        <li>Not Processor idle disable. Those C-states are <a href="processor-idle-disable.html">processor-idle-disable</a>.</li>
+        <li>Not Minimum processor state, not core parking, not Processor performance boost mode, not Intel Speed Shift / EPP.</li>
+        <li>Not Processor performance increase / decrease threshold.</li>
+        <li>Not a BIOS PL1 / RAPL / Package C-state essay. Firmware stays firmware. Do not paste a BIOS screenshot on Pages.</li>
+        <li>Not a High-performance plan essay. One processor setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="processor-max-state-ac.html">Maximum processor state</a> · <a href="processor-idle-disable.html">Idle disable</a> · <a href="processor-power-throttling.html">Power throttling</a> · <a href="processor-min-state-ac.html">Minimum processor state</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

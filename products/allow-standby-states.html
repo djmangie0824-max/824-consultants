@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allow Standby States vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Allow Standby States is ALLOWSTANDBY Off/On under Sleep. Not Sleep after (STANDBYIDLE). Not CSEnabled. On AoAc/Modern Standby query first — Off does not replace Sleep after Never and S0ix can still apply. Leave DC On if the laptop travels." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/allow-standby-states.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Allow Standby States vs a forever loop","description":"Query ALLOWSTANDBY under Sleep before flipping Off. Indexes 0 Off / 1 On. Distinct from STANDBYIDLE, CSEnabled, HYBRIDSLEEP, UNATTENDSLEEP, and powercfg /h off. On AoAc/Modern Standby do not cargo-cult Off as the first click. Honest mill try only after Sleep after is already Never. Leave DC On if the laptop travels. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Sleep after (STANDBYIDLE) is already Never on AC if this desk is a forever soak"},{"@type":"HowToStep","name":"Query powercfg /a and ALLOWSTANDBY under SUB_SLEEP before any set"},{"@type":"HowToStep","name":"Read AC and DC indexes — 0 Off, 1 On. Do not invent a registry DWORD"},{"@type":"HowToStep","name":"On AoAc/S0ix hosts, Off is an honest mill try only after STANDBYIDLE is 0 — it does not replace Sleep after Never and S0ix can still apply. Leave DC On if the laptop travels"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="sleep-after-timeout.html">Sleep after</a>
+        <a href="connected-standby-csenabled.html">Connected Standby</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever · query first</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Allow Standby States vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not <a href="sleep-after-timeout.html">Sleep after</a> (<code>STANDBYIDLE</code> minutes to S3 or S0ix). Not <a href="connected-standby-csenabled.html">Connected Standby / CSEnabled</a>. Not <a href="hibernate-off-forever.html">hibernate off</a>. Not <a href="hybrid-sleep-ac.html">Allow hybrid sleep</a>. Not <a href="unattended-sleep-timeout.html">System unattended sleep timeout</a>. This page is the Sleep-subgroup allow bit: Power Options → Sleep → <strong>Allow standby states</strong>. That is <code>ALLOWSTANDBY</code> (GUID <code>abfc2519-3608-4c2a-94ea-171b0ed546ab</code>). Indexes are <strong>0 Off</strong> / <strong>1 On</strong>. On this Yoga Balanced probe: AC <strong>On (1)</strong> / DC <strong>On (1)</strong>.</p>
+      <a class="btn" href="allow-standby-states.md" download>Download markdown</a>
+      <a class="btn" href="sleep-after-timeout.html">Sleep after first</a>
+      <a class="btn" href="powercfg-availablesleepstates.html">Available sleep states</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Forum memory treats <strong>Allow standby states → Off</strong> as a one-click forever fix. On a classic S3 desktop that sometimes helps deny standby entry. On an AoAc / Modern Standby laptop it does not replace <a href="sleep-after-timeout.html">Sleep after = Never</a>, and it does not delete S0 Low Power Idle. <code>powercfg /a</code> on this class still lists <strong>Standby (S0 Low Power Idle) Network Connected</strong>. S3 is firmware-disabled. Flipping <code>ALLOWSTANDBY</code> to Off while <code>STANDBYIDLE</code> is still 10–20 minutes is cargo-cult: the attended minutes knob is still the liar, and S0ix can still apply.</p>
+      <p>Interactive-only <code>LEXXII-Materialize-Forever</code> still needs an honest session. Task Scheduler Ready with a frozen last-run is not a live pulse. Do not install systemd to paper over standby policy. Do not mint a Vercel slug because Allow standby states looked On. Do not paste live NLV next to a <code>powercfg</code> dump. NLV stays off Pages.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Attended idle 10–20 minutes. Session to S3 or S0ix. Sleep after is not Never</td><td>Different layer. <a href="sleep-after-timeout.html">sleep-after-timeout.html</a>. <code>STANDBYIDLE</code> first.</td></tr>
+            <tr><td>Want S3 back. <code>powercfg /a</code> shows S0 LPI. <code>CsEnabled</code> missing. BIOS has no Sleep State row</td><td>Different layer. <a href="connected-standby-csenabled.html">connected-standby-csenabled.html</a>. Skip on this Yoga class.</td></tr>
+            <tr><td>Sleep writes a hiberfile then S3</td><td>Different layer. <a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a>. <code>HYBRIDSLEEP</code>.</td></tr>
+            <tr><td>Want S4 / hiberfil gone</td><td>Different layer. <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>. <code>powercfg /h off</code>.</td></tr>
+            <tr><td>Sleep after already Never. Box wakes then re-naps with nobody at the keyboard</td><td>Different layer. <a href="unattended-sleep-timeout.html">unattended-sleep-timeout.html</a>. <code>UNATTENDSLEEP</code>.</td></tr>
+            <tr><td>Need the raw availability list (S0ix / S3 / Hibernate / Hybrid)</td><td>Different layer. <a href="powercfg-availablesleepstates.html">powercfg-availablesleepstates.html</a>.</td></tr>
+            <tr><td>STANDBYIDLE already 0 on AC. Operator wants the Sleep allow bit itself. Query shows ALLOWSTANDBY On. Classic S3 SKU may mill Off on AC</td><td>This page. <code>ALLOWSTANDBY</code>. Query first. Do not cargo-cult Off on AoAc as the first click.</td></tr>
+            <tr><td>ALLOWSTANDBY already Off on AC; soak still freezes into S0ix</td><td>This allow bit is not the remaining liar. Stop. S0ix can still apply. See sleep-vs-forever / available sleep states. Do not invent a DWORD.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Allow standby states to Off as a substitute for Sleep after Never. Off denies classic standby entry on some SKUs; it does not replace <code>STANDBYIDLE</code> 0, and S0ix can still apply on AoAc. Honest mill try only after Sleep after is already Never. Leave DC On if the laptop travels.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm Sleep after is already Never on AC</strong> — <code>STANDBYIDLE</code> index 0. If it is still 600 / 900 / 1200 seconds, fix <a href="sleep-after-timeout.html">sleep-after-timeout</a> first. This allow bit is not that minutes row.</li>
+          <li><strong>Query available sleep states</strong> — <code>powercfg /a</code>. If the host shows S0 Low Power Idle and no S3, you are on AoAc / Modern Standby. Off is not a cargo-cult first click here.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Sleep → Allow standby states</strong> — read Plugged in and On battery. Friendly names are Off / On. Indexes are 0 / 1.</li>
+          <li><strong>On a classic S3 desk that never travels</strong> — after STANDBYIDLE is already 0, an honest mill may set AC to Off (0). Re-query. Soak. If nothing improved, restore On. Do not leave a blind Off as identity.</li>
+          <li><strong>On this Yoga / AoAc class</strong> — leave AC On unless you are deliberately milling after Sleep after is Never and you accept that S0ix can still apply. Do not claim Off deleted Modern Standby.</li>
+          <li><strong>Leave DC On if the laptop travels</strong> — a travel cube that denies standby on battery is a different operator lie. This desk may mill AC; DC stays On when the chassis leaves the dock.</li>
+          <li><strong>Leave CSEnabled, hybrid sleep, unattended sleep, and <code>/h off</code> alone on this click</strong> — those are sibling pages. This page is one allow bit.</li>
+          <li><strong>Confirm, then soak</strong> — query <code>ALLOWSTANDBY</code>. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+powercfg /qh SCHEME_CURRENT SUB_SLEEP ALLOWSTANDBY
+powercfg /qh SCHEME_CURRENT SUB_SLEEP abfc2519-3608-4c2a-94ea-171b0ed546ab
+powercfg /query SCHEME_CURRENT SUB_SLEEP STANDBYIDLE
+rem mill only after STANDBYIDLE AC is already 0 — classic S3 desk example:
+rem powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP ALLOWSTANDBY 0
+rem powercfg /setactive SCHEME_CURRENT
+powercfg /qh SCHEME_CURRENT SUB_SLEEP ALLOWSTANDBY</pre>
+      <p><code>SUB_SLEEP</code> / <code>ALLOWSTANDBY</code> is Allow standby states (GUID <code>abfc2519-3608-4c2a-94ea-171b0ed546ab</code>). Indexes: <strong>0 Off</strong>, <strong>1 On</strong>. This Yoga Balanced last probe: AC <strong>0x1</strong> / DC <strong>0x1</strong>. Apply with <code>/setactive</code> if you write. Hidden is not Off. <code>STANDBYIDLE</code> is Sleep after. <code>UNATTENDSLEEP</code> is unattended re-sleep. <code>HYBRIDSLEEP</code> is Allow hybrid sleep. <code>HIBERNATEIDLE</code> is Hibernate after.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="sleep-after-timeout.html">sleep-after-timeout.html</a> — <code>STANDBYIDLE</code> attended minutes. Fix that before milling this allow bit.</li>
+        <li><a href="connected-standby-csenabled.html">connected-standby-csenabled.html</a> — firmware / <code>CsEnabled</code> skip on this Yoga class.</li>
+        <li><a href="hibernate-off-forever.html">hibernate-off-forever.html</a> — <code>powercfg /h off</code>.</li>
+        <li><a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a> — <code>HYBRIDSLEEP</code>.</li>
+        <li><a href="unattended-sleep-timeout.html">unattended-sleep-timeout.html</a> — <code>UNATTENDSLEEP</code>.</li>
+        <li><a href="powercfg-availablesleepstates.html">powercfg-availablesleepstates.html</a> — <code>powercfg /a</code> read.</li>
+        <li><a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a> — Modern Standby / Interactive-only diagnosis.</li>
+        <li>This page — Sleep allow bit <code>ALLOWSTANDBY</code> Off/On. Query first. Not a substitute for Sleep after Never.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>STANDBYIDLE already 0 on AC before any ALLOWSTANDBY mill. If Sleep after still fires, this soak is lying about the wrong knob.</li>
+          <li>Query <code>ALLOWSTANDBY</code> and <code>powercfg /a</code>. Record AC/DC indexes and whether S0 LPI or S3 is listed. On this Yoga class: On/On and S0ix, no S3.</li>
+          <li>If you mill AC Off on a classic S3 desk: idle past the previous Sleep-after window with lid open. Session stays signed in. Named task last-run still advances. Then re-query — AC still 0. If nothing changed vs Sleep after Never alone, restore On and stop.</li>
+          <li>AoAc mill that still freezes into S0ix with ALLOWSTANDBY Off is not a red fail of this page alone — Off did not delete Modern Standby. Stop inventing DWORDs.</li>
+          <li>DC still On if this chassis travels. Do not leave travel-battery Off as a desk identity.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running. Grok schedulers expire in 7 days even when durable. NLV stays off Pages.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not <code>STANDBYIDLE</code>. That is <a href="sleep-after-timeout.html">sleep-after-timeout.html</a>.</li>
+        <li>Not Connected Standby / <code>CsEnabled</code>. That is <a href="connected-standby-csenabled.html">connected-standby-csenabled.html</a>.</li>
+        <li>Not <code>powercfg /h off</code>. That is <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>.</li>
+        <li>Not <code>HYBRIDSLEEP</code>. That is <a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a>.</li>
+        <li>Not <code>UNATTENDSLEEP</code>. That is <a href="unattended-sleep-timeout.html">unattended-sleep-timeout.html</a>.</li>
+        <li>Not a claim that Off deletes S0ix on AoAc. Query <code>powercfg /a</code>. S0ix can still apply.</li>
+        <li>Not a Linux FULL AUTO daemon. Host-forever is Windows task <code>LEXXII-Materialize-Forever</code>.</li>
+        <li>Not a Grok in-session scheduler. Those expire in 7 days even when durable.</li>
+        <li>Not a fake cluster. Not Vercel. Not a High-performance plan essay. One Sleep allow bit.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="sleep-after-timeout.html">Sleep after</a> · <a href="connected-standby-csenabled.html">Connected Standby</a> · <a href="unattended-sleep-timeout.html">Unattended re-sleep</a> · <a href="powercfg-availablesleepstates.html">Available sleep states</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

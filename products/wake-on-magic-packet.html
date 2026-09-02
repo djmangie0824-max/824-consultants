@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wake on Magic Packet vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="NIC Wake on Magic Packet / Wake on pattern match can yank a closed-lid Windows Grok desk after sleep, lid, USB suspend, ASPM, and EEE are already honest. Distinct from Allow wake timers. Directed LAN wake is not the named task. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/wake-on-magic-packet.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Wake on Magic Packet vs a forever loop","description":"On a docked AC Grok desk that is not using directed wake, turn off NIC Wake on Magic Packet and Wake on pattern match after Allow wake timers is already honest. Confirm with powercfg /devicequery wake_armed. Do not disable the NIC.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Allow wake timers and lid-close are already honest"},{"@type":"HowToStep","name":"List wake-armed devices with powercfg /devicequery wake_armed"},{"@type":"HowToStep","name":"On the dedicated NIC, Device Manager Power Management plus Advanced: Wake on Magic Packet Off if directed wake is not in use"},{"@type":"HowToStep","name":"Soak lid-closed past a LAN idle. Named task next-run still in the future. lastwake is not a magic packet the operator did not send"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="wake-timers-forever.html">Wake timers</a>
+        <a href="powercfg-lastwake.html">lastwake</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Wake on Magic Packet vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="wake-timers-forever.html">Allow wake timers</a> page and not the <a href="powercfg-lastwake.html">powercfg /lastwake</a> page. Those packs are Windows RTC / important-only timers and the log of who yanked the last sleep. This page is the NIC property: Device Manager → the dedicated Ethernet adapter → Power Management “Allow this device to wake the computer” plus Advanced <strong>Wake on Magic Packet</strong> and <strong>Wake on pattern match</strong>. A directed LAN packet can yank Modern Standby or S3 at 03:00 after sleep, lid, USB suspend, ASPM, and EEE are already honest. The named task still looks Ready. That wake is not proof <code>LEXXII-Materialize-Forever</code> fired.</p>
+      <a class="btn" href="wake-on-magic-packet.md" download>Download markdown</a>
+      <a class="btn" href="wake-timers-forever.html">Wake timers first</a>
+      <a class="btn" href="powercfg-lastwake.html">lastwake</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>A docked closed-lid Grok desk wants the Interactive session to stay up, or to stay honestly asleep until the next scheduled run — not to bounce because a printer, NAS, or leftover WoL tool sent <code>FF:FF:FF:FF:FF:FF</code> plus the MAC. OEM defaults often leave Magic Packet On. Pattern match is broader and will wake on more than a classic WoL frame. Task Scheduler WakeToRun can already be checked. Allow wake timers can already be Enable. Those settings do not own a magic packet. The NIC does.</p>
+      <p>Turning the whole USB Ethernet device off is the wrong fix. The <a href="../reviews/usb-ethernet-operator-host.html">dedicated NIC</a> is the ship path when Wi-Fi power-save lies. This page is two Advanced properties and the Power Management wake checkbox on that NIC, after USB selective suspend and EEE are already honest. Do not disable the adapter. Do not install systemd. Do not mint a Vercel slug because the laptop woke at 03:00.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / S3 on a schedule you set</td><td><a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Important-only wake timers made WakeToRun a lie</td><td><a href="wake-timers-forever.html">Allow wake timers</a>.</td></tr>
+            <tr><td>Need the name of the last wake source</td><td><a href="powercfg-lastwake.html">powercfg /lastwake</a>. Then come back here if it names the NIC.</td></tr>
+            <tr><td>USB NIC itself napped</td><td><a href="usb-selective-suspend.html">USB selective suspend</a> / <a href="energy-efficient-ethernet.html">EEE</a>.</td></tr>
+            <tr><td>Unattended sleep after a legitimate wake</td><td><a href="unattended-sleep-timeout.html">UNATTENDSLEEP</a>.</td></tr>
+            <tr><td>lastwake / wake_armed names the Ethernet device. Operator is not using directed wake. Desk bounced at a LAN hour</td><td><strong>This page</strong>. Magic Packet / pattern match.</td></tr>
+            <tr><td>Operator actually uses directed WoL from another box on purpose</td><td>Skip. Leave Magic Packet On. This pack is not a ban on intentional wake.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not disable the dedicated NIC. Do not turn off “Allow the computer to turn off this device to save power” as a substitute for the Magic Packet row — that is a different checkbox and a different failure. Do not paste live brokerage numbers next to <code>wake_armed</code>. Do not paste <code>auth.json</code>.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timer layer is already honest</strong> — Sleep / lid / Allow wake timers already done. If lastwake names the Windows timer, stop here and use those packs.</li>
+          <li><strong>List who may wake the box</strong> — run the commands below. The dedicated USB Ethernet or dock NIC showing in <code>wake_armed</code> is expected when the Power Management wake checkbox is on.</li>
+          <li><strong>Device Manager → Network adapters → the dedicated NIC → Power Management</strong> — if this desk is not using directed wake, uncheck <em>Allow this device to wake the computer</em>. Leave the adapter enabled. Leave “Allow the computer to turn off this device to save power” to the USB-suspend pack, not this click.</li>
+          <li><strong>Same NIC → Advanced</strong> — set <strong>Wake on Magic Packet</strong> to Disabled. Set <strong>Wake on pattern match</strong> to Disabled if the property exists. Exact labels vary by Realtek / Intel / dock firmware. Missing property after a driver install is a skip, not a registry hack.</li>
+          <li><strong>Leave EEE, Speed &amp; Duplex, and USB selective suspend alone on this click</strong> — those are the other playbooks. Magic Packet Off is not EEE Off.</li>
+          <li><strong>Confirm</strong> — <code>wake_armed</code> no longer lists that NIC, or lastwake after a soak is not a magic packet the operator did not send.</li>
+        </ol>
+      </div>
+      <pre>powercfg /devicequery wake_armed
+powercfg /devicequery wake_programmable
+powercfg /lastwake
+powercfg /waketimers</pre>
+      <p><code>wake_armed</code> is the live list. <code>wake_programmable</code> is who <em>could</em> be armed. <code>/lastwake</code> names the previous yank. <code>/waketimers</code> is the Windows timer list — different layer. Apply Device Manager changes before the soak; a remaining armed NIC is not a pass. If the Advanced tab omits Magic Packet, this driver did not expose the knob — stop; do not invent a registry WoL DWORD on a public page.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — Windows RTC / important-only. Not a NIC frame.</li>
+        <li><a href="powercfg-lastwake.html">powercfg /lastwake</a> — the log. This page is the NIC click the log pointed at.</li>
+        <li><a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a> — idle downshift, not a wake packet.</li>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — the NIC napped. This page is the NIC waking the PC.</li>
+        <li><a href="unattended-sleep-timeout.html">Unattended sleep timeout</a> — sleep <em>after</em> a wake. Not the wake source.</li>
+        <li>This page — Magic Packet / pattern match Off on a docked AC desk that is not using directed wake.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep, lid, USB suspend, ASPM, EEE, and Allow wake timers already honest. Otherwise this soak is lying about a different layer.</li>
+          <li>Lid closed, dedicated NIC plugged, named task next-run still in the future. Leave the LAN idle. No 03:00 surprise S0 from a packet the operator did not send.</li>
+          <li><code>powercfg /lastwake</code> after a scheduled task run names the timer or the operator, not a magic packet.</li>
+          <li>The USB Ethernet adapter is still Enabled and still has a link. Disabling the NIC fails this soak even if WoL is off.</li>
+          <li>Host-forever is still <code>LEXXII-Materialize-Forever</code>. Grok in-session schedulers still expire in 7 days. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a ban on intentional Wake-on-LAN. If the operator uses directed wake, skip.</li>
+        <li>Not “disable the NIC.” The dedicated Ethernet review still stands.</li>
+        <li>Not Allow wake timers. Not lastwake. Not EEE. Not USB selective suspend.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="wake-timers-forever.html">Wake timers</a> · <a href="powercfg-lastwake.html">lastwake</a> · <a href="energy-efficient-ethernet.html">EEE</a> · <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

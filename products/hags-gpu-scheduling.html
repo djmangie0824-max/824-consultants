@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hardware-accelerated GPU scheduling vs a forever Grok desk | 824 Consultants</title>
+  <meta name="description" content="HAGS is a WDDM reboot click, not turbo, not Intel panel power, not cooling, not ASPM. Settings → System → Display → Graphics → Default graphics settings. HwSchMode 1=off 2=on is read-only confirm. Missing toggle is skip. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/hags-gpu-scheduling.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Hardware-accelerated GPU scheduling vs a forever Grok desk","description":"Open Windows Settings Hardware-accelerated GPU scheduling, set a known On or Off, reboot, then read-only confirm HKLM GraphicsDrivers HwSchMode (1=off, 2=on). Missing toggle is skip, not a registry write. Distinct from processor boost, Intel panel power, cooling policy, and PCIe ASPM. Not a GitHub MCP fix. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm this is not processor boost, Intel panel power, system cooling policy, or PCIe ASPM"},{"@type":"HowToStep","name":"Open Settings → System → Display → Graphics → Default graphics settings. If Hardware-accelerated GPU scheduling is missing, skip"},{"@type":"HowToStep","name":"Set a known On or Off. Reboot. The click does not apply until reboot"},{"@type":"HowToStep","name":"Read-only confirm HwSchMode 1=off 2=on. Soak. Named task still next-runs. Do not claim GitHub MCP is fixed"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="intel-graphics-panel-power.html">Intel panel power</a>
+        <a href="pcie-link-state-power.html">PCIe ASPM</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Hardware-accelerated GPU scheduling vs a forever Grok desk</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-boost-mode.html">processor boost mode</a> page, not <a href="intel-graphics-panel-power.html">Intel Graphics panel power</a>, not <a href="system-cooling-policy.html">system cooling policy</a>, and not <a href="pcie-link-state-power.html">PCIe ASPM</a>. Boost is CPU turbo. Intel panel power is the iGPU encoder nap. Cooling policy is fans vs throttle. ASPM is the PCIe link. This page is the remaining WDDM click: Settings → System → Display → Graphics → <strong>Default graphics settings</strong> → <strong>Hardware-accelerated GPU scheduling</strong> (HAGS). The GPU’s hardware scheduler takes command-buffer work the OS used to queue. It is a <strong>reboot click</strong>. It does not unstick GitHub MCP. Task Scheduler can still show Ready.</p>
+      <a class="btn" href="hags-gpu-scheduling.md" download>Download markdown</a>
+      <a class="btn" href="intel-graphics-panel-power.html">Intel panel power first</a>
+      <a class="btn" href="processor-boost-mode.html">Processor boost</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="processor-boost-mode.html">boost</a>, <a href="intel-graphics-panel-power.html">Intel panel</a>, <a href="system-cooling-policy.html">cooling</a>, and <a href="pcie-link-state-power.html">ASPM</a> packs can already be honest on AC. VIDEOIDLE can already be Never. The named Windows task still prints Ready and last result 267009 (still-running). After a Windows Update or a vendor driver drop, the compositor hitch, a copy stall, or a TDR toast shows up. <code>grok.exe</code> looks hung. The operator thinks GitHub MCP died, mints a Vercel slug, or pastes a GPU-Z dump with a board serial onto a public page. Wrong layer. <strong>Hardware-accelerated GPU scheduling</strong> flipped, or never applied because nobody rebooted.</p>
+      <p>HAGS is WDDM 2.7+ handing GPU scheduling to the adapter. On a forever Grok desk the GPU is mostly the display engine, not a game. On can cut CPU overhead of the software scheduler. On can also hitch a mixed iGPU+dGPU compositor. Off can be the honest desk if On was the stutter. Neither state unblocks a Contents PUT. Neither state is <a href="processor-boost-mode.html">PERFBOOSTMODE</a>. The liar is an unknown, unrebooted HAGS state blamed on Git.</p>
+      <p>This is not Sleep. <code>powercfg /a</code> still reports the same standby type. Requests can still be None. Do not install systemd to paper over a WDDM toggle. Do not invent a driver SKU. Do not cargo-cult On as “always faster” or Off as “always safer.” The forever desk wants a <strong>known rebooted state</strong>, Settings matching the registry, and a skip when the toggle is missing.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle or a driver drop</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>TUI starves; Processor performance boost mode is Disabled</td><td>Different layer. <a href="processor-boost-mode.html">Processor boost mode</a>.</td></tr>
+            <tr><td>DP/HDMI drops; Intel panel / display power saving still on</td><td>Different layer. <a href="intel-graphics-panel-power.html">Intel Graphics panel power</a>.</td></tr>
+            <tr><td>Closed-lid Ultra 7 throttles; System cooling policy is Passive</td><td>Different layer. <a href="system-cooling-policy.html">System cooling policy</a>.</td></tr>
+            <tr><td>Dock or NVMe vanishes then re-enumerates</td><td>Different layer. <a href="pcie-link-state-power.html">PCIe ASPM</a>.</td></tr>
+            <tr><td>Unlocked display minutes still fire; VIDEOIDLE is not 0</td><td>Different layer. <a href="turn-off-display-after.html">Turn off display after</a>.</td></tr>
+            <tr><td>Per-app Graphics setting is Power saving / High performance for grok.exe</td><td>Different layer. App GPU preference. Not HAGS.</td></tr>
+            <tr><td>Variable refresh rate or Optimizations for windowed games is the row you are staring at</td><td>Sibling on the same Default graphics settings page. Not this click.</td></tr>
+            <tr><td>GitHub MCP / Contents PUT 401; PAT missing; GCM empty</td><td>Credential layer. HAGS reboot does not mint a token. Wrong page to “fix MCP.”</td></tr>
+            <tr><td>Default graphics settings has no Hardware-accelerated GPU scheduling row</td><td>This edition or GPU did not expose HAGS. <strong>Skip.</strong> Not a fail. Not a registry hack.</td></tr>
+            <tr><td>Session still awake. Named task Ready / 267009. Compositor hitch or TDR after a driver/Windows drop. HAGS row exists. State unknown or Settings disagrees with HwSchMode because nobody rebooted</td><td>This page. WDDM HAGS. Reboot click. Not boost. Not ASPM.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not drag HAGS as the first click on a new host. Sleep, lid, ASPM, Intel panel power, cooling, and boost first. Missing toggle = skip, not a DWORD create on a public page. Registry on this page is <strong>read-only confirm</strong>. Do not claim this click fixes GitHub MCP. Do not invent a driver SKU. Do not paste GPU-Z, dxdiag, or board serials. The click does not apply until reboot.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the earlier layers are already done</strong> — plugged-in sleep is not 5–20 minutes. Lid close on AC is Do nothing. ASPM Off on AC. Intel panel power already honest if an Intel adapter exists. Cooling policy Active on AC. Boost not Disabled on AC. See <a href="pcie-link-state-power.html">pcie-link-state-power</a>, <a href="intel-graphics-panel-power.html">intel-graphics-panel-power</a>, <a href="system-cooling-policy.html">system-cooling-policy</a>, and <a href="processor-boost-mode.html">processor-boost-mode</a>.</li>
+          <li><strong>Settings → System → Display → Graphics → Default graphics settings</strong> — some builds say <em>Change default graphics settings</em>. Look for <strong>Hardware-accelerated GPU scheduling</strong>. If the row is missing, this Windows edition or this GPU/driver did not expose HAGS. Stop. That is a skip, not a fail.</li>
+          <li><strong>Set a known On or Off — then reboot</strong> — the forever desk wants a documented state, not a mid-session flip. Do not cargo-cult On because a forum said RTX requires it. Do not cargo-cult Off because a game stuttered on a different SKU. If On is hitching the compositor on this mixed iGPU+dGPU desk, Off + reboot is the honest try. If Off is already the known state and the display stack is already honest, do not flip On hoping a Contents PUT recovers. Leave Variable refresh rate and Optimizations for windowed games as siblings.</li>
+          <li><strong>Leave per-app Graphics, NVIDIA/AMD control panels, and Hardware-accelerated GPU scheduling’s neighbors alone on this click</strong> — app GPU preference is not HAGS. Do not invent a vendor SKU. Do not switch the Windows plan to High performance to hide a WDDM toggle.</li>
+          <li><strong>Read-only confirm after reboot</strong> — <code>HwSchMode</code> under <code>HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers</code>. <strong>1 = off. 2 = on.</strong> Settings is the live tell. Registry is the confirm. If the value is missing after a missing Settings row, that is the same skip. Do not <code>New-ItemProperty</code>. Do not <code>reg add</code>. Do not paste a <code>.reg</code> file on this public page.</li>
+          <li><strong>Leave GitHub MCP, PAT, and GCM alone</strong> — a HAGS reboot does not mint a token and does not un-hang Git Credential Manager. Credential 401 is still 401.</li>
+          <li><strong>Soak</strong> — named task still next-runs. TUI still accepts input. Settings still matches <code>HwSchMode</code>. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>. Do not paste GPU-Z serials.</li>
+        </ol>
+      </div>
+      <pre>Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers' -Name HwSchMode
+# 1 = off    2 = on
+# Read-only confirm after Settings + reboot.
+# If HwSchMode is missing, this edition did not expose HAGS — skip.
+# Do not Set-ItemProperty. Do not reg add. Do not create the DWORD.</pre>
+      <p>Settings → System → Display → Graphics → Default graphics settings is the click. Reboot is required. <code>HwSchMode</code> 1/2 is the confirm, not the write. A value of 0, a missing name, or a missing Settings row is the same public instruction: <strong>skip</strong>. Do not invent WDDM versions, driver branches, or board SKUs. Do not paste <code>dxdiag</code>. Host-forever on this profile is Task Scheduler <code>LEXXII-Materialize-Forever</code>. Not systemd. Grok in-session schedulers still expire in 7 days even when durable.</p>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>Boost, cooling, Intel panel power, and ASPM already honest on AC. Otherwise this soak is lying about CPU, encoder, or link.</li>
+          <li>If the HAGS row is missing, the soak is a skip, not a red. Do not create <code>HwSchMode</code>.</li>
+          <li>If the row exists: Settings On or Off matches <code>HwSchMode</code> 2 or 1 <em>after</em> reboot. A Settings flip with no reboot is not a pass.</li>
+          <li>Idle past a few minutes. Compositor still paints. TUI still accepts input. Named task still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 is still-running, not proof HAGS is already known.</li>
+          <li>GitHub MCP still 401 after a clean HAGS reboot is still a credential miss. This page did not fail. Do not mint a Vercel slug. Do not open a fourth Grok TUI.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not processor boost / turbo. That allow is <a href="processor-boost-mode.html">processor-boost-mode</a>.</li>
+        <li>Not Intel panel / display power saving. That encoder is <a href="intel-graphics-panel-power.html">intel-graphics-panel-power</a>.</li>
+        <li>Not system cooling policy. That thermal row is <a href="system-cooling-policy.html">system-cooling-policy</a>.</li>
+        <li>Not PCIe ASPM. That link is <a href="pcie-link-state-power.html">pcie-link-state-power</a>.</li>
+        <li>Not Turn off display after. That idle is <a href="turn-off-display-after.html">turn-off-display-after</a>.</li>
+        <li>Not a GitHub MCP fix, PAT mint, or GCM un-hang.</li>
+        <li>Not a driver SKU, GPU-Z dump, or board serial.</li>
+        <li>Not a registry write. Missing toggle = skip.</li>
+        <li>Not a High-performance plan essay. One Settings overlay + reboot.</li>
+        <li>Not live capital. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="intel-graphics-panel-power.html">Intel panel power</a> · <a href="processor-boost-mode.html">Boost</a> · <a href="pcie-link-state-power.html">PCIe ASPM</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

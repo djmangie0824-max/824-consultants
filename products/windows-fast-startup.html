@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Windows Fast Startup vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Fast Startup is hybrid shutdown. Interactive-only Task Scheduler waits for a real logon after a 'Shut down' that was not a shutdown. Companion to sleep-vs-forever. Not lid-close. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/windows-fast-startup.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Windows Fast Startup vs a forever loop","description":"Disable Fast Startup (hybrid shutdown) so Interactive-only LEXXII tasks fire after a real boot. Companion to sleep-vs-forever. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Open Choose what the power buttons do"},{"@type":"HowToStep","name":"Uncheck Turn on fast startup"},{"@type":"HowToStep","name":"Confirm HiberbootEnabled is 0 without killing hibernate unless you mean to"},{"@type":"HowToStep","name":"Soak-test a Start-menu Shut down against named tasks"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="windows-task-forever.html">Create the task</a>
+        <a href="../flywheel.html">Flywheel</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Windows Fast Startup vs a forever loop</h1>
+      <p class="meta">Published 2026-08-31 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Modern Standby diagnosis</a> page, not the <a href="lid-close-do-nothing.html">lid-close</a> page, and not the <a href="usb-selective-suspend.html">USB selective suspend</a> page. Sleep-vs-forever is S0ix while the lid is already shut. Lid-close is the action Windows takes when the lid moves. USB suspend sleeps the NIC. This page is hybrid shutdown: Start menu <em>Shut down</em> with Fast Startup still on, so the next power button is not a boot the Interactive-only tasks can see.</p>
+      <a class="btn" href="windows-fast-startup.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+      <a class="btn" href="windows-task-forever.html">Create the task</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p><code>LEXXII-Materialize-Forever</code> is Interactive-only. That is honest for a Grok TUI that must not stack a fourth window. Fast Startup (Hiberboot) then lies about Shutdown. Windows closes the user session, hibernates the kernel, and on the next power button restores that kernel without a full logon. Task Scheduler shows Ready. Next-run is in the future. No hourly fire happens until someone actually signs in.</p>
+      <p>The operator thinks the host-forever layer survived a shutdown. It survived a hibernated kernel. Grok in-session schedulers are already a 7-day layer. Fast Startup makes the Windows layer look armed while it is waiting for a logon that a hybrid boot did not complete.</p>
+    </section>
+    <section>
+      <h2>Shutdown vs hybrid shutdown</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>What you clicked</th><th>What happens to the forever loop</th></tr></thead>
+          <tbody>
+            <tr><td>Sleep / Modern Standby</td><td>Different layer. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>.</td></tr>
+            <tr><td>Lid close</td><td>Different layer. See <a href="lid-close-do-nothing.html">lid-close Do nothing</a>.</td></tr>
+            <tr><td>Restart</td><td>Real boot. Interactive-only tasks wait for logon, then fire. Expected.</td></tr>
+            <tr><td>Shut down with Fast Startup ON</td><td>Hybrid shutdown. Kernel hibernated. Next power looks like a boot. User-context tasks stay quiet until a real logon.</td></tr>
+            <tr><td>Shut down with Fast Startup OFF</td><td>Actual shutdown. Next power is a cold boot. Same logon wait, but the event log does not lie about hibernate.</td></tr>
+            <tr><td>Hibernate (explicit)</td><td>Session written. Worse than Fast Startup for an hourly loop. Leave it available only if a UPS drain policy needs it.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not <code>powercfg /hibernate off</code> as the first click. That kills Fast Startup <em>and</em> Hibernate. A UPS-backed Grok desk may still want Hibernate. Uncheck Fast Startup. Leave the hibernate file unless you measured that you do not need it.</div>
+    </section>
+    <section>
+      <h2>What to change (this Windows profile)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Control Panel → Hardware and Sound → Power Options → Choose what the power buttons do</strong> — click <em>Change settings that are currently unavailable</em>.</li>
+          <li><strong>Shutdown settings</strong> — uncheck <em>Turn on fast startup (recommended)</em>. The word “recommended” is for laptop resume, not for Interactive-only Task Scheduler.</li>
+          <li><strong>Leave Hibernate available</strong> unless this host has no UPS drain path and you want the disk back. Fast Startup is the hybrid-shutdown checkbox, not the Hibernate checkbox.</li>
+          <li><strong>Confirm, then soak</strong> — registry value <code>HiberbootEnabled</code> must be <code>0</code> after the click. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled</pre>
+      <p><code>powercfg /a</code> lists sleep states this firmware actually offers. If Fast Startup is still named there after the checkbox, the setting did not stick (needs the unavailable-settings unlock, or a policy we do not run). Registry <code>0x0</code> is off. <code>0x1</code> is still on.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-task-forever.html">Windows Task Scheduler forever</a> — creating the named tasks.</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — Modern Standby, Interactive-only logon, result 267009 still-running.</li>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — the lid action so closing the lid is not a Sleep key.</li>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — the NIC/hub power policy under a lid that is already Do nothing.</li>
+        <li>This page — Fast Startup / hybrid shutdown so Start-menu Shut down is not a fake boot.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Note <code>LEXXII-Materialize-Forever</code> last-run and next-run.</li>
+          <li>Start menu → Shut down. Wait two minutes. Power on. Sign in.</li>
+          <li>Event Viewer → Windows Logs → System. A hybrid-boot / Hiberboot path after that click is a fail on this page.</li>
+          <li>Task Scheduler last-run must not claim an hourly fire during the “off” window. If it silently skipped until logon and the event log shows hybrid shutdown, Fast Startup was the layer.</li>
+          <li>Repeat after the checkbox is off. The next Shut down must be a real shutdown in the log. Then this layer is done — remaining silence is Standby, lid, USB, or a missing task.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim the checkbox is already off on every host. It is the click path.</li>
+        <li>Not a UPS page. Hibernate-for-brownout stays on the <a href="../reviews/ups-windows-operator-host.html">UPS review</a>.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="lid-close-do-nothing.html">Lid close</a> · <a href="usb-selective-suspend.html">USB selective suspend</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

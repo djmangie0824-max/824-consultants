@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allow sleep with remote opens vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="A mapped NAS or an open SMB handle is not a forever loop. Sleep → Allow sleep with remote opens = On on AC. Companion to sleep-vs-forever. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/allow-sleep-remote-opens.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Allow sleep with remote opens vs a forever loop","description":"Set Sleep Allow sleep with remote opens to On on AC so a mapped NAS or SMB handle is not a fake forever loop and not a silent SYSTEM pin. Companion to sleep-vs-forever. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep-vs-forever timeouts are already honest on the plugged-in desk"},{"@type":"HowToStep","name":"Set Allow sleep with remote opens to On on the plugged-in plan, not Off as a stay-awake"},{"@type":"HowToStep","name":"Do not treat a mapped NAS, Git-on-SMB, or UNC share browse as a heartbeat"},{"@type":"HowToStep","name":"Confirm with powercfg /q SUB_SLEEP and /requests that a remote-file holder is not the loop"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="multimedia-sharing-sleep.html">When sharing media</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Allow sleep with remote opens vs a forever loop</h1>
+      <p class="meta">Published 2026-08-31 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Modern Standby timeout</a> page, not the <a href="network-standby-connectivity.html">Network connectivity in Standby</a> page, and not the <a href="wake-timers-forever.html">Allow wake timers</a> page. Sleep-vs-forever sets whether idle even <em>intends</em> to sleep. Network-in-Standby is the NIC during S0ix. Wake timers are the RTC if sleep still happened. This page is the remaining Sleep-subgroup leaf: Power Options → Sleep → <strong>Allow sleep with remote opens</strong>. An SMB handle is not a heartbeat.</p>
+      <a class="btn" href="allow-sleep-remote-opens.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever first</a>
+      <a class="btn" href="multimedia-sharing-sleep.html">When sharing media</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>A closed-lid Grok desk often has a mapped NAS, a Git working copy on a share, or a phone that once opened <code>\\host</code>. Operators treat that handle as host-forever: “a remote file is open, so Windows cannot sleep.” That is a cargo-cult. Two values, one honest desk.</p>
+      <p><strong>On</strong> (the Balanced default on many SKUs) means Windows may enter sleep <em>even if</em> remote files are open. The NAS is still mounted. The share still lists. The laptop still S0ix. Task Scheduler still shows Ready. Last-run is stale. The operator swaps Ethernet. The leaf was On and the timeout was still 5–20 minutes.</p>
+      <p><strong>Off</strong> means an open remote file can prevent sleep. That is a silent SYSTEM pin for as long as SMB thinks a handle exists — and a lie the moment the handle drops. SMB idle-disconnect, a phone lock, a NAS sleep, a mapped-drive reconnect, and the stay-awake vanishes. <code>LEXXII-Materialize-Forever</code> is Interactive-only. A file-share leftover is not the named task. This Windows profile is not a Linux FULL AUTO daemon. Do not install systemd because a share closed.</p>
+      <p>This leaf is also not <a href="multimedia-sharing-sleep.html">When sharing media</a>. That row is Cast / DLNA / WMP sharing under <code>SUB_MULTIMEDIA</code>. This row is SMB / CIFS remote-file opens under <code>SUB_SLEEP</code>. A media-share Prevent and a remote-open Off are two different cargo-cults. Heal them as two clicks.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Plan still has 5–20 minute sleep / hibernate on AC</td><td>Different layer. Heal timeouts first. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Sleep happened and the hourly never recovered</td><td>Different layer. <a href="wake-timers-forever.html">Allow wake timers</a>.</td></tr>
+            <tr><td>NIC dies only after S0ix / connected standby</td><td>Different layer. <a href="network-standby-connectivity.html">Network connectivity in Standby</a>.</td></tr>
+            <tr><td>Nothing playing; AWAYMODE or SYSTEM held; When sharing media is Prevent or Away Mode</td><td>Different layer. <a href="multimedia-sharing-sleep.html">When sharing media</a>.</td></tr>
+            <tr><td>A named PROCESS/DRIVER holds SYSTEM (not a share policy)</td><td>Different layer. Close the holder. <a href="powercfg-requests-blockers.html">powercfg /requests</a>.</td></tr>
+            <tr><td>Timeouts honest. Operator used a mapped NAS / Git-on-SMB / \\host browse as stay-awake. Allow sleep with remote opens is Off — or On and they thought the handle would block sleep</td><td>This page.</td></tr>
+            <tr><td>Last result 267009</td><td>Still running. Do not spawn a 4th TUI.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Allow sleep with remote opens to Off to “keep the forever loop alive.” That pins sleep while an SMB handle exists; it does not run the hourly. When the handle drops, the pin drops. Do not copy Off onto a battery commute to paper over an unplugged desk. This desk is GaN + UPS.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here. This leaf is not a substitute timeout.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Sleep → Allow sleep with remote opens</strong> — <em>Plugged in</em> = <strong>On</strong>. Not Off. Battery can stay Off; this desk is AC + <a href="../reviews/ups-windows-operator-host.html">UPS</a>.</li>
+          <li><strong>If the row is missing</strong> — unhide the Sleep subgroup setting, then set it. Do not invent a random registry value on a public page.</li>
+          <li><strong>Stop using the share as a heartbeat</strong> — a mapped NAS for artifacts is fine. Git over SMB is fine. A phone browsing <code>\\host</code> is not host-forever. Disconnect leftover sessions you do not need. This desk is not a file server SKU.</li>
+          <li><strong>Confirm, then soak</strong> — query the plan and <code>powercfg /requests</code>. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /q SCHEME_CURRENT SUB_SLEEP
+powercfg /requests
+net session</pre>
+      <p><code>SUB_SLEEP</code> lists Allow sleep with remote opens under the current plan. On for AC is the pass on this page. <code>powercfg /requests</code> should not show a SYSTEM pin that only exists because Off is holding an SMB handle you meant as forever. <code>net session</code> lists who still has a share open. Empty sessions plus On, with timeouts already honest, is the soak start. A leftover session with Off is the cargo-cult — flip On, then decide whether that session even belongs on a Grok host.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — idle timeouts, Modern Standby, Interactive-only, result 267009. First click. This page assumes that layer is already honest.</li>
+        <li><a href="network-standby-connectivity.html">Network connectivity in Standby</a> — whether the dedicated NIC survives S0ix. Not whether an SMB handle may block sleep.</li>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — RTC so a named task can leave sleep. Not a remote-file policy.</li>
+        <li><a href="multimedia-sharing-sleep.html">When sharing media</a> — Cast / DLNA / WMP under Multimedia settings. Not SMB remote opens.</li>
+        <li><a href="powercfg-requests-blockers.html">powercfg /requests</a> — who is holding DISPLAY / SYSTEM / AWAYMODE right now. This page is the Sleep-subgroup policy that can create a remote-file pin.</li>
+        <li>This page — Allow sleep with remote opens = On on AC so a mapped NAS is storage, not a fake forever loop.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep timeouts already honest on AC. Otherwise this soak is lying.</li>
+          <li>Allow sleep with remote opens on the plugged-in plan is On, not Off.</li>
+          <li><code>net session</code> is empty, or the remaining sessions are real work (a NAS you actually use), not a phone left on <code>\\host</code> as a heartbeat.</li>
+          <li>Idle Grok TUI. <code>powercfg /requests</code> does not show a SYSTEM holder that vanishes when you set this row to On. A holder that survives On is a PROCESS/DRIVER — go back to <a href="powercfg-requests-blockers.html">requests</a>.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not a share handle.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not permission to leave 5-minute sleep in place because a share is open.</li>
+        <li>Not <a href="network-standby-connectivity.html">Network connectivity in Standby</a>. NIC-during-S0ix is a different click.</li>
+        <li>Not <a href="wake-timers-forever.html">Allow wake timers</a>. RTC is a different click.</li>
+        <li>Not <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> timeouts. Those still apply first.</li>
+        <li>Not When sharing media. That is <a href="multimedia-sharing-sleep.html">multimedia-sharing-sleep</a>.</li>
+        <li>Not a NAS or SMB product review. A mapped drive is storage. It is not host-forever.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="network-standby-connectivity.html">Network in standby</a> · <a href="wake-timers-forever.html">Wake timers</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

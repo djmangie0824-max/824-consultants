@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AHCI Link Power Management vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="HIPM/DIPM can park a SATA/AHCI link after USB 3 LPM and PCIe ASPM are already Off. Grok CLI looks hung. Task Scheduler still shows Ready. Not USB 3 LPM. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/ahci-link-power-management.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"AHCI Link Power Management vs a forever loop","description":"Set AHCI Link Power Management HIPM/DIPM to Active on AC so SATA link power cannot stall the boot disk or a SATA fallback after USB 3 LPM and PCIe ASPM are already Off. Companion to USB 3 LPM. Not disk idle timeout. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm USB 3 LPM and PCIe ASPM are already Off on AC"},{"@type":"HowToStep","name":"Open Hard disk → AHCI Link Power Management - HIPM/DIPM"},{"@type":"HowToStep","name":"Set Plugged in to Active. Leave the current plan in place"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. Disk stays Present"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="usb3-link-power-management.html">USB 3 LPM</a>
+        <a href="pcie-link-state-power.html">PCIe ASPM</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">AHCI Link Power Management vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="usb3-link-power-management.html">USB 3 Link Power Management</a> page, not the <a href="pcie-link-state-power.html">PCI Express ASPM</a> page, and not a “Turn off hard disk after” essay. SuperSpeed U1/U2 is USB. ASPM is PCIe. This page is the remaining SATA/AHCI link: Power Options → Hard disk → <strong>AHCI Link Power Management - HIPM/DIPM</strong>. HIPM+DIPM can park the link after idle. A SATA boot disk, optical, or fallback HDD then looks gone. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="ahci-link-power-management.md" download>Download markdown</a>
+      <a class="btn" href="usb3-link-power-management.html">USB 3 LPM first</a>
+      <a class="btn" href="pcie-link-state-power.html">PCIe ASPM</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="usb-selective-suspend.html">USB selective suspend</a>, <a href="usb3-link-power-management.html">USB 3 LPM</a>, and <a href="pcie-link-state-power.html">PCIe ASPM</a> packs already tell you to keep SuperSpeed and PCIe links awake on AC. That work can be done and a ship still stalls on disk. Balanced <strong>AHCI Link Power Management - HIPM/DIPM</strong> on AC is often HIPM+DIPM. Host-initiated and device-initiated link power drop the SATA PHY. The next Git object, Pages payload, or Grok session write waits on a link that went to Partial/Slumber. <code>grok.exe</code> is alive. The named task still prints Ready and last result 267009 (still-running). The operator thinks the NVMe died. A SATA link napped.</p>
+      <p>This is not USB. This is not PCIe ASPM. <code>powercfg /a</code> still reports the same standby type. Requests can still be None. The AHCI link policy is the liar. Do not install systemd to paper over HIPM. Do not mint a Vercel slug because a disk blinked. Do not buy another <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a> until the SATA row is honest. An NVMe-only host that does not expose this row is a skip, not a registry paste.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>USB suspend already Disabled; SuperSpeed NIC still flaps</td><td>Different layer. <a href="usb3-link-power-management.html">USB 3 LPM</a>.</td></tr>
+            <tr><td>Thunderbolt/USB4 dock or NVMe drops after USB is honest</td><td>Different layer. <a href="pcie-link-state-power.html">PCIe ASPM</a>.</td></tr>
+            <tr><td>Mechanical disk spins down after N minutes; AHCI LPM already Active</td><td>Different layer. Hard disk idle timeout is not this page. Do not invent a second click here.</td></tr>
+            <tr><td>USB NIC / Wi-Fi radio dropped</td><td>Different layer. USB / Wi-Fi playbooks.</td></tr>
+            <tr><td>USB 3 LPM and PCIe ASPM already Off on AC. Session awake. Named task Ready / 267009. Disk or SATA fallback disappears for seconds then returns. HIPM/DIPM is not Active</td><td>This page. AHCI Link Power Management on AC.</td></tr>
+            <tr><td>Row missing from GUI and from <code>powercfg /query</code></td><td>This firmware or NVMe-only edition did not expose AHCI LPM. Stop. Not a fail. Not a registry hack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set AHCI LPM to Active as the first click on a new host. USB selective suspend, USB 3 LPM, and PCIe ASPM first if those buses exist. This page is the remaining SATA/AHCI link after those are honest. Active on AC means no HIPM and no DIPM. Missing row on an NVMe-only laptop is a skip.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm USB 3 LPM and PCIe ASPM are already Off on AC</strong> — if those rows still allow U1/U2 or ASPM, that is <a href="usb3-link-power-management.html">USB 3 LPM</a> or <a href="pcie-link-state-power.html">PCIe ASPM</a>, not this page.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Hard disk → AHCI Link Power Management - HIPM/DIPM</strong> — set <em>Plugged in</em> to <strong>Active</strong>. On battery may stay HIPM or HIPM+DIPM if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Leave HIPM-only and DIPM-only alone on AC</strong> — Active is no link power management. HIPM still lets the host park the PHY. That is not the AC pass for this desk.</li>
+          <li><strong>Leave “Turn off hard disk after” as a sibling</strong> — that is idle timeout / spin-down, not link power. Do not treat 20 minutes as this click. If the AHCI row is already Active and a mechanical disk still sleeps, that is a different page. Do not invent it here.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one hard-disk knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the disk subgroup. Active on AC is the pass. If the alias is missing, stop. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_DISK
+powercfg /a</pre>
+      <p><code>SUB_DISK</code> is the hard-disk subgroup. The AHCI LPM row is HIPM/DIPM (aliases vary by edition; look for HIPM, DIPM, or “AHCI Link Power Management”). <strong>Active</strong> on AC is the pass for this desk: no host-initiated and no device-initiated SATA link power. If the row is missing from the GUI, query with <code>powercfg</code> anyway — hidden is not the same as Active. If powercfg also omits it, this firmware did not expose the knob — stop; do not invent a registry hack on a public page. USB 3 LPM is SuperSpeed, not this click. PCIe ASPM is the dock/NVMe bus, not this click. Disk idle timeout is a sibling, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="usb3-link-power-management.html">USB 3 Link Power Management</a> — SuperSpeed U1/U2 on the dedicated NIC. Not SATA.</li>
+        <li><a href="pcie-link-state-power.html">PCI Express Link State Power Management</a> — ASPM on Thunderbolt/USB4/NVMe. Not AHCI.</li>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — the USB device-power policy. Not the SATA PHY.</li>
+        <li><a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a> — hardware fallback box. Buy after the link policies are honest, not instead of them.</li>
+        <li>Hard disk idle timeout — “Turn off hard disk after.” Spin-down minutes, not HIPM/DIPM. Sibling, not this click.</li>
+        <li>This page — AC AHCI Link Power Management = Active so HIPM/DIPM cannot park a SATA link while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. USB 3 LPM already Off on AC if the row exists. PCIe ASPM already Off on AC if the row exists. Otherwise this soak is lying about the bus.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, dedicated NIC plugged. The Grok TUI still accepts input. Device Manager / disk Present does not flap. One silent 2-second stall on the first write after idle is a fail if the AHCI row exists and was not Active.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a napping SATA PHY is not forever.</li>
+          <li>AHCI LPM still Active on AC. If someone set HIPM+DIPM to “save the SSD,” restore Active. Do not “fix” it by switching the whole plan to High performance.</li>
+          <li>Missing row + NVMe-only host = skip, not a red soak. Do not invent HIPM in the registry to make this page apply.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the SATA link stayed up.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every host exposes HIPM/DIPM. NVMe-only is a skip.</li>
+        <li>Not USB 3 LPM, not PCIe ASPM, not USB selective suspend.</li>
+        <li>Not “Turn off hard disk after.” That idle timeout is a sibling.</li>
+        <li>Not an NVMe enclosure SKU and not a commission claim.</li>
+        <li>Not a High-performance plan essay. One hard-disk setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="usb3-link-power-management.html">USB 3 LPM</a> · <a href="pcie-link-state-power.html">PCIe ASPM</a> · <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

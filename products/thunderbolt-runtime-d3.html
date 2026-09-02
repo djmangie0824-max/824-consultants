@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thunderbolt/USB4 Runtime D3 vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="USB4 Host Router Runtime D3 can power-off the Thunderbolt controller after USB suspend, USB 3 LPM, and ASPM are already honest. Dock full re-enumerates. Task Scheduler still shows Ready. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/thunderbolt-runtime-d3.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Thunderbolt/USB4 Runtime D3 vs a forever loop","description":"Uncheck Allow the computer to turn off this device to save power on the USB4 Host Router and Thunderbolt controller so Runtime D3 cannot D3Cold the dock after USB selective suspend, USB 3 LPM, and PCI Express ASPM are already honest. Not ASPM. Not USB 3 U1/U2. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm USB selective suspend, USB 3 LPM, and PCI Express ASPM are already honest on AC"},{"@type":"HowToStep","name":"Open Device Manager View Devices by connection and find USB4 Host Router or Thunderbolt controller"},{"@type":"HowToStep","name":"Uncheck Allow the computer to turn off this device to save power on the controller only"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Controller stays Present. Dock does not full re-enumerate. Named task still next-runs"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="pcie-link-state-power.html">PCIe ASPM</a>
+        <a href="usb3-link-power-management.html">USB 3 LPM</a>
+        <a href="usb-selective-suspend.html">USB selective suspend</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Thunderbolt/USB4 Runtime D3 vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="pcie-link-state-power.html">PCI Express ASPM</a> page, not the <a href="usb3-link-power-management.html">USB 3 Link Power Management</a> page, and not the <a href="usb-selective-suspend.html">USB selective suspend</a> page. ASPM parks the PCIe <em>link</em> while the device stays in D0. USB 3 LPM is SuperSpeed U1/U2. Selective suspend is USB-stack U3 on a hub or NIC. This page is the remaining controller: Device Manager → <strong>USB4 Host Router</strong> / Intel Thunderbolt controller → Power Management → <strong>Allow the computer to turn off this device to save power</strong>. That checkbox is Runtime D3. The controller itself goes D3Cold while the laptop is still in S0. The dock full re-enumerates. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="thunderbolt-runtime-d3.md" download>Download markdown</a>
+      <a class="btn" href="pcie-link-state-power.html">PCIe ASPM first</a>
+      <a class="btn" href="usb3-link-power-management.html">USB 3 LPM</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="usb-selective-suspend.html">USB selective suspend</a>, <a href="usb3-link-power-management.html">USB 3 LPM</a>, and <a href="pcie-link-state-power.html">PCI Express ASPM</a> packs can already be honest on AC. USB suspend Disabled. USB 3 LPM Off. Link State Power Management Off. The dock still dies after idle. Displays black, then come back as if the cable was yanked. The dedicated NIC on the dock re-enumerates. Device Manager flashes. Event Viewer shows Kernel-PnP surprise removal. <code>LEXXII-Materialize-Forever</code> still claims Ready and last result 267009 (still-running). The operator thinks Git or the dock SKU failed. The Thunderbolt controller left.</p>
+      <p>Runtime D3 (RTD3) is not ASPM. ASPM is L0s/L1 on a live D0 device — quieter, no controller disappearance. RTD3 is the <em>device</em> entering D3Hot or D3Cold while the platform stays in S0. A USB4 Host Router or Intel Thunderbolt controller that takes D3Cold powers off the whole Thunderbolt domain: tunneled DisplayPort, tunneled PCIe, tunneled USB. Wake needs a PME / in-band hotplug. That is a full re-enumerate, not a SuperSpeed U2 blink.</p>
+      <p>This happens while the machine is awake. It is not Modern Standby. It is not USB Root Hub selective suspend. It is not a High-performance plan essay. Do not install systemd to paper over a D3Cold controller. Do not mint a Vercel slug because the dock blinked. Do not buy a second <a href="../reviews/dock-multi-monitor.html">dock</a> until the controller is honest.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Lid close put the session to Sleep</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>USB selective suspend still Enabled on AC, or USB Root Hub still has “turn off this device”</td><td>Different layer. Heal <a href="usb-selective-suspend.html">USB selective suspend</a> first.</td></tr>
+            <tr><td>USB suspend already Disabled; SuperSpeed USB NIC / USB-C hub flaps without the Thunderbolt controller leaving</td><td>Different layer. <a href="usb3-link-power-management.html">USB 3 LPM</a>.</td></tr>
+            <tr><td>USB already honest. Dock or NVMe drops quietly; USB4 Host Router stays Present in Device Manager</td><td>Different layer. <a href="pcie-link-state-power.html">PCI Express ASPM</a>.</td></tr>
+            <tr><td>USB + USB 3 LPM + ASPM already honest. USB4 Host Router or Thunderbolt controller itself disappears then returns. Displays reconnect. Dock NIC re-enumerates</td><td>This page. Runtime D3.</td></tr>
+            <tr><td>No USB4 Host Router and no Thunderbolt controller in Device Manager</td><td>Skip. This firmware is USB-C / xHCI only. Not a fail. Do not invent a registry paste.</td></tr>
+            <tr><td>Controller stays Present; checkbox already unchecked; dock still full re-enumerates</td><td>Different layer. Cable, PD budget, or dock firmware. Hardware. See <a href="../reviews/dock-multi-monitor.html">dock review</a>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not uncheck Thunderbolt Runtime D3 as the first click on a new host. USB selective suspend first. USB 3 LPM next. PCI Express ASPM after that. This page is the remaining controller D3 after those three are honest. Do not uncheck Power Management on every PCI Express Root Port. Do not cargo-cult a BIOS flash.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the three bus layers are already done</strong> — USB selective suspend Plugged in = Disabled. USB 3 Link Power Management on AC = Off if the row exists. PCI Express Link State Power Management on AC = Off if the row exists. See <a href="usb-selective-suspend.html">USB suspend</a>, <a href="usb3-link-power-management.html">USB 3 LPM</a>, and <a href="pcie-link-state-power.html">ASPM</a>. If those are still travel defaults, stop here.</li>
+          <li><strong>Device Manager → View → Devices by connection</strong> — find <strong>USB4 Host Router</strong> (Microsoft USB4 stack) and/or <strong>Intel(R) Thunderbolt(TM) Controller</strong>. They hang off a PCI Express Root Port. If both names exist, they are two nodes. If neither exists, skip this page.</li>
+          <li><strong>Properties → Power Management</strong> — uncheck <strong>Allow the computer to turn off this device to save power</strong> on the Host Router and on the Thunderbolt controller. That is the AC pass for this desk. Do not disable the device. Do not uninstall <code>usb4.sys</code>. Do not uninstall the Intel Thunderbolt driver.</li>
+          <li><strong>Leave the PCI Express Root Port checkbox alone</strong> — unchecking the parent root port is a cargo-cult that can D3 other devices on that port. This page is the Thunderbolt/USB4 node only.</li>
+          <li><strong>Intel Thunderbolt Control Center, if it is already installed</strong> — disable Runtime D3 / RTD3 if that settings row exists. If Control Center is not installed, skip. Do not download a random Intel utility from a forum to create the row.</li>
+          <li><strong>BIOS TBT RTD3 only if the Device Manager checkbox is missing or does not stick across reboot</strong> — firmware names vary: Thunderbolt Runtime D3, TBT RTD3, USB4 Runtime D3. Set Disabled on a desk that never unplugs. Do not flash Thunderbolt firmware from this page. Do not hunt a <code>SUB_THUNDERBOLT</code> powercfg alias — this host class does not have one.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one Device Manager checkbox, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — the controller still shows Status OK. The checkbox stays off. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>Get-PnpDevice | Where-Object { $_.FriendlyName -match 'Thunderbolt|USB4 Host Router' } | Format-Table Status, Class, FriendlyName
+powercfg /query SCHEME_CURRENT SUB_PCIEXPRESS
+powercfg /query SCHEME_CURRENT SUB_USB</pre>
+      <p><code>Get-PnpDevice</code> names the controller. Status OK is not proof the Power Management checkbox is off — open the property sheet. <code>SUB_PCIEXPRESS</code> is ASPM. <code>SUB_USB</code> is USB selective suspend and USB 3 LPM. Those queries prove the earlier layers, not this click. There is no portable <code>SUB_THUNDERBOLT</code> alias on this host class. If Device Manager omits USB4 and Thunderbolt, stop. Do not invent a registry paste on a public page. Hidden firmware is not a GUID from a forum.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — USB-stack U3 / hub Power Management. The USB Root Hub, not the USB4 Host Router.</li>
+        <li><a href="usb3-link-power-management.html">USB 3 Link Power Management</a> — SuperSpeed U1/U2 on a USB NIC or USB-C hub. The Thunderbolt controller stays Present.</li>
+        <li><a href="pcie-link-state-power.html">PCI Express Link State Power Management</a> — ASPM L0s/L1. Device stays D0. Link naps. Controller stays in Device Manager.</li>
+        <li><a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a> — IEEE 802.3az on the adapter PHY. The NIC stays Present.</li>
+        <li><a href="../reviews/dock-multi-monitor.html">Dock multi-monitor review</a> — hardware criteria, SKU pending. Not a Power Management checkbox.</li>
+        <li>This page — Runtime D3 so the USB4 Host Router / Thunderbolt controller cannot D3Cold the dock while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>USB selective suspend already Disabled on AC. USB 3 LPM already Off on AC if the row exists. PCI Express ASPM already Off on AC if the row exists. Lid close already Do nothing on AC. Otherwise this soak is lying about the bus.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, Thunderbolt/USB4 dock + dedicated NIC plugged. The USB4 Host Router / Thunderbolt controller stays Present. One silent controller disappearance is a fail on this page.</li>
+          <li>Displays stay, or resume without a “monitor identified” reconnect storm. One full dock re-enumerate is a fail — but if the controller never left Device Manager, it is ASPM or USB, not this one.</li>
+          <li>Dock NIC stays Present. A NIC that vanishes with the controller is this page. A NIC that flaps while the controller stays OK is USB 3 LPM or USB suspend.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. A Ready task with a D3Cold Thunderbolt domain is not forever.</li>
+          <li>The Power Management checkbox still unchecked. If firmware re-checked it after reboot, that is the BIOS TBT RTD3 step, not a High-performance plan switch.</li>
+          <li>Missing USB4 and Thunderbolt names = skip, not a red soak. Do not invent the checkbox in the registry.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the dock stayed up.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every host exposes USB4 or Thunderbolt. Missing controller is a skip.</li>
+        <li>Not PCI Express ASPM. That link-state knob is <a href="pcie-link-state-power.html">pcie-link-state-power.html</a>.</li>
+        <li>Not USB 3 Link Power Management. That SuperSpeed row is <a href="usb3-link-power-management.html">usb3-link-power-management.html</a>.</li>
+        <li>Not USB selective suspend and not the USB Root Hub checkbox. Those stay on <a href="usb-selective-suspend.html">usb-selective-suspend.html</a>.</li>
+        <li>Not a Thunderbolt firmware flash, not a BIOS unlock guide, and not an Intel Control Center install.</li>
+        <li>Not a dock or NVMe SKU. Hardware criteria stay on the <a href="../reviews/dock-multi-monitor.html">dock review</a> and the <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure review</a>.</li>
+        <li>Not “uncheck Power Management on every PCI Express Root Port.”</li>
+        <li>Not a High-performance plan essay. One Device Manager checkbox. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="pcie-link-state-power.html">PCIe ASPM</a> · <a href="usb3-link-power-management.html">USB 3 LPM</a> · <a href="usb-selective-suspend.html">USB selective suspend</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Processor idle disable vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="After min-state, unparked cores, Enabled boost, and Active cooling, Enabled processor idle still drops the package into C-states. Wake from C6/C7 looks like a hung Grok TUI. IDLEDISABLE 1 on AC. Not P-states. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/processor-idle-disable.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Processor idle disable vs a forever loop","description":"Set Processor idle disable (IDLEDISABLE) to Disable idle (1) on AC so Enabled C-states cannot stall an Interactive Grok CLI after Minimum processor state, core parking, boost mode, and Active cooling are already honest. Companion to those P-state knobs. Not PROCTHROTTLEMIN. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm min-state, core parking, boost mode, and cooling policy are already honest on AC"},{"@type":"HowToStep","name":"Query IDLEDISABLE on SCHEME_CURRENT. Stop if the alias is missing"},{"@type":"HowToStep","name":"Set Processor idle disable Plugged in to Disable idle (1). Activate the scheme"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. TUI still accepts input without a C-state wake stall"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="processor-boost-mode.html">Boost mode</a>
+        <a href="processor-min-state-ac.html">Minimum processor state</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Processor idle disable vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-min-state-ac.html">Minimum processor state</a> page, not the <a href="processor-core-parking.html">core parking</a> page, not the <a href="processor-boost-mode.html">boost mode</a> page, and not an Intel Speed Shift EPP essay. Those knobs are P-states and parking: frequency floor, unparked cores, turbo allow, energy-performance hint. This page is C-states: Power Options → Processor power management → <strong>Processor idle disable</strong>. That is <code>IDLEDISABLE</code>. <strong>Enable idle</strong> (0) lets the package drop into C1/C6/C7/C10. Wake from a deep C-state looks like a hung Interactive Grok CLI. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="processor-idle-disable.md" download>Download markdown</a>
+      <a class="btn" href="processor-boost-mode.html">Boost mode first</a>
+      <a class="btn" href="system-cooling-policy.html">Cooling policy</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="processor-min-state-ac.html">min-state</a>, <a href="processor-core-parking.html">core parking</a>, <a href="processor-boost-mode.html">boost mode</a>, and <a href="system-cooling-policy.html">cooling policy</a> packs can already be honest on AC. Frequency floor 100. Unparked cores 100. Turbo allowed. Fans allowed. The TUI still starves after a quiet stretch. Windows still lets the package enter ACPI C-states when there is no runnable work. That is <code>IDLEDISABLE</code> = 0, the default: <strong>Enable idle</strong>. C0 is executing. C1 is Halt. C6/C7/C10 are package sleep. Coming back from a package C-state is not sleep (S0ix / S3). It is a wake stall. <code>grok.exe</code> is alive. The named task still prints Ready and last result 267009 (still-running). The operator thinks the loop died. The package was in C7.</p>
+      <p>This is not a P-state lie. Minimum processor state 100% of C0 does nothing if the core is not in C0. Boost Enabled does nothing in C6. EPP 0 is a hardware P-state hint, not a C-state deny. Do not install systemd to paper over Enabled idle. Do not mint a Vercel slug because the TUI paused after a quiet minute. Do not switch the whole plan to High performance to hide six other forever-loop bugs. Do not confuse this row with <a href="hard-disk-idle-timeout.html">Turn off hard disk after</a> — that is <code>DISKIDLE</code>, a spindle timeout, not CPU C-states.</p>
+    </section>
+    <section>
+      <h2>C-states are not P-states</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Layer</th><th>What it actually is</th></tr></thead>
+          <tbody>
+            <tr><td>Minimum processor state</td><td>P-state floor. <code>PROCTHROTTLEMIN</code>. How slow C0 is allowed to run.</td></tr>
+            <tr><td>Core parking</td><td>Logical-processor count. <code>CPMINCORES</code>. Parked is not C7.</td></tr>
+            <tr><td>Processor performance boost mode</td><td>Turbo P-state allow. <code>PERFBOOSTMODE</code>. Only applies while executing.</td></tr>
+            <tr><td>Intel Speed Shift / EPP</td><td>HWP energy-performance hint. <code>PERFEPP</code>. Still a P-state bias.</td></tr>
+            <tr><td>Processor idle disable</td><td>C-state allow. <code>IDLEDISABLE</code>. 0 = Enable idle. 1 = Disable idle (stay C0).</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>A parked core is a scheduling decision. A C-state is an idle residency. Task Manager “Parked” is the parking page. Resource Monitor / a C-state residency counter is this page. Do not diagnose C7 with the parking column.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Minimum processor state still 5% on AC</td><td>Different layer. <a href="processor-min-state-ac.html">Minimum processor state</a>.</td></tr>
+            <tr><td>Task Manager shows most cores Parked</td><td>Different layer. <a href="processor-core-parking.html">Core parking</a>.</td></tr>
+            <tr><td>Fans stay quiet, frequency drops, closed lid</td><td>Different layer. <a href="system-cooling-policy.html">System cooling policy</a>.</td></tr>
+            <tr><td>Boost mode is Disabled; clocks sit at base while executing</td><td>Different layer. <a href="processor-boost-mode.html">Processor performance boost mode</a>.</td></tr>
+            <tr><td>SATA / USB disk spun down after AHCI LPM is already Active</td><td>Different layer. <a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a>. DISKIDLE is not IDLEDISABLE.</td></tr>
+            <tr><td>USB NIC / dock / radio dropped</td><td>Different layer. USB / PCIe / Wi-Fi playbooks.</td></tr>
+            <tr><td>Min-state 100, parking 100, boost Enabled, cooling Active. Session awake. Named task Ready / 267009. Grok TUI looks frozen after a quiet stretch, then snaps back. IDLEDISABLE on AC is 0 (Enable idle)</td><td>This page. Processor idle disable on AC.</td></tr>
+            <tr><td>IDLEDISABLE already 1 on AC; package still drops C-states</td><td>Different layer. Firmware Package C-state / C1E is not this click. Do not invent a registry paste here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Processor idle disable as the first click on a new host. Timeouts, requests, Minimum processor state, core parking, boost mode, and cooling policy first. Disable idle keeps the package in C0 — watts and heat go up. Active cooling and a stand under a closed lid are prerequisites, not optional. Leave DC on Enable idle if the laptop actually travels. If the alias is missing from powercfg, stop; do not invent a registry hack on a public page.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Fast Startup is already honest. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here. C-state deny is not a substitute for Sleep never.</li>
+          <li><strong>Confirm Minimum processor state, core parking min cores, Processor performance boost mode, and System cooling policy are already honest on AC</strong> — 100 / 100 / Enabled / Active. If any of those is still a travel default, that is <a href="processor-min-state-ac.html">min-state</a>, <a href="processor-core-parking.html">core parking</a>, <a href="processor-boost-mode.html">boost mode</a>, or <a href="system-cooling-policy.html">cooling policy</a>, not this page. Disable idle on a 5% floor is just a hot slow desk.</li>
+          <li><strong>Query <code>IDLEDISABLE</code> before you write</strong> — if the row is missing from the GUI, query with <code>powercfg</code> anyway. Hidden is not Disable idle. The GUI often hides this row on Balanced. If powercfg also omits the alias, this firmware or edition did not expose the knob. <strong>Stop.</strong> Do not invent a registry paste. Do not guess GUID <code>5d76a2ca-e8c0-402f-a133-2158492d58ad</code> from a forum and unhide it as a fleet trick. Do not cargo-cult <code>-ATTRIB_HIDE</code> on a public page.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Processor power management → Processor idle disable</strong> — set <em>Plugged in</em> to <strong>Disable idle</strong>. That is index <strong>1</strong>. On battery stays <strong>Enable idle</strong> (0) if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Activate the current scheme after the AC index write</strong> — <code>/setacvalueindex</code> does not apply until <code>/setactive SCHEME_CURRENT</code>. Query again. AC Current AC Power Setting Index <code>0x00000001</code> is the pass. <code>0x00000000</code> is still Enable idle — a fail for this desk.</li>
+          <li><strong>Leave Processor idle promote / demote thresholds alone</strong> — <code>IDLEPROMOTE</code> and <code>IDLEDEMOTE</code> are siblings that change how fast Windows walks C-state depth. This page is the allow/deny, not a threshold tweak. Processor idle state maximum is also a sibling: a depth cap, not Disable idle.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one processor knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — 1 on AC is the pass. 0 on AC is a fail for this desk. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_PROCESSOR IDLEDISABLE
+powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR IDLEDISABLE 1
+powercfg /setactive SCHEME_CURRENT
+powercfg /a</pre>
+      <p><code>SUB_PROCESSOR</code> is the processor subgroup. <code>IDLEDISABLE</code> is Processor idle disable. Typical values: <strong>0 = Enable idle</strong> (C-states allowed), <strong>1 = Disable idle</strong> (stay C0). 1 on AC is the pass for this desk. Run the <code>/query</code> line first. If the alias is omitted, skip the <code>/setacvalueindex</code> line — do not invent a registry hack. Intel Speed Shift / EPP is a sibling, not this click. Promote/demote thresholds are siblings, not this click. BIOS Package C-state / C1E is firmware, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="processor-min-state-ac.html">Minimum processor state</a> — frequency floor (<code>PROCTHROTTLEMIN</code>). How slow C0 may run. This page is whether the package is allowed to leave C0 at all (<code>IDLEDISABLE</code>).</li>
+        <li><a href="processor-core-parking.html">Core parking</a> — unparked-core floor (<code>CPMINCORES</code>). Parked is a scheduler flag. C7 is idle residency. Not the same column in Task Manager.</li>
+        <li><a href="processor-boost-mode.html">Processor performance boost mode</a> — turbo allow (<code>PERFBOOSTMODE</code>). Turbo only exists while executing. Enabled turbo with Enable idle still naps in C6 between tool calls.</li>
+        <li>Intel Speed Shift / EPP — HWP energy-performance hint (<code>PERFEPP</code>). P-state bias, not C-state deny. Not this click. Do not invent a registry paste on this page.</li>
+        <li><a href="system-cooling-policy.html">System cooling policy</a> — Passive vs Active fans. Disable idle without Active cooling is a thermal own-goal. Prerequisite, not this click.</li>
+        <li><a href="../reviews/laptop-cooling-stand-14h.html">Laptop cooling stand</a> — air under a closed lid. Hardware. C0-forever does not replace a stand.</li>
+        <li><a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a> — <code>DISKIDLE</code>. Spindle, not CPU. The words “idle disable” are not that row.</li>
+        <li>This page — AC Processor idle disable = Disable idle (1) so Enabled C-states cannot stall an Interactive Grok CLI while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. <code>powercfg /requests</code> already None. Min-state 100. Parking 100. Boost Enabled. Cooling Active. Stand in the path. Otherwise this soak is lying — and Disable idle will only add heat.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. The Grok TUI still accepts input on the first keystroke. A session that paints once a minute then takes a beat to “wake the CPU” after quiet is a fail on this page even if <code>grok.exe</code> never exited.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with Enable idle (0) is not forever. A 5-minute pulse that fires late because the package was in C10 is this layer, not a missed <code>schtasks</code> trigger.</li>
+          <li>IDLEDISABLE still 1 on AC. If someone set Enable idle to “save watts,” restore Disable idle on AC. Do not “fix” it by switching the whole plan to High performance. Do not Disable idle on DC as a cargo-cult.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof C-states are already denied. Grok in-session schedulers expire in 7 days even when durable. Recreate them if missing. The Windows task is the host-forever pulse. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim the knob is already Disable idle on every host. It is the click path after boost mode and cooling are honest.</li>
+        <li>Not Minimum processor state, not core parking, not Processor performance boost mode, not Intel Speed Shift / EPP.</li>
+        <li>Not Processor idle promote / demote thresholds and not Processor idle state maximum.</li>
+        <li>Not a BIOS Package C-state / C1E essay. Firmware stays firmware. Do not paste a BIOS screenshot on Pages.</li>
+        <li>Not <code>DISKIDLE</code> and not Modern Standby. Disk spin-down and S0ix stay on their own pages.</li>
+        <li>Not a High-performance plan essay. One processor setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="processor-boost-mode.html">Boost mode</a> · <a href="processor-min-state-ac.html">Minimum processor state</a> · <a href="processor-core-parking.html">Core parking</a> · <a href="system-cooling-policy.html">System cooling policy</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

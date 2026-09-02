@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NVMe NOPPME vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="NVMe NOPPME is Non-Operational Power State Permissive Mode. Balanced often leaves it On on AC. Off on AC is the remaining On/Off after idle timeouts are already honest. Not APST. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/nvme-noppme.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"NVMe NOPPME vs a forever loop","description":"Set NVMe NOPPME Off on AC after Primary and Secondary idle timeouts, APST, and ASPM are already honest so StorNVMe does not permit non-operational power-state permissive mode on a plugged-in Grok desk. Distinct from idle-timeout milliseconds. Not APST. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Primary and Secondary NVMe idle timeouts, APST, and ASPM are already honest on AC"},{"@type":"HowToStep","name":"Unhide NVMe NOPPME if ATTRIB_HIDE"},{"@type":"HowToStep","name":"Set Plugged in to Off (index 0)"},{"@type":"HowToStep","name":"Soak idle then write. First I/O is not a stall. Named task still next-runs"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="nvme-idle-timeout.html">Primary NVMe timeout</a>
+        <a href="secondary-nvme-idle-timeout.html">Secondary timeout</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">NVMe NOPPME vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="nvme-idle-timeout.html">Primary NVMe Idle Timeout</a> page, not <a href="secondary-nvme-idle-timeout.html">Secondary NVMe Idle Timeout</a>, not <a href="nvme-apst.html">NVMe APST</a>, and not <a href="pcie-link-state-power.html">PCIe ASPM</a>. Those packs are millisecond timers or a controller table or a PCIe link. This page is the remaining On/Off: Power Options → Hard disk → <strong>NVMe NOPPME</strong>. GUID <code>fc7372b6-ab2d-43ee-8797-15e9841f2cca</code>. Alias <code>DISKNVMENOPPME</code>. Friendly names are <strong>Off</strong> (index 0) and <strong>On</strong> (index 1). NOPPME is Non-Operational Power State Permissive Mode. When On, StorNVMe may permit the NVMe non-operational power-state feature while the disk looks Present. Balanced images often leave it <strong>On on AC / Off on DC</strong>. Task Scheduler still shows Ready. The first write after idle still waits on a non-op wakeup. The checkbox is not an idle timeout.</p>
+      <a class="btn" href="nvme-noppme.md" download>Download markdown</a>
+      <a class="btn" href="nvme-idle-timeout.html">Primary timeout</a>
+      <a class="btn" href="secondary-nvme-idle-timeout.html">Secondary timeout</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Primary timeout can already be raised. Secondary timeout can already be 60000 ms. APST can already be Off. ASPM can already be Off. A ship still hitch-pauses on the first write after idle. Device Manager still says Present. <code>schtasks</code> still prints Ready and last result 267009. The operator thinks Git hung. <strong>NVMe NOPPME</strong> is still On on AC. Permissive mode is still allowed. The controller may sit in a non-operational power state (NOPS=1: no I/O processed until a doorbell) even though the timeouts look long. Off is the remaining click. Off is not “delete every F-state.” Timeouts still exist. Off is “do not permit the non-operational power-state feature on this plugged-in desk.”</p>
+      <p>Do not paste <code>nvme_core.default_ps_max_latency_us=0</code> on this Windows profile. Do not install systemd. Do not mint a Vercel slug. Do not switch RST to Microsoft storNVMe on a public page because a checkbox was On.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>NVMe <em>disappears</em> then re-enumerates</td><td>Different layer. <a href="pcie-link-state-power.html">PCIe ASPM</a> or PCI D3.</td></tr>
+            <tr><td>First write stalls in ~100–200 ms; Primary still 100–200 ms</td><td>Different layer. <a href="nvme-idle-timeout.html">Primary NVMe Idle Timeout</a>.</td></tr>
+            <tr><td>Primary already long. First write hitch-pauses after ~1–2 s</td><td>Different layer first. <a href="secondary-nvme-idle-timeout.html">Secondary NVMe Idle Timeout</a>.</td></tr>
+            <tr><td>ASPM Off. BIOS APST still Enabled</td><td>Different layer. <a href="nvme-apst.html">NVMe APST</a>.</td></tr>
+            <tr><td>Timeouts already honest. NOPPME still On on AC. First write after idle still waits. Device stays Present</td><td><strong>This page.</strong> Permissive mode On/Off. Not a millisecond timer.</td></tr>
+            <tr><td>GUID missing from powercfg after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set NOPPME as the first click. Sleep, lid, ASPM, DISKIDLE, APST, Primary timeout, and Secondary timeout first. Hidden is not Off. Off is not Never-F-state. A vanished NVMe is ASPM or D3, not this checkbox. Do not paste a Linux sysfs value on this Windows profile.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the earlier layers are already done</strong> — plugged-in sleep is not 5–20 minutes. Lid close on AC is Do nothing. ASPM Off on AC. DISKIDLE Never if the row exists. APST Off where firmware exposes it, or skip if missing. Primary and Secondary NVMe idle timeouts already raised on AC. See <a href="nvme-idle-timeout.html">nvme-idle-timeout</a> and <a href="secondary-nvme-idle-timeout.html">secondary-nvme-idle-timeout</a>.</li>
+          <li><strong>Unhide the row if it is missing</strong> — NVMe NOPPME is ATTRIB_HIDE on many images. Missing from Hard disk before this step is expected, not a skip.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Hard disk → NVMe NOPPME</strong> — set <em>Plugged in</em> to <strong>Off</strong>. On battery may stay Off (typical) or follow OEM. Do not flip DC On to “make it match AC.”</li>
+          <li><strong>Leave both idle-timeout GUIDs and both latency-tolerance GUIDs as siblings</strong> — those are milliseconds. This click is On/Off. Do not cargo-cult timeouts to zero because NOPPME moved.</li>
+          <li><strong>Leave APST, ASPM, write-cache, and TRIM alone on this click</strong> — permissive mode is not the APST table. Do not switch RST to Microsoft storNVMe on a public page.</li>
+          <li><strong>Leave the current plan in place</strong> — not a switch to High performance. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the GUID. Index 0 = Off. Index 1 = On. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg -attributes SUB_DISK fc7372b6-ab2d-43ee-8797-15e9841f2cca -ATTRIB_HIDE
+powercfg /query SCHEME_CURRENT SUB_DISK fc7372b6-ab2d-43ee-8797-15e9841f2cca
+powercfg /setacvalueindex SCHEME_CURRENT SUB_DISK fc7372b6-ab2d-43ee-8797-15e9841f2cca 0
+powercfg /setactive SCHEME_CURRENT</pre>
+      <p><code>SUB_DISK</code> / GUID <code>fc7372b6-ab2d-43ee-8797-15e9841f2cca</code> is NVMe NOPPME. Alias <code>DISKNVMENOPPME</code>. Index 0 = Off. Index 1 = On. Balanced images often ship On on AC. <strong>Off on AC</strong> is the honest host-forever try on a plugged-in Interactive desk. If powercfg omits the GUID after unhide, this edition did not expose the knob — stop. Off does not delete Primary/Secondary idle timeouts. Those milliseconds still fire. Do not paste <code>nvme_core.default_ps_max_latency_us</code>. That is Linux. This host is Windows.</p>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>ASPM already Off. APST already Off or skip. DISKIDLE already Never if present. Primary and Secondary timeouts already raised. Otherwise this soak is lying about the timers.</li>
+          <li>Confirm AC index is 0. Idle past a few seconds and past a minute. First write to the boot NVMe is not a stall. Device Manager still says Present. No re-enumerate.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a stalled first write is not forever if NOPPME is still On. Grok schedulers expire in 7 days even when durable. Host-forever is that named Windows task. Not systemd.</li>
+          <li>Missing GUID after unhide = skip, not a red soak. Do not invent an On/Off DWORD in the registry on a public page.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof NOPPME is already Off.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Primary NVMe Idle Timeout. That first timer is <a href="nvme-idle-timeout.html">nvme-idle-timeout</a>.</li>
+        <li>Not Secondary NVMe Idle Timeout. That second timer is <a href="secondary-nvme-idle-timeout.html">secondary-nvme-idle-timeout</a>.</li>
+        <li>Not NVMe APST enable/disable. That table is <a href="nvme-apst.html">nvme-apst</a>.</li>
+        <li>Not PCIe ASPM. That link is <a href="pcie-link-state-power.html">pcie-link-state-power</a>.</li>
+        <li>Not DISKIDLE. That minutes timer is <a href="hard-disk-idle-timeout.html">hard-disk-idle-timeout</a>.</li>
+        <li>Not an enclosure SKU. That review is <a href="../reviews/nvme-enclosure-operator.html">nvme-enclosure-operator</a>.</li>
+        <li>Not a Linux sysfs paste. This host is Windows.</li>
+        <li>Not a High-performance plan essay. One Hard disk On/Off.</li>
+        <li>Not live capital. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="nvme-idle-timeout.html">Primary NVMe timeout</a> · <a href="secondary-nvme-idle-timeout.html">Secondary timeout</a> · <a href="nvme-apst.html">NVMe APST</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

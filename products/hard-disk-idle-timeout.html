@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hard disk idle timeout vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Turn off hard disk after can spin down a SATA or USB disk after AHCI LPM is already Active. Grok CLI looks hung. Task Scheduler still shows Ready. Not HIPM/DIPM. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/hard-disk-idle-timeout.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Hard disk idle timeout vs a forever loop","description":"Set Hard disk → Turn off hard disk after to Never on AC so DISKIDLE cannot spin down a SATA or USB disk after AHCI Link Power Management is already Active. Companion to AHCI LPM. Not HIPM/DIPM. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm AHCI Link Power Management is already Active on AC if the row exists"},{"@type":"HowToStep","name":"Open Hard disk → Turn off hard disk after"},{"@type":"HowToStep","name":"Set Plugged in to Never. Leave the current plan in place"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. First write after idle is not a spin-up stall"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="ahci-link-power-management.html">AHCI LPM</a>
+        <a href="usb3-link-power-management.html">USB 3 LPM</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Hard disk idle timeout vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="ahci-link-power-management.html">AHCI Link Power Management</a> page, not the <a href="usb3-link-power-management.html">USB 3 LPM</a> page, and not a PCIe ASPM essay. HIPM/DIPM is the SATA PHY. This page is the remaining minutes knob: Power Options → Hard disk → <strong>Turn off hard disk after</strong>. Balanced AC is often 20 minutes. A SATA HDD, a USB spinning fallback, or a SATA SSD that still honors STANDBY then parks. The next Git object waits on a spin-up. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="hard-disk-idle-timeout.md" download>Download markdown</a>
+      <a class="btn" href="ahci-link-power-management.html">AHCI LPM first</a>
+      <a class="btn" href="usb3-link-power-management.html">USB 3 LPM</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="ahci-link-power-management.html">AHCI LPM</a> pack already tells you to set HIPM/DIPM to Active on AC so the SATA link does not nap. That work can be done and a ship still stalls on the first write after idle. Balanced <strong>Turn off hard disk after</strong> on AC is often 20 minutes. Windows issues the idle timeout. Platters spin down. Some SATA SSDs still take a STANDBY IMMEDIATE and stall the next I/O. <code>grok.exe</code> is alive. The named task still prints Ready and last result 267009 (still-running). The operator thinks Git hung. A disk idle timer fired.</p>
+      <p>This is not HIPM. This is not USB 3 U1/U2. <code>powercfg /a</code> still reports the same standby type. Requests can still be None. The disk idle value is the liar. Do not install systemd to paper over DISKIDLE. Do not mint a Vercel slug because a drive blinked. Do not buy another <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a> until this row is Never on AC. An NVMe-only host that ignores DISKIDLE is a skip, not a registry paste.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>SATA PHY flaps; HIPM/DIPM is not Active</td><td>Different layer. <a href="ahci-link-power-management.html">AHCI LPM</a>.</td></tr>
+            <tr><td>USB suspend already Disabled; SuperSpeed NIC still flaps</td><td>Different layer. <a href="usb3-link-power-management.html">USB 3 LPM</a>.</td></tr>
+            <tr><td>Thunderbolt/USB4 dock or NVMe drops after USB is honest</td><td>Different layer. <a href="pcie-link-state-power.html">PCIe ASPM</a>.</td></tr>
+            <tr><td>USB NIC / Wi-Fi radio dropped</td><td>Different layer. USB / Wi-Fi playbooks.</td></tr>
+            <tr><td>AHCI LPM already Active on AC if the row exists. Session awake. Named task Ready / 267009. First write after ~20 minutes waits on a disk. Turn off hard disk after is not Never</td><td>This page. Hard disk idle timeout on AC.</td></tr>
+            <tr><td>NVMe-only laptop. DISKIDLE already 0, or the disk never stalls after idle</td><td>This firmware ignores the minutes knob. Stop. Not a fail. Not a registry hack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Turn off hard disk after to Never as the first click on a new host. Sleep / lid / USB 3 LPM / PCIe ASPM / AHCI LPM first if those rows exist. This page is the remaining minutes after the link policies are honest. Never on AC means 0 seconds in <code>powercfg</code> (GUI minutes = 0). Missing effect on an NVMe-only laptop is a skip.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm AHCI LPM is already Active on AC if the row exists</strong> — if HIPM/DIPM still parks the PHY, that is <a href="ahci-link-power-management.html">AHCI LPM</a>, not this page. USB 3 LPM and PCIe ASPM already Off on AC if those buses exist.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Hard disk → Turn off hard disk after</strong> — set <em>Plugged in</em> to <strong>Never</strong> (0 minutes). On battery may stay 5–20 minutes if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Leave AHCI Link Power Management alone on this click</strong> — HIPM/DIPM is the PHY. This row is idle minutes. Do not treat Active as Never, or Never as Active.</li>
+          <li><strong>Leave USB enclosure firmware alone</strong> — a USB HDD that spins down from its own box timer is not this Windows knob. Fix DISKIDLE first. If the stall remains and Device Manager still shows the disk Present, that is enclosure firmware, not a second power-plan paste.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one hard-disk knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query DISKIDLE. AC index 0 is the pass. GUI Never = 0 seconds in <code>powercfg</code>, not 0 minutes stored as a guess. If the alias is missing, stop. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_DISK DISKIDLE
+powercfg /setacvalueindex SCHEME_CURRENT SUB_DISK DISKIDLE 0
+powercfg /setactive SCHEME_CURRENT
+powercfg /a</pre>
+      <p><code>SUB_DISK</code> is the hard-disk subgroup. <code>DISKIDLE</code> is Turn off hard disk after. The AC index is <strong>seconds</strong>. <strong>0</strong> is Never. 1200 is 20 minutes — the usual Balanced lie. Apply with <code>/setactive</code> or the GUI change does not take. If the row is missing from the GUI, query with <code>powercfg</code> anyway — hidden is not the same as Never. If powercfg also omits DISKIDLE, this firmware did not expose the knob — stop; do not invent a registry hack on a public page. AHCI LPM is HIPM/DIPM, not this click. USB 3 LPM is SuperSpeed, not this click. PCIe ASPM is the dock/NVMe bus, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="ahci-link-power-management.html">AHCI Link Power Management</a> — HIPM/DIPM on the SATA PHY. Not idle minutes.</li>
+        <li><a href="usb3-link-power-management.html">USB 3 Link Power Management</a> — SuperSpeed U1/U2 on the dedicated NIC. Not a disk timer.</li>
+        <li><a href="pcie-link-state-power.html">PCI Express Link State Power Management</a> — ASPM on Thunderbolt/USB4/NVMe. Not DISKIDLE.</li>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — the USB device-power policy. Not platter spin-down.</li>
+        <li><a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a> — hardware fallback box. Buy after the disk policies are honest, not instead of them.</li>
+        <li>This page — AC Turn off hard disk after = Never so DISKIDLE cannot spin down a SATA or USB disk while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. AHCI LPM already Active on AC if the row exists. USB 3 LPM and PCIe ASPM already Off on AC if those rows exist. Otherwise this soak is lying about the bus.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, dedicated NIC plugged. The Grok TUI still accepts input. First write after idle is not a multi-second spin-up stall. One silent wait on the first Git object is a fail if DISKIDLE was not 0 and a SATA/USB disk is in the path.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a spun-down disk is not forever.</li>
+          <li>DISKIDLE still 0 on AC. If someone set 20 minutes to “save the SSD,” restore Never. Do not “fix” it by switching the whole plan to High performance.</li>
+          <li>NVMe-only host that never stalls = skip, not a red soak. Do not invent STANDBY in the registry to make this page apply.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the disk stayed up.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every NVMe honors DISKIDLE. NVMe-only that never stalls is a skip.</li>
+        <li>Not AHCI LPM, not USB 3 LPM, not PCIe ASPM, not USB selective suspend.</li>
+        <li>Not an NVMe enclosure SKU and not a commission claim.</li>
+        <li>Not a High-performance plan essay. One hard-disk setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="ahci-link-power-management.html">AHCI LPM</a> · <a href="usb3-link-power-management.html">USB 3 LPM</a> · <a href="../reviews/nvme-enclosure-operator.html">NVMe enclosure</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

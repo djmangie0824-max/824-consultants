@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Processor idle threshold scaling vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="IDLESCALING is Disable vs Enable scaling of the promote/demote pair, not the 60/40 values themselves. This desk: Disable scaling (0). Keep it 0 so a 100/80 walk cannot undo itself. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/processor-idle-threshold-scaling.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Processor idle threshold scaling vs a forever loop","description":"Query Processor idle threshold scaling (IDLESCALING / GUID 6c2993b0-8f48-481f-bcc6-00dd2742aa06) under SUB_PROCESSOR. On a plugged-in Grok desk that still has Enable idle, keep AC Disable scaling (0) so a named 100/80 promote/demote walk cannot be rescaled. Not IDLEPROMOTE. Not IDLEDISABLE. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm IDLEDISABLE is still Enable idle (0). If it is already Disable idle (1), stop — scaling is unused"},{"@type":"HowToStep","name":"Query powercfg IDLESCALING on SCHEME_CURRENT. This Yoga measured 0 = Disable scaling AC and DC"},{"@type":"HowToStep","name":"If AC is Enable scaling (1), set Disable scaling (0). Activate the scheme. Leave DC Disable if the laptop travels"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named 100/80 pair still reads 100/80. TUI is not a rescaled 60/40 walk"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="processor-idle-promote-threshold.html">Promote / demote</a>
+        <a href="processor-idle-time-check.html">Idle time check</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Processor idle threshold scaling vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-idle-promote-threshold.html">idle promote / demote thresholds</a> page, not <a href="processor-idle-disable.html">Processor idle disable</a>, not <a href="processor-idle-time-check.html">idle time check</a>, and not <a href="processor-idle-state-maximum.html">idle state maximum</a>. Promote/demote are the percent pair. This page is whether the idle engine is allowed to <em>rescale</em> that pair: Power Options → Processor power management → <strong>Processor idle threshold scaling</strong>. Alias <code>IDLESCALING</code>. GUID <code>6c2993b0-8f48-481f-bcc6-00dd2742aa06</code>. Values are <strong>Disable scaling</strong> (0) and <strong>Enable scaling</strong> (1). This host printed <strong>Disable scaling on AC and DC</strong>.</p>
+      <a class="btn" href="processor-idle-threshold-scaling.md" download>Download markdown</a>
+      <a class="btn" href="processor-idle-promote-threshold.html">Promote / demote</a>
+      <a class="btn" href="processor-idle-disable.html">Idle disable</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The promote/demote pack names a hysteresis pair. Balanced default on this Yoga is 60% / 40%. The forever-desk click on that page is 100 / 80 on AC. Those numbers only stay those numbers if the engine is not allowed to rescale them. <code>IDLESCALING</code> Enable scaling (1) lets the idle engine move the thresholds with conditions. A soak that printed 100 / 80 can walk back toward a 60 / 40 feel without anyone reopening Power Options. <code>grok.exe</code> is alive. Task Scheduler still prints Ready and last result 267009. The operator thinks the percent pack failed. Scaling was Enabled.</p>
+      <p>This host already has Disable scaling (0). That is the pass. This page still ships because Enable scaling is a one-click undo of the percent pack, and because other images default differently. The click here is: query, keep 0, restore 0 if someone Enabled it to “save watts.” Do not Enable scaling on AC as a forever-loop upgrade. There is no upgrade. 0 is the hold.</p>
+      <p>Do not install systemd to paper over a rescaled pair. Do not mint a Vercel slug because 100/80 drifted. Do not Disable idle on this click. Do not rewrite 100/80 on this page — that is the sibling.</p>
+    </section>
+    <section>
+      <h2>Live query on this host (2026-09-01)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Field</th><th>This desk</th></tr></thead>
+          <tbody>
+            <tr><td>Scheme</td><td><code>SCHEME_BALANCED</code> <code>381b4222-f694-41f0-9685-ff5bb260df2e</code></td></tr>
+            <tr><td>Subgroup</td><td><code>SUB_PROCESSOR</code> <code>54533251-82be-4824-96c1-47b60b740d00</code></td></tr>
+            <tr><td>Setting GUID</td><td><code>6c2993b0-8f48-481f-bcc6-00dd2742aa06</code> alias <code>IDLESCALING</code></td></tr>
+            <tr><td>Possible 0</td><td>Disable scaling</td></tr>
+            <tr><td>Possible 1</td><td>Enable scaling</td></tr>
+            <tr><td>AC / DC</td><td><code>0x00000000</code> = Disable scaling</td></tr>
+            <tr><td>Sibling <code>IDLEDISABLE</code></td><td>AC 0 / DC 0 Enable idle — this page still applies</td></tr>
+            <tr><td>Sibling <code>IDLEPROMOTE</code> / <code>IDLEDEMOTE</code></td><td>AC/DC 60% / 40% until that pack runs. Different pack.</td></tr>
+            <tr><td>Sibling <code>IDLECHECK</code></td><td>AC/DC 50 ms. Different pack.</td></tr>
+            <tr><td>Sibling <code>IDLESTATEMAX</code></td><td>AC 0 / DC 0 no cap. Different pack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>powercfg /qh</code> printed this row on this SKU. Hidden in the GUI is not missing. Do not cargo-cult <code>-ATTRIB_HIDE</code> on a public page. This host is already the pass (0). Restore is the job if a later soak prints 1.</p>
+    </section>
+    <section>
+      <h2>Scaling is not the pair</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Layer</th><th>What it actually is</th></tr></thead>
+          <tbody>
+            <tr><td>Processor idle promote / demote</td><td>The percent values. <code>IDLEPROMOTE</code> / <code>IDLEDEMOTE</code>. 60/40 vs 100/80.</td></tr>
+            <tr><td>Processor idle threshold scaling</td><td>Whether the engine may rescale those values. <code>IDLESCALING</code>. 0 = hold. 1 = drift. This page.</td></tr>
+            <tr><td>Processor idle time check</td><td>Sample window. Microseconds. Not a rescale.</td></tr>
+            <tr><td>Processor idle disable</td><td>Allow/deny. Not a rescale.</td></tr>
+            <tr><td>Processor idle state maximum</td><td>Depth cap. Not a rescale.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>100 / 80 with Enable scaling is a lie that looks true in the first <code>/qh</code> after the write. 60 / 40 with Disable scaling is at least a stable 60 / 40. Do the percent pack and keep scaling Disabled. Do not Enable scaling to “help” a 100/80 walk.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>IDLEDISABLE already 1 on AC</td><td>Scaling unused. <a href="processor-idle-disable.html">Idle disable</a> already took the heat.</td></tr>
+            <tr><td>Promote / demote still 60 / 40 and scaling already 0</td><td>Write the pair. <a href="processor-idle-promote-threshold.html">Promote / demote</a>.</td></tr>
+            <tr><td>IDLECHECK still 50000 µs</td><td><a href="processor-idle-time-check.html">Idle time check</a>.</td></tr>
+            <tr><td>IDLESTATEMAX still 0</td><td><a href="processor-idle-state-maximum.html">Idle state maximum</a>.</td></tr>
+            <tr><td>A named 100/80 pair drifted. <code>IDLESCALING</code> prints Enable scaling (1). Or a new image defaults to 1</td><td>This page. Restore Disable scaling (0) on AC.</td></tr>
+            <tr><td>This Yoga already prints Disable scaling (0)</td><td>This page still applies as the hold. Do not Enable it.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not Enable scaling as a forever-loop upgrade. There is no upgrade. 0 is the hold. If <code>/qh</code> omits the GUID, stop; do not invent a registry paste. Leave DC Disable scaling if the laptop actually travels.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm IDLEDISABLE is still Enable idle (0)</strong> — if it is already Disable idle (1), scaling is unused.</li>
+          <li><strong>Query <code>IDLESCALING</code> with <code>/qh</code> before you write</strong> — this host printed 0 Disable scaling. If <code>/qh</code> omits the GUID, this edition did not expose the knob. <strong>Stop.</strong> Do not invent a registry paste. Do not guess GUID <code>6c2993b0-8f48-481f-bcc6-00dd2742aa06</code> from a forum as a fleet trick.</li>
+          <li><strong>If AC is 1, set Plugged in to Disable scaling (0)</strong> — if AC is already 0, do not write 1. On battery stays Disable scaling if this laptop actually travels.</li>
+          <li><strong>Do not Enable scaling to “help” 100/80</strong> — Enable scaling is the undo. The percent pack writes the pair. This pack holds it.</li>
+          <li><strong>Leave promote, demote, time check, and state maximum as siblings</strong> — this click does not write 100/80. This click does not write 10000 µs. This click does not cap depth.</li>
+          <li><strong>Activate the current scheme after any AC index write</strong> — <code>/setacvalueindex</code> does not apply until <code>/setactive SCHEME_CURRENT</code>. Query again. AC <code>0x00000000</code> is the pass. <code>0x00000001</code> is Enable scaling — a fail for this desk.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — one processor knob. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR IDLESCALING
+powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR IDLESCALING 0
+powercfg /setactive SCHEME_CURRENT
+powercfg /qh SCHEME_CURRENT SUB_PROCESSOR IDLESCALING</pre>
+      <p><code>SUB_PROCESSOR</code> is the processor subgroup. <code>IDLESCALING</code> is Processor idle threshold scaling. <strong>0 = Disable scaling</strong> (this host now, the pass). <strong>1 = Enable scaling</strong> (the undo). Run the <code>/qh</code> line first. If the alias is omitted, skip the <code>/setacvalueindex</code> line. If AC is already 0, the set line is a no-op hold, not a restamp of the percent pair.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="processor-idle-promote-threshold.html">Idle promote / demote thresholds</a> — the percent values. 60/40 vs 100/80. This page does not write those numbers.</li>
+        <li><a href="processor-idle-disable.html">Processor idle disable</a> — allow/deny. Heat. Not a rescale.</li>
+        <li><a href="processor-idle-time-check.html">Processor idle time check</a> — sample window in microseconds. Not a rescale.</li>
+        <li><a href="processor-idle-state-maximum.html">Processor idle state maximum</a> — depth cap. Not a rescale.</li>
+        <li>This page — AC <code>IDLESCALING</code> Disable scaling (0) so a named promote/demote walk cannot undo itself.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Enable idle still 0 if that is the heat choice. Promote/demote already named if that pack ran.</li>
+          <li>Query <code>IDLESCALING</code> after 30 minutes idle. Still 0 on AC. A 100/80 pair (if written) still reads 100/80, not a drifted 60/40.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with scaling 0 is the hold, not a skip of the percent pack.</li>
+          <li>If someone set Enable scaling to “save watts,” restore Disable scaling on AC. Do not “fix” it by switching the whole plan to High performance.</li>
+          <li>No fourth Grok TUI. Isolation-empty <code>scheduler_list</code> is skip recreate. The Windows task is the host-forever pulse. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every host defaults to Disable scaling. This Yoga measured 0. Other images may print 1.</li>
+        <li>Not the promote/demote percent write. Not idle disable. Not idle time check. Not idle state maximum.</li>
+        <li>Not a High-performance plan essay. One processor setting.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="processor-idle-promote-threshold.html">Promote / demote</a> · <a href="processor-idle-time-check.html">Idle time check</a> · <a href="processor-idle-state-maximum.html">Idle state maximum</a> · <a href="processor-idle-disable.html">Idle disable</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

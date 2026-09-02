@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>powercfg /sleepstudy vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Sleep study is the Modern Standby HTML report: CS sessions, DRIPS %, remaining consumers. Distinct from lastwake, /requests, /energy, and CSEnabled. Report stays local. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/powercfg-sleepstudy.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"powercfg /sleepstudy vs a forever loop","description":"Run powercfg /sleepstudy after sleep-vs-forever diagnosis so a missed Interactive hourly is blamed on a named Modern Standby session and remaining consumers, not on Grok. Distinct from lastwake, /requests, /energy, and CSEnabled. Report stays local. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm powercfg /a lists Standby (S0 Low Power Idle) and sleep-vs-forever diagnosis is already done"},{"@type":"HowToStep","name":"Run elevated powercfg /sleepstudy /duration 1 and open the HTML locally"},{"@type":"HowToStep","name":"Classify: a CS session covering the missed hour vs no CS session vs poor DRIPS with named remaining consumers"},{"@type":"HowToStep","name":"Act on the named remaining consumer or the CSEnabled skip. Do not publish the report on Pages"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="connected-standby-csenabled.html">CSEnabled</a>
+        <a href="powercfg-lastwake.html">/lastwake</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever · report stays local</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">powercfg /sleepstudy vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Modern Standby diagnosis</a> page, not the <a href="connected-standby-csenabled.html">CSEnabled skip</a> page, not the <a href="powercfg-lastwake.html">/lastwake</a> forensic, and not <a href="powercfg-requests-blockers.html">/requests</a>. Sleep-vs-forever tells you S0ix can freeze Interactive-only tasks while the lid looks on. CSEnabled on this Yoga 7 class is <em>skip the DWORD</em> — S3 is not offered. /lastwake names who yanked the last sleep. /requests names who is pinning DISPLAY or SYSTEM <em>while awake</em>. This page is the remaining Modern Standby <strong>HTML report</strong>: <code>powercfg /sleepstudy</code>. It lists Connected Standby sessions, DRIPS residency, and remaining consumers. The report stays on disk. It does not go on GitHub Pages.</p>
+      <a class="btn" href="powercfg-sleepstudy.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever first</a>
+      <a class="btn" href="connected-standby-csenabled.html">CSEnabled skip</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p><code>LEXXII-Materialize-Forever</code> is Interactive-only. Lid can already be Do nothing on AC. Sleep after can already be Never. Wake timers can already be Enable. Task Scheduler still prints Ready. Last result 267009 is still-running. The closed-lid docked hour still missed. The operator blames Grok. The box may have entered <strong>Standby (S0 Low Power Idle)</strong> — Connected Standby / Modern Standby — and frozen the user session while RAM stayed powered. Sleep-vs-forever already named that failure mode. It did not produce the session list.</p>
+      <p><code>powercfg /sleepstudy</code> is the evidence. It is not a Power Options click. It is not a registry cut. It writes an HTML report of CS sessions this firmware actually entered: start, duration, percent of time in DRIPS (Deepest Runtime Idle Platform State), and the remaining activators that blocked DRIPS — NIC, USB hub, radios, display, an OEM PEP. A missed hourly that lines up with a CS session is S0ix, not a dead Grok scheduler. A missed hourly with <em>no</em> CS session in that window is a different layer. Poor DRIPS with a named remaining consumer is the sibling that owns that name, not a fourth TUI.</p>
+      <p>On this class of laptop, <a href="connected-standby-csenabled.html">CSEnabled</a> already says skip: <code>powercfg /a</code> lists S0 Low Power Idle and does not list S3. Writing <code>CsEnabled=0</code> does not invent S3. Sleep study is how you prove residency without that cargo-cult DWORD. This Windows profile is not a Linux FULL AUTO daemon. Do not install systemd because DRIPS printed 12%. Do not paste the report next to live NLV. NLV stays off Pages. Device instance paths and adapter names in that HTML are local forensics, not public property.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td><code>powercfg /a</code> does not list Standby (S0 Low Power Idle). Classic S3 only</td><td>Different layer. Sleep study is an AoAc report. Use <code>powercfg /systemsleepdiagnostics</code> locally. Not this pack.</td></tr>
+            <tr><td>Plan still has 5–20 minute sleep on AC. Lid is Sleep</td><td>Different layer. Heal timeouts first. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> / <a href="lid-close-do-nothing.html">lid</a>.</td></tr>
+            <tr><td>Want to disable Connected Standby and restore S3</td><td>Different layer. On this class, skip. <a href="connected-standby-csenabled.html">CSEnabled</a>.</td></tr>
+            <tr><td>Need the name of who woke the last sleep</td><td>Different layer. <a href="powercfg-lastwake.html">/lastwake</a> and <code>/waketimers</code>.</td></tr>
+            <tr><td>Fan stays up. Session never idled. DISPLAY / SYSTEM held</td><td>Different layer. <a href="powercfg-requests-blockers.html">/requests</a> while awake.</td></tr>
+            <tr><td>Need a 60-second energy-efficiency HTML (timer resolution, USB selective suspend errors)</td><td>Different report. <code>powercfg /energy</code>. Companion leftovers live on <a href="multimedia-timer-resolution.html">timer resolution</a> / <a href="usb-selective-suspend.html">USB selective suspend</a>. Do not confuse with sleep study.</td></tr>
+            <tr><td>S0 listed. Timeouts honest. Closed-lid hour missed. Need the CS session list and remaining consumers</td><td>This page. Run <code>/sleepstudy</code>. Keep the HTML local.</td></tr>
+            <tr><td>Last result 267009</td><td>Still running. Do not spawn a 4th TUI. Not a sleep-study proof.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not run sleep study as the first click on a new host. Confirm <code>powercfg /a</code> lists S0 Low Power Idle. Do not publish <code>sleepstudy-report.html</code> on GitHub Pages — it carries device paths. Do not write <code>CsEnabled=0</code> because DRIPS was low. Do not paste the report next to brokerage numbers.</div>
+    </section>
+    <section>
+      <h2>What to run (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm this firmware is AoAc</strong> — elevated <code>powercfg /a</code> must list Standby (S0 Low Power Idle). If it only lists S3, this pack does not apply. If it lists S0 and not S3, you are on the Yoga 7 class path: CSEnabled skip, sleep study for evidence. See <a href="connected-standby-csenabled.html">CSEnabled</a>.</li>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in Sleep after is not 5–20 minutes. Lid close on AC is Do nothing if that is the desk policy. Otherwise the report is a mix of intended sleep and a missed hourly. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>.</li>
+          <li><strong>Generate the report locally</strong> — elevated Command Prompt: <code>powercfg /sleepstudy /duration 1</code>. Default without <code>/duration</code> is three days of CS history. Write it somewhere you own: <code>powercfg /sleepstudy /duration 1 /output %USERPROFILE%\sleepstudy-report.html</code>. Open the HTML in a browser on this host. Do not commit it. Do not drag it onto Pages.</li>
+          <li><strong>Classify the missed hour</strong> — a CS session whose start/duration covers the frozen hourly is S0ix residency. No CS session in that window means CS is not the liar; go back to <a href="powercfg-requests-blockers.html">/requests</a>, <a href="hibernate-off-forever.html">Hibernate</a>, or <a href="powercfg-lastwake.html">/lastwake</a>. A session with poor DRIPS lists remaining consumers — NIC, USB, radios. Name them. Then go to the sibling that owns that name: <a href="network-standby-connectivity.html">network in standby</a>, <a href="usb-root-hub-power.html">USB root hub</a>, <a href="wifi-adapter-power-saving.html">Wi-Fi power saving</a>, <a href="bluetooth-adapter-power-saving.html">Bluetooth</a>.</li>
+          <li><strong>Act. Do not cargo-cult</strong> — remaining consumer that is the dedicated NIC: NIC-in-standby policy, not a fourth Grok window. Remaining consumer that is a HID bump: expected on a docked desk. Do not unplug the mouse to “heal” DRIPS. Do not invent <code>CsEnabled=0</code> on firmware that does not offer S3. Soak. Do not paste <code>auth.json</code> next to that HTML.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+powercfg /sleepstudy /duration 1 /output %USERPROFILE%\sleepstudy-report.html
+schtasks /Query /TN "LEXXII-Materialize-Forever" /FO LIST /V</pre>
+      <p><code>/a</code> is the capability list. Sleep study is the session list. They are not the same object. <code>/duration 1</code> is one day of history — enough for a closed-lid soak, less noise than the three-day default. <code>/xml</code> exists; do not publish that either. <code>powercfg /energy</code> is a different 60-second trace. <code>powercfg /batteryreport</code> is battery history. <code>powercfg /systemsleepdiagnostics</code> is classic S3. None of those replace sleep study on an AoAc desk. Device paths and radio names stay in the local HTML.</p>
+    </section>
+    <section>
+      <h2>How to read the report</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Sleep study says</th><th>What it is</th><th>Where to go</th></tr></thead>
+          <tbody>
+            <tr><td>No Standby (S0 Low Power Idle) on <code>/a</code>. Command errors or empty CS table</td><td>Not AoAc, or no CS session in the duration window</td><td>If S3 only: <code>/systemsleepdiagnostics</code> locally. If S0 listed but empty: CS did not fire — different layer.</td></tr>
+            <tr><td>A CS session covers the missed hourly. DRIPS high</td><td>Firmware entered deep Modern Standby. Interactive-only froze as designed</td><td><a href="windows-sleep-vs-forever.html">Sleep vs forever</a>. Keep lid Do nothing / Sleep after Never on AC if this desk must not enter CS. Do not write CSEnabled on this class.</td></tr>
+            <tr><td>A CS session covers the missed hourly. DRIPS low. Remaining: NIC / Wi-Fi / WWAN</td><td>Radio kept the platform out of DRIPS. Session still froze user tasks</td><td><a href="network-standby-connectivity.html">Network in Standby</a> / <a href="wifi-adapter-power-saving.html">Wi-Fi</a>. Not a Grok hang.</td></tr>
+            <tr><td>Remaining: USB hub / HID / root hub</td><td>A dock or bump held a device awake inside CS</td><td><a href="usb-root-hub-power.html">USB root hub</a> / <a href="usb-selective-suspend.html">USB selective suspend</a> / <a href="usb3-link-power-management.html">USB 3 LPM</a>.</td></tr>
+            <tr><td>Remaining: Bluetooth</td><td>BT radio Power Management inside CS</td><td><a href="bluetooth-adapter-power-saving.html">Bluetooth adapter power saving</a>.</td></tr>
+            <tr><td>No CS session in the missed hour. Last-run frozen anyway</td><td>CS is not the liar</td><td><a href="powercfg-requests-blockers.html">/requests</a>, <a href="hibernate-off-forever.html">Hibernate Off</a>, <a href="hybrid-sleep-ac.html">hybrid sleep</a>, <a href="powercfg-lastwake.html">/lastwake</a>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — the diagnosis that S0ix / Interactive-only / 267009 can fake a dead loop. This page is the CS session evidence.</li>
+        <li><a href="connected-standby-csenabled.html">CSEnabled</a> — the firmware/policy knob. On this class, skip. Sleep study does not change that skip.</li>
+        <li><a href="powercfg-lastwake.html">/lastwake</a> — who yanked the last sleep. One wake. Not a CS residency table.</li>
+        <li><a href="powercfg-requests-blockers.html">/requests</a> — holders while the session is already awake. Sleep study is what happened <em>inside</em> CS.</li>
+        <li><a href="network-standby-connectivity.html">Network in Standby</a> — NIC policy during CS. Sleep study may name that NIC as a remaining consumer.</li>
+        <li><code>powercfg /energy</code> — 60-second energy-efficiency HTML. Timer resolution, USB errors. Not CS sessions. Do not publish it either.</li>
+        <li>This page — run <code>/sleepstudy</code>, classify the missed hour against CS sessions, keep the HTML local.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li><code>powercfg /a</code> already lists S0 Low Power Idle. Sleep after and lid policy already match the desk. Otherwise this soak is lying about which state ran.</li>
+          <li>Plugged in. Lid closed on the dock for sixty minutes. Generate <code>/sleepstudy /duration 1</code> after the hour.</li>
+          <li>If the named task last-run <em>advanced</em> across that hour, CS either did not fire or did not freeze Interactive — pass for this layer. Classify any CS session anyway so the next miss has a baseline.</li>
+          <li>If last-run froze and sleep study shows a CS session covering that hour, this layer is the liar. Do not spawn a fourth Grok TUI. Do not write CSEnabled on this class. Change lid / Sleep after if the desk must stay Interactive.</li>
+          <li>If last-run froze and sleep study shows <em>no</em> CS session, fail-over to /requests, Hibernate, hybrid sleep, or lastwake. Poor DRIPS names a remaining consumer; that name is the next sibling, not a systemd unit.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not the Modern Standby diagnosis essay. That is <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a>.</li>
+        <li>Not permission to write <code>CsEnabled=0</code> on firmware that does not offer S3. That skip is <a href="connected-standby-csenabled.html">connected-standby-csenabled.html</a>.</li>
+        <li>Not <code>powercfg /lastwake</code> or <code>/waketimers</code>.</li>
+        <li>Not <code>powercfg /requests</code> while awake.</li>
+        <li>Not <code>powercfg /energy</code>, <code>/batteryreport</code>, or <code>/systemsleepdiagnostics</code>. Those are different reports. None of them belong on Pages.</li>
+        <li>Not a published sleep-study HTML, XML, or device-path dump on GitHub Pages.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="connected-standby-csenabled.html">CSEnabled</a> · <a href="powercfg-lastwake.html">/lastwake</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

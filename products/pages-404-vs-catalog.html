@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pages 404 vs the public catalog — 824 Consultants LLC</title>
+  <meta name="description" content="Free playbook: GitHub Pages 404.html is a deny wall for unknown paths. A catalog SKU that 404s as Private property is missing from main, not a vault. Do not gut the hub." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/pages-404-vs-catalog.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Pages 404 vs the public catalog","description":"Unknown github.io paths hit 404.html deny-by-default. A products card that 404s as Private property means the file is not on origin/main. Do not convert the catalog into a vault.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Fetch the live catalog URL"},{"@type":"HowToStep","name":"If it renders 404.html deny-wall, check origin/main for the file"},{"@type":"HowToStep","name":"Ship the missing public file. Do not gut products/index.html"},{"@type":"HowToStep","name":"Leave /vault as the owner deny wall"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="pages-heal-playbook.html">Heal playbook</a>
+        <a href="../materialize.html">Materialize</a>
+        <a href="../autonomy.html">Autonomy</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>.
+    </div>
+    <section>
+      <span class="badge">Live playbook · $0 · crawl honesty</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Pages 404 vs the public catalog</h1>
+      <p>This property’s <code>404.html</code> is an owner deny wall for <strong>unknown</strong> paths. That is correct for random URLs. It is not correct to treat a catalog SKU as vault just because github.io rendered that wall.</p>
+      <a class="btn" href="pages-404-vs-catalog.md" download>Download markdown</a>
+      <a class="btn" href="pages-heal-playbook.html">Pages heal playbook</a>
+      <a class="btn" href="index.html">Product hub</a>
+    </section>
+    <section>
+      <h2>The split</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>URL class</th><th>Correct face</th></tr></thead>
+          <tbody>
+            <tr><td>Home, products hub, autonomy, sitemap, robots</td><td>Crawlable public</td></tr>
+            <tr><td>A pack or review that exists on <code>main</code></td><td>That page, disclosed</td></tr>
+            <tr><td>A pack committed only on the laptop</td><td>404 deny wall until it lands on <code>origin/main</code></td></tr>
+            <tr><td><code>/vault</code></td><td>Owner deny wall. Leave it</td></tr>
+            <tr><td>Random unknown path</td><td>404 deny wall. Leave it</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>Incident this pack was written from</h2>
+      <div class="card">
+        <p>Live catalog on github.io was healthy. Local clone was one commit ahead with Git + Node, sleep-vs-forever, and USB Ethernet pages. Fetching those URLs returned <strong>Private property / DENY BY DEFAULT</strong> — the custom <code>404.html</code>, not a vault dump and not proof Law 237 wants the catalog gutted.</p>
+        <p>Raw GitHub for the same path was a true 404. Origin SHA lagged the laptop. GitHub MCP was absent this session; fail-fast <code>git push</code> had no stored username. The heal is land the files on <code>main</code>, not convert <code>products/index.html</code> into a deny wall.</p>
+      </div>
+    </section>
+    <section>
+      <h2>What not to do</h2>
+      <div class="warn">
+        <ul>
+          <li>Do not “protect the vault” by Disallow-all robots or emptying the sitemap.</li>
+          <li>Do not SHA-bump home with PLACEHOLDER or essay-chrome.</li>
+          <li>Do not turn <code>404.html</code> into a public catalog. Unknown paths stay denied.</li>
+          <li>Do not publish IBKR numbers while explaining a 404.</li>
+        </ul>
+      </div>
+    </section>
+    <p><a href="index.html">← Product hub</a> · <a href="pages-heal-playbook.html">Heal playbook</a> · <a href="../materialize.html">Materialize</a></p>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

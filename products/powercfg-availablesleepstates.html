@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>powercfg /a vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="powercfg /a is the sleep-state availability map: S0ix vs S3 vs Hibernate vs Hybrid Sleep vs Fast Startup. Distinct from CSEnabled, STANDBYIDLE, HYBRIDSLEEP, /h off, sleepstudy, and lastwake. Dump stays local. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/powercfg-availablesleepstates.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"powercfg /a vs a forever loop","description":"Run powercfg /a before changing Sleep after, Hybrid Sleep, Hibernate, or Fast Startup so the firmware map is named. S0 Low Power Idle is Modern Standby, not S3. Hybrid Sleep requires S3. Fast Startup requires Hibernate. Distinct from CSEnabled, STANDBYIDLE, HYBRIDSLEEP, powercfg /h off, sleepstudy, energy, and lastwake. Dump stays local. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Run powercfg /a on the plugged-in desk before changing sleep policies"},{"@type":"HowToStep","name":"Classify available vs unavailable: S0 Low Power Idle vs S3 vs Hibernate vs Hybrid Sleep vs Fast Startup"},{"@type":"HowToStep","name":"Open the matching sibling pack for the state you actually have. Do not hunt S3 on an S0ix-only firmware"},{"@type":"HowToStep","name":"Re-run /a after Fast Startup off or Hibernate off. The unavailable reason must match the click. Keep the dump off GitHub Pages"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="connected-standby-csenabled.html">CSEnabled</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">powercfg /a vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> timeout page, not the <a href="connected-standby-csenabled.html">CSEnabled</a> registry page, not <a href="hybrid-sleep-ac.html">Hybrid Sleep</a>, not <a href="hibernate-off-forever.html">Hibernate Off</a>, not <a href="windows-fast-startup.html">Fast Startup</a>, and not <a href="powercfg-sleepstudy.html">sleepstudy</a> or <a href="powercfg-lastwake.html">/lastwake</a>. Those packs set a policy or read a history. This page is the remaining map: <code>powercfg /a</code> (<code>/availablesleepstates</code>). It names which ACPI / Modern Standby states the firmware will actually enter. A Hybrid Sleep click on a box that has no S3 is a ghost. A Sleep-after timer on S0ix is not S3. Read the map first.</p>
+      <a class="btn" href="powercfg-availablesleepstates.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+      <a class="btn" href="connected-standby-csenabled.html">CSEnabled</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Every sibling says “run <code>powercfg /a</code>.” Almost none of them <em>are</em> that dump. The operator sets Sleep after to Never, turns Hibernate off, or hunts Hybrid Sleep in the GUI, then wonders why the row is missing or why lid-close still looks like a black screen with the NIC up. Task Scheduler still prints Ready and last result 267009 (still-running). The Grok TUI is still a process. The firmware never had S3. Or it had S3 and someone is treating S0ix lines as a BIOS bug.</p>
+      <p><code>/a</code> is availability, not policy. It does not change STANDBYIDLE. It does not flip CSEnabled. It does not write <code>hiberfil.sys</code>. It prints two lists: states the platform will enter, and states it will not, with a reason. Typical docked-laptop Grok hosts in this class print <strong>Standby (S0 Low Power Idle) Network Connected</strong> as available, and S1 / S2 / S3 as unavailable because S0 low power idle is supported. Hybrid Sleep then says Standby (S3) is not available. Hibernate and Fast Startup may still list as available until those packs are applied. That output is a class, not a serial number. Do not paste a live dump with OEM reasons onto GitHub Pages.</p>
+      <p><code>LEXXII-Materialize-Forever</code> is Interactive-only. S0ix can look “asleep” while the process table still has grok.exe. S3 freezes RAM and the Interactive session is gone until resume. Those are not the same liar. Do not install systemd to paper over an S0ix map. Do not mint a Vercel slug because Hybrid Sleep was grey. Do not paste live NLV next to a sleep-state dump. NLV stays off Pages.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Sleep after still 5–20 minutes on AC. Map already known</td><td>Different layer. Set the timer. <a href="sleep-after-timeout.html">STANDBYIDLE</a>.</td></tr>
+            <tr><td>Lid close still Sleep. Map already known</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>Need to disable Connected Standby in the registry</td><td>Different layer. <a href="connected-standby-csenabled.html">CSEnabled</a>. Dangerous. Map first.</td></tr>
+            <tr><td>Hybrid Sleep GUI row missing or grey. Want the reason</td><td>This page. Hybrid Sleep requires S3. S0ix-only firmware will never expose it.</td></tr>
+            <tr><td>Hibernate still listed. Want it gone</td><td>Different layer after this map. <a href="hibernate-off-forever.html">powercfg /h off</a>.</td></tr>
+            <tr><td>Start-menu Shut down is a fake boot</td><td>Different layer. <a href="windows-fast-startup.html">Fast Startup</a>. Requires Hibernate.</td></tr>
+            <tr><td>Need S0ix history, not the map</td><td>Different dump. <a href="powercfg-sleepstudy.html">sleepstudy</a>.</td></tr>
+            <tr><td>Need who yanked the last sleep</td><td>Different dump. <a href="powercfg-lastwake.html">/lastwake</a>.</td></tr>
+            <tr><td>Need the firmware map before any of those clicks</td><td>This page. <code>powercfg /a</code>.</td></tr>
+            <tr><td>Last result 267009, another window would stack</td><td>Still running. Do not spawn a 4th TUI. Not a sleep-state map.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not flip CSEnabled, Hybrid Sleep, or Hibernate as the first click on a new host. Read <code>/a</code> first. Do not hunt S3 in BIOS because a Modern Standby laptop listed S0 Low Power Idle. Do not treat Hybrid Sleep unavailable as a broken GUI. Do not paste the dump next to brokerage numbers. Device reasons stay local.</div>
+    </section>
+    <section>
+      <h2>What to run (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Elevated Command Prompt, session unlocked, brick in</strong> — <code>powercfg /a</code>. Same as <code>powercfg /availablesleepstates</code>. Do this before changing Sleep after, Hybrid Sleep, Hibernate, or Fast Startup.</li>
+          <li><strong>Split the two lists</strong> — Available is what the platform will enter. Unavailable is what it will not, with a reason. Firmware, hypervisor, S0ix-disables-S3, Hibernate not enabled, and “Standby (S3) is not available” are different sentences. Read the reason. Do not stop at “sleep is weird.”</li>
+          <li><strong>Classify the standby class</strong> — <em>S0 Low Power Idle</em> (Modern Standby / Connected Standby path) vs <em>S3</em> (classic Suspend-to-RAM) vs both (rare). Network Connected vs Network Disconnected on the S0ix line is NIC policy during idle, not a different ACPI letter. Then open the sibling that matches the class.</li>
+          <li><strong>Do not “fix” an honest unavailable</strong> — Hybrid Sleep unavailable because S3 is unavailable is expected on S0ix-only firmware. S1 and S2 unavailable on a 2024+ laptop is expected. Hibernate available after you wanted it off is the <a href="hibernate-off-forever.html">Hibernate Off</a> pack, not a BIOS flash. Fast Startup available means Hibernate is still on.</li>
+          <li><strong>Re-query after a real policy click</strong> — <code>/h off</code> should move Hibernate and Fast Startup to unavailable. CSEnabled work is a different page and can brick Modern Standby networking — do not do it because this dump listed S0ix. Save the text locally. Do not publish it. Do not paste <code>auth.json</code> next to that output.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+powercfg /availablesleepstates
+powercfg /a | more</pre>
+      <p>The alias is <code>/a</code>. There is no GUID to unhide. There is no AC vs DC index. The map is per machine, per firmware, per hypervisor. A Hyper-V / WSL2 / VBS host can add “The hypervisor does not support this standby state” under Hybrid Sleep even when S3 is already gone. That is a reason line, not a license to install systemd. Event Viewer and sleepstudy are history. This dump is capability. Keep OEM strings off Pages.</p>
+    </section>
+    <section>
+      <h2>How to read the map</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>/a says</th><th>What it is</th><th>Where to go</th></tr></thead>
+          <tbody>
+            <tr><td>Available · Standby (S0 Low Power Idle) Network Connected</td><td>Modern Standby. Looks off. Stays in S0. NIC may stay up. Interactive-only tasks can miss fires while the lid looks asleep.</td><td><a href="windows-sleep-vs-forever.html">Sleep vs forever</a>. Then <a href="sleep-after-timeout.html">Sleep after</a> and <a href="lid-close-do-nothing.html">lid</a>. Not an S3 hunt.</td></tr>
+            <tr><td>Available · Standby (S0 Low Power Idle) Network Disconnected</td><td>Same S0ix class. NIC is supposed to drop in idle. Not a USB-Ethernet SKU.</td><td><a href="network-standby-connectivity.html">Network in Standby</a> after this map.</td></tr>
+            <tr><td>Available · Standby (S3)</td><td>Classic Suspend-to-RAM. Session frozen in RAM. Hybrid Sleep can exist.</td><td><a href="sleep-after-timeout.html">STANDBYIDLE</a> is S3 minutes. <a href="hybrid-sleep-ac.html">Hybrid Sleep</a> is allowed to be a real row.</td></tr>
+            <tr><td>Unavailable · S3 because S0 low power idle is supported</td><td>Firmware chose Modern Standby over S3. Expected on this laptop class.</td><td>Stop hunting S3. Do not flash BIOS for Grok. Open the S0ix siblings.</td></tr>
+            <tr><td>Unavailable · Hybrid Sleep · Standby (S3) is not available</td><td>Ghost row. Hybrid Sleep is S3 + a hibernate file. No S3, no hybrid.</td><td>Not a GUI bug. Leave it. Do not Apply Energy recommendations to “enable” it.</td></tr>
+            <tr><td>Available · Hibernate</td><td>S4 is still on. <code>hiberfil.sys</code> still exists. Fast Startup can still lie.</td><td><a href="hibernate-off-forever.html">Hibernate Off</a> if this desk should never S4.</td></tr>
+            <tr><td>Available · Fast Startup</td><td>Hybrid shutdown still armed. Start-menu Shut down is not a full boot.</td><td><a href="windows-fast-startup.html">Fast Startup</a>. Hibernate Off first or with it.</td></tr>
+            <tr><td>Unavailable · Hibernate has not been enabled</td><td>Someone already ran <code>/h off</code>, or firmware has no S4.</td><td>Fast Startup should be unavailable too. If Fast Startup still lists, re-query; do not invent a registry paste.</td></tr>
+            <tr><td>Unavailable · S1 / S2 · firmware does not support</td><td>Legacy standby. Not used on this class of PC.</td><td>Ignore. Not a fail. Not a Grok defect.</td></tr>
+            <tr><td>Hypervisor does not support this standby state</td><td>VBS / Hyper-V / WSL2 stacked on the firmware map.</td><td>Name it. Do not disable VBS to “heal” a 5-minute pulse. Not systemd.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — timeouts, Interactive-only, result 267009, Modern Standby as a <em>behavior</em>. This page is the firmware map that tells you whether that behavior is S0ix or S3.</li>
+        <li><a href="connected-standby-csenabled.html">CSEnabled</a> — a registry hammer. This dump listing S0ix is not permission to flip CSEnabled.</li>
+        <li><a href="sleep-after-timeout.html">Sleep after</a> — STANDBYIDLE minutes. The map says which sleep those minutes enter.</li>
+        <li><a href="hybrid-sleep-ac.html">Hybrid Sleep</a> — HYBRIDSLEEP setting. Requires S3. This page tells you if the setting can exist.</li>
+        <li><a href="hibernate-off-forever.html">Hibernate Off</a> — <code>powercfg /h off</code>. Re-run <code>/a</code> after that click.</li>
+        <li><a href="windows-fast-startup.html">Fast Startup</a> — hybrid shutdown. Requires Hibernate.</li>
+        <li><a href="powercfg-sleepstudy.html">sleepstudy</a> — S0ix history HTML. Capability is this page; history is that one.</li>
+        <li><a href="powercfg-energy-report.html">/energy</a> — 60-second trace. Not a state map.</li>
+        <li><a href="powercfg-lastwake.html">/lastwake</a> — who yanked the last sleep. Not which states exist.</li>
+        <li>This page — read <code>powercfg /a</code> before those clicks, then open the sibling that matches the available list.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Run <code>powercfg /a</code> on AC with the session unlocked. You get two lists and at least one standby class (S0ix or S3). Empty both-lists is a fail of the command, not a reason to install systemd.</li>
+          <li>If S0 Low Power Idle is available and S3 is unavailable because S0 low power idle is supported: classify as Modern Standby. Do not hunt S3. Lid and Sleep after still need their own packs, but they are S0ix packs.</li>
+          <li>If S3 is available and S0ix is not: classify as classic sleep. Hybrid Sleep is allowed to be a real row. Do not treat missing S0ix as a broken laptop.</li>
+          <li>After <code>powercfg /h off</code>, re-run <code>/a</code>. Hibernate and Fast Startup should be unavailable. If Hibernate is gone and Fast Startup remains, the Fast Startup pack is still the liar — not this map.</li>
+          <li>Hybrid Sleep unavailable solely because S3 is unavailable is a pass of this forensic, not a fail of Hybrid Sleep. Do not Apply Energy recommendations to force it.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the firmware grew S3. Host-forever is the named Windows task. Grok in-session schedulers still expire in 7 days even when durable. Keep the dump off Pages.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Sleep vs forever. That behavior pack is <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a>.</li>
+        <li>Not CSEnabled. That registry hammer is <a href="connected-standby-csenabled.html">connected-standby-csenabled.html</a>.</li>
+        <li>Not Sleep after (STANDBYIDLE). That is <a href="sleep-after-timeout.html">sleep-after-timeout.html</a>.</li>
+        <li>Not Hybrid Sleep. That is <a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a>.</li>
+        <li>Not Hibernate Off. That is <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>.</li>
+        <li>Not Fast Startup. That is <a href="windows-fast-startup.html">windows-fast-startup.html</a>.</li>
+        <li>Not sleepstudy, /energy, /lastwake, or batteryreport. Those are other dumps.</li>
+        <li>Not permission to flash BIOS, disable VBS, or flip CSEnabled because S0ix listed as available.</li>
+        <li>Not a published <code>/a</code> dump on GitHub Pages. Reasons can name firmware. Keep it local.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="connected-standby-csenabled.html">CSEnabled</a> · <a href="hibernate-off-forever.html">Hibernate Off</a> · <a href="powercfg-sleepstudy.html">sleepstudy</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

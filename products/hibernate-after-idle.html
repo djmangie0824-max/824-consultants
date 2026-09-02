@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hibernate after idle vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Hibernate after is HIBERNATEIDLE minutes to ACPI S4. Sleep after Never still dumps the Interactive session when this row is 180 minutes. Distinct from powercfg /h off, HYBRIDSLEEP, and STANDBYIDLE. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/hibernate-after-idle.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Hibernate after idle vs a forever loop","description":"Set Power Options → Sleep → Hibernate after to Never on AC so HIBERNATEIDLE cannot idle a signed-in Interactive session into ACPI S4 while LEXXII-Materialize-Forever still looks Ready. Leaves S4 and hiberfil.sys. Not powercfg /h off. Not HYBRIDSLEEP. Not STANDBYIDLE. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm S4 still exists and Sleep after is already Never on AC"},{"@type":"HowToStep","name":"Open Sleep → Hibernate after"},{"@type":"HowToStep","name":"Set Plugged in to Never. HIBERNATEIDLE is seconds; 0 is Never. Do not run powercfg /h off"},{"@type":"HowToStep","name":"Confirm hiberfil.sys and Start-menu Hibernate remain. Soak past the previous minutes value"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="hibernate-off-forever.html">S4 off is a different cut</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Hibernate after idle vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="hibernate-off-forever.html">Hibernate Off</a> page, not the <a href="hybrid-sleep-ac.html">Allow hybrid sleep</a> page, and not the <a href="windows-sleep-vs-forever.html">sleep vs forever</a> page. Hibernate Off is <code>powercfg /h off</code> — that deletes ACPI S4 and <code>hiberfil.sys</code>. Hybrid sleep is <code>HYBRIDSLEEP</code> (S3 plus a hiberfile write). Sleep-vs-forever is Modern Standby / Interactive-only / result 267009 as a diagnosis, and the Sleep after minutes liar is <code>STANDBYIDLE</code>. This page is the remaining Sleep-subgroup timeout: Power Options → Sleep → <strong>Hibernate after</strong>. That is <code>HIBERNATEIDLE</code>. Idle minutes to S4. The hiberfile stays. Start-menu Hibernate stays. The idle timer is the liar.</p>
+      <a class="btn" href="hibernate-after-idle.md" download>Download markdown</a>
+      <a class="btn" href="hibernate-off-forever.html">S4 off is a different cut</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p><code>LEXXII-Materialize-Forever</code> is Interactive-only. That is honest for a Grok TUI that must not stack a fourth window. Lid can already be Do nothing on AC. Sleep after can already be Never. Hybrid sleep can already be Off. Fast Startup can already be off. Hibernate is still listed in <code>powercfg /a</code> because this desk still wants the S4 verb — UPS remaining-minutes, Start-menu Hibernate, a travel cube that actually unplugs. Balanced <strong>Hibernate after</strong> on AC is often 180 minutes. Windows counts <code>HIBERNATEIDLE</code> in seconds. 10800 is three hours. The session writes RAM to <code>hiberfil.sys</code> and the machine is actually off. Task Scheduler still shows Ready. Next-run sits in the future. No 5-minute fire happens until someone resumes from S4 and signs in.</p>
+      <p>The operator already set Sleep after to Never and thinks the host-forever layer survived idle. It survived S3. It did not survive the independent idle-to-S4 timeout. Setting Hibernate after to Never is not the same as <code>powercfg /h off</code>. Never (0 seconds) leaves S4. The cut that deletes S4 is a different page. This page is the minutes knob. Host-forever is that Windows task on a 5-minute pulse. Grok in-session schedulers expire in 7 days even when durable. They are not this knob. Do not install systemd to paper over 180 minutes. Do not mint a Vercel slug because the box hibernated. Do not paste live NLV next to a <code>powercfg</code> dump. NLV stays off Pages.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Host “looks on,” user tasks frozen, RAM still powered — S0ix diagnosis, 267009 as the tell</td><td>Different layer. <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a>. <code>STANDBYIDLE</code>, not this minutes row.</td></tr>
+            <tr><td>Closing the lid was the trigger</td><td>Different layer. <a href="lid-close-do-nothing.html">lid-close-do-nothing.html</a>.</td></tr>
+            <tr><td>Sleep writes a hiberfile then S3 (Allow hybrid sleep)</td><td>Different layer. <a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a>. <code>HYBRIDSLEEP</code>, not HIBERNATEIDLE.</td></tr>
+            <tr><td>You want S4 gone. Start-menu Hibernate gone. <code>hiberfil.sys</code> gone</td><td>Different layer. <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>. <code>powercfg /h off</code>. That pack told you to query this timeout and ignore it as the cut.</td></tr>
+            <tr><td>Start-menu Shut down restored a kernel without a real boot</td><td>Different layer. Hiberboot. <a href="windows-fast-startup.html">windows-fast-startup.html</a>.</td></tr>
+            <tr><td>Panels black, dock re-enumerates, session still awake</td><td>Different layer. <a href="turn-off-display-after.html">turn-off-display-after.html</a>. VIDEOIDLE, not Hibernate after.</td></tr>
+            <tr><td>A platter spun down; session still live</td><td>Different layer. <a href="hard-disk-idle-timeout.html">hard-disk-idle-timeout.html</a>. DISKIDLE.</td></tr>
+            <tr><td>Lid already Do nothing. Sleep after already Never. Hybrid sleep Off. Fast Startup off. Hibernate still listed. Idle hours later: resume-from-hibernate splash, then a logon, then the 5-minute task fires late. Hibernate after is not Never</td><td>This page. <code>HIBERNATEIDLE</code> on AC. Timeout to S4. Not the hiberfile cut.</td></tr>
+            <tr><td>HIBERNATEIDLE already 0 on AC, or Hibernate is not listed in <code>powercfg /a</code></td><td>This minutes knob is already honest, or S4 is already gone. Stop. Setting Never on a missing S4 is a no-op. Do not run <code>/h off</code> from this page.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not <code>powercfg /h off</code> from this page. That is <a href="hibernate-off-forever.html">hibernate-off-forever</a>. This click leaves S4. A UPS that still Hibernate on remaining minutes needs the file. Do not set Hibernate after to Never as the first click on a new host — lid, Sleep after, and hybrid sleep are sibling rows, not this alias. Never on AC means 0 seconds in <code>powercfg</code> (GUI minutes = 0). Missing effect after HIBERNATEIDLE is already 0 is a skip, not a second paste and not a hiberfile delete.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk that still wants S4)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm S4 is still supposed to exist</strong> — <code>powercfg /a</code> must still list Hibernate. If it does not, S4 is already gone; remaining silence is another layer. If this desk no longer wants Start-menu Hibernate or UPS S4, stop and use <a href="hibernate-off-forever.html">hibernate-off-forever</a> instead. This page is the timeout, not the cut.</li>
+          <li><strong>Confirm the sibling Sleep rows are already honest</strong> — lid close on AC is Do nothing if this soak will close the lid (<a href="lid-close-do-nothing.html">lid-close</a>). Sleep after on AC is Never — that is <code>STANDBYIDLE</code>, the other Sleep-subgroup minutes row (<a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>). Allow hybrid sleep is Off on AC if that row exists (<a href="hybrid-sleep-ac.html">hybrid-sleep-ac</a>). Fast Startup is off (<a href="windows-fast-startup.html">Fast Startup</a>). If Sleep after is still 10–20 minutes, this Hibernate after row is not the liar yet.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Sleep → Hibernate after</strong> — set <em>Plugged in</em> to <strong>Never</strong> (0 minutes). On battery may stay 180 minutes if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Leave Hibernate available</strong> — do not run <code>powercfg /h off</code>. Do not delete <code>C:\hiberfil.sys</code>. Start-menu Hibernate must still exist after this click. Critical-battery Hibernate is a battery-subgroup action, not this timeout — leave it if a measured UPS policy uses it.</li>
+          <li><strong>Leave Sleep after and Allow wake timers alone on this click</strong> — STANDBYIDLE is session sleep. Wake timers recover a logged-on session that slept. This page is idle-to-S4 so the session does not hibernate on the timer. Do not Enable wake timers as a substitute for HIBERNATEIDLE 0. Do not set Sleep after to Never and call this page done.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one Hibernate-after knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Do not install systemd on this Windows profile.</li>
+          <li><strong>Confirm, then soak</strong> — query HIBERNATEIDLE. AC index 0 is the pass. GUI Never = 0 seconds in <code>powercfg</code>, not 0 minutes stored as a guess. <code>powercfg /a</code> still lists Hibernate. <code>dir C:\hiberfil.sys</code> still succeeds. If the alias is missing, stop. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+powercfg /query SCHEME_CURRENT SUB_SLEEP HIBERNATEIDLE
+powercfg /query SCHEME_CURRENT SUB_SLEEP STANDBYIDLE
+powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP HIBERNATEIDLE 0
+powercfg /setactive SCHEME_CURRENT
+dir C:\hiberfil.sys</pre>
+      <p><code>SUB_SLEEP</code> is the Sleep subgroup. <code>HIBERNATEIDLE</code> is Hibernate after. The AC index is <strong>seconds</strong>. <strong>0</strong> is Never. 10800 is 180 minutes — the usual OEM lie on a laptop Balanced plan. 3600 is 60 minutes. Apply with <code>/setactive</code> or the GUI change does not take. If the row is missing from the GUI, query with <code>powercfg</code> anyway — hidden is not the same as Never. If powercfg also omits HIBERNATEIDLE, this firmware did not expose the knob (or S4 is already gone) — stop; do not invent a registry hack on a public page. <code>STANDBYIDLE</code> is Sleep after, not this click. <code>HYBRIDSLEEP</code> is Allow hybrid sleep, not this click. <code>powercfg /h off</code> deletes S4, not this click. VIDEOIDLE is Turn off display after, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="hibernate-off-forever.html">hibernate-off-forever.html</a> — ACPI S4 deleted. <code>powercfg /h off</code>. That pack queries HIBERNATEIDLE so you see it, then ignores it as the fix. This page <em>is</em> that timeout. Leaves the hiberfile.</li>
+        <li><a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a> — Modern Standby, Interactive-only logon, result 267009 still-running as a <em>diagnosis</em>. Sleep after / <code>STANDBYIDLE</code> is the other minutes row. This page is idle-to-S4, not idle-to-S3/S0ix.</li>
+        <li><a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a> — <code>HYBRIDSLEEP</code>. On writes a hiberfile then S3. Not HIBERNATEIDLE. A hybrid Sleep is not Hibernate after.</li>
+        <li><a href="lid-close-do-nothing.html">lid-close-do-nothing.html</a> — lid action so closing the lid is not a Sleep key. Not idle minutes.</li>
+        <li><a href="windows-fast-startup.html">windows-fast-startup.html</a> — hybrid shutdown (Hiberboot). Uncheck the checkbox. Leaves the hiberfile until someone actually cuts S4.</li>
+        <li><a href="wake-timers-forever.html">wake-timers-forever.html</a> — whether Task Scheduler may wake the box if sleep still happened. This page tries not to hibernate on idle.</li>
+        <li><a href="turn-off-display-after.html">turn-off-display-after.html</a> — VIDEOIDLE. Panels, not S4.</li>
+        <li><a href="../reviews/ups-windows-operator-host.html">UPS for a Windows operator host</a> — brown-out runtime. A reason to <em>keep</em> S4 and still set Hibernate after to Never on a docked AC desk.</li>
+        <li>This page — AC Hibernate after = Never so HIBERNATEIDLE cannot idle the signed-in session into S4 while the named task still looks Ready. S4 remains a verb.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Lid already Do nothing on AC if this soak closes the lid. Sleep after already Never on AC. Hybrid sleep Off if the row exists. Fast Startup already off. Otherwise this soak is lying about S3 vs S4 vs Hiberboot.</li>
+          <li>Query HIBERNATEIDLE before the change. If it was 10800 (180 minutes), a 30-minute idle only proves Sleep after did not fire. Honest prove: set AC to 300 (five minutes), idle six minutes lid closed on the dock, confirm a resume-from-hibernate splash — that is this timer. Then set 0. Repeat six minutes idle — no S4 splash. Then leave Never. Do not leave a five-minute prove value on a forever desk.</li>
+          <li><code>powercfg /a</code> still lists Hibernate. Start menu still offers Hibernate. <code>C:\hiberfil.sys</code> is still there. Missing file after this click means someone ran <code>/h off</code> — restore it with <code>powercfg /h on</code> if this desk still wants S4, then set HIBERNATEIDLE 0 again. Do not “fix” Hibernate after by deleting S4.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Last-run must advance across the soak. Ready with a frozen last-run across the previous minutes value failed this layer. A resume-from-hibernate splash after Never is a fail — S4 still fired on idle.</li>
+          <li>HIBERNATEIDLE still 0 on AC. If someone set 180 minutes to “save the battery” on a desk that never unplugs, restore Never. Do not “fix” it by switching the whole plan to High performance. Do not “fix” it with <code>/h off</code> unless the desk no longer wants S4.</li>
+          <li>Host that never hibernates on idle with HIBERNATEIDLE already 0, or with Hibernate already absent from <code>/a</code> = skip, not a red soak. Do not invent a Hibernate after registry value to make this page apply.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the minutes knob stayed Never. Grok schedulers expiring in 7 days is a different list — do not recreate them because HIBERNATEIDLE fired.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>. That pack deletes S4 with <code>powercfg /h off</code>. This pack sets the idle timeout to Never and leaves the hiberfile.</li>
+        <li>Not <a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a>. That pack is <code>HYBRIDSLEEP</code>.</li>
+        <li>Not <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a>. That pack is Modern Standby / Interactive-only / 267009 diagnosis, and the Sleep after minutes liar is <code>STANDBYIDLE</code>.</li>
+        <li>Not <a href="lid-close-do-nothing.html">lid-close-do-nothing.html</a>. That pack is the lid action.</li>
+        <li>Not <a href="windows-fast-startup.html">windows-fast-startup.html</a>. That pack is hybrid shutdown.</li>
+        <li>Not <a href="wake-timers-forever.html">wake-timers-forever.html</a>. That pack is RTC recovery if sleep still happened.</li>
+        <li>Not <a href="turn-off-display-after.html">turn-off-display-after.html</a>. That pack is VIDEOIDLE.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Host-forever is Windows task <code>LEXXII-Materialize-Forever</code>.</li>
+        <li>Not a Grok in-session scheduler. Those expire in 7 days even when durable.</li>
+        <li>Not a fake cluster. Not Vercel. Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a High-performance plan essay. One Hibernate-after setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a claim every laptop should lose Hibernate. This page keeps S4. Travel cubes on battery may keep a Hibernate after value. This desk is closed-lid, docked, AC.</li>
+        <li>Not a UPS SKU. Brown-out hardware stays on the <a href="../reviews/ups-windows-operator-host.html">UPS review</a>.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="hibernate-off-forever.html">Hibernate off</a> · <a href="hybrid-sleep-ac.html">Hybrid sleep</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="lid-close-do-nothing.html">Lid close</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

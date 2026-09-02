@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Processor idle time check vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="IDLECHECK is the C-state sample window in microseconds, not IDLEDISABLE and not the 60/40 promote/demote pair. This desk: 50000 µs = 50 ms. Lower AC so a Grok tool burst is seen before C6. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/processor-idle-time-check.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Processor idle time check vs a forever loop","description":"Query Processor idle time check (IDLECHECK / GUID c4581c31-89ab-4597-8e2b-9c9cab440e6b) under SUB_PROCESSOR. On a plugged-in Grok desk that still has Enable idle, lower AC from 50000 µs (50 ms) to 10000 µs (10 ms) so the idle engine re-evaluates a tool-call burst before it stays in C6. Not IDLEDISABLE. Not IDLEPROMOTE/IDLEDEMOTE. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm IDLEDISABLE is still Enable idle (0). If it is already Disable idle (1), stop — the window is unused"},{"@type":"HowToStep","name":"Query powercfg IDLECHECK on SCHEME_CURRENT. This Yoga measured 0x0000c350 = 50000 µs = 50 ms AC and DC"},{"@type":"HowToStep","name":"Set AC IDLECHECK 10000. Activate the scheme. Leave DC at 50000 if the laptop travels"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. First token after a quiet gap is not a 50 ms C-state miss"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="processor-idle-disable.html">Idle disable</a>
+        <a href="processor-idle-promote-threshold.html">Promote / demote</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Processor idle time check vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-idle-disable.html">Processor idle disable</a> page, not <a href="processor-idle-promote-threshold.html">idle promote / demote thresholds</a>, not <a href="processor-idle-state-maximum.html">idle state maximum</a>, and not <a href="processor-idle-threshold-scaling.html">idle threshold scaling</a>. Disable is the allow/deny. Promote/demote are percent hysteresis. State maximum is a depth cap. Scaling is whether the engine rescales that pair. This page is the <em>sample window</em>: Power Options → Processor power management → <strong>Processor idle time check</strong>. Alias <code>IDLECHECK</code>. GUID <code>c4581c31-89ab-4597-8e2b-9c9cab440e6b</code>. Units are <strong>microseconds</strong>, not percent, not a C-state index.</p>
+      <a class="btn" href="processor-idle-time-check.md" download>Download markdown</a>
+      <a class="btn" href="processor-idle-disable.html">Idle disable</a>
+      <a class="btn" href="processor-idle-promote-threshold.html">Promote / demote</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>On this Yoga the measured idle-disable row is still <strong>Enable idle</strong> (index 0) on AC and DC. That is honest heat: Disable idle keeps the package in C0. Enable idle remains. The promote/demote pair is still Balanced <strong>60% / 40%</strong> until that sibling pack runs. The idle engine still has to <em>sample</em> idle residency over a window before it can promote or demote. That window is <code>IDLECHECK</code>. This host printed <code>0x0000c350</code> = <strong>50000 µs = 50 ms</strong> on AC and DC. Scheme <code>SCHEME_BALANCED</code> <code>381b4222-f694-41f0-9685-ff5bb260df2e</code>.</p>
+      <p>An Interactive Grok CLI is bursty: a paint, a wait, a JSON tool, a wait. A tool call that is shorter than the sample window still looks idle. The engine does not demote out of C6 until the next check. <code>grok.exe</code> is alive. Task Scheduler still prints Ready and last result 267009. The first token after a quiet gap pays a C-state wake that a 50 ms window did not see in time. Raising promote to 100 does not shrink the window. Disabling idle does not shrink the window — it deletes C-states and adds heat. This page is the microseconds.</p>
+      <p>Do not install systemd to paper over a 50 ms sample. Do not mint a Vercel slug because the TUI paused after a quiet minute. Do not cargo-cult <code>IDLECHECK 1</code> (one microsecond, the legal minimum) as a forever loop — that is max evaluation rate, not a soak. Do not confuse this row with <a href="javascript-timer-frequency.html">JavaScript timer frequency</a> or <a href="multimedia-timer-resolution.html">multimedia timer resolution</a>. Those are timer coalescing. This is the processor idle engine’s own check interval.</p>
+    </section>
+    <section>
+      <h2>Live query on this host (2026-09-01)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Field</th><th>This desk</th></tr></thead>
+          <tbody>
+            <tr><td>Scheme</td><td><code>SCHEME_BALANCED</code> <code>381b4222-f694-41f0-9685-ff5bb260df2e</code></td></tr>
+            <tr><td>Subgroup</td><td><code>SUB_PROCESSOR</code> <code>54533251-82be-4824-96c1-47b60b740d00</code></td></tr>
+            <tr><td>Setting GUID</td><td><code>c4581c31-89ab-4597-8e2b-9c9cab440e6b</code> alias <code>IDLECHECK</code></td></tr>
+            <tr><td>Units</td><td>Microseconds. Min 1. Max <code>0x00030d40</code> = 200000 µs = 200 ms. Increment 1.</td></tr>
+            <tr><td>AC / DC</td><td><code>0x0000c350</code> = 50000 µs = 50 ms</td></tr>
+            <tr><td>Sibling <code>IDLEDISABLE</code></td><td>AC 0 / DC 0 Enable idle — this page still applies</td></tr>
+            <tr><td>Sibling <code>IDLEPROMOTE</code> / <code>IDLEDEMOTE</code></td><td>AC/DC 60% / 40%. Percent pair. Different pack.</td></tr>
+            <tr><td>Sibling <code>IDLESTATEMAX</code></td><td>AC 0 / DC 0 (no depth cap). Different pack.</td></tr>
+            <tr><td>Sibling <code>IDLESCALING</code></td><td>Disable scaling (0). Different pack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>powercfg /qh</code> printed this row on this SKU. Hidden in the GUI is not missing. Do not cargo-cult <code>-ATTRIB_HIDE</code> on a public page to “unhide” a row you can already write with <code>/setacvalueindex</code>.</p>
+    </section>
+    <section>
+      <h2>The window is not the percent</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Layer</th><th>What it actually is</th></tr></thead>
+          <tbody>
+            <tr><td>Processor idle disable</td><td>Allow/deny. <code>IDLEDISABLE</code>. 0 = Enable idle. 1 = Disable idle (stay C0). Heat.</td></tr>
+            <tr><td>Processor idle promote / demote</td><td>Percent hysteresis. <code>IDLEPROMOTE</code> / <code>IDLEDEMOTE</code>. How idle the <em>window</em> must be.</td></tr>
+            <tr><td>Processor idle time check</td><td>Window length. <code>IDLECHECK</code>. Microseconds. This page.</td></tr>
+            <tr><td>Processor idle state maximum</td><td>Depth cap. <code>IDLESTATEMAX</code>. 0 = no cap. Not this click.</td></tr>
+            <tr><td>Processor idle threshold scaling</td><td>Whether the engine rescales the pair. <code>IDLESCALING</code>. Not this click.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>A 100 / 80 promote/demote pair sampled every 50 ms still waits up to one window before a burst counts as busy. A 60 / 40 pair sampled every 10 ms still walks deep C on a quiet TUI, but it <em>sees</em> the next tool call sooner. Do both siblings. Do not skip the percent pack and pretend microseconds replace hysteresis.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>IDLEDISABLE already 1 on AC (Disable idle)</td><td>The window is unused. <a href="processor-idle-disable.html">Idle disable</a> already took the heat.</td></tr>
+            <tr><td>Promote / demote still 60 / 40 and the quiet TUI sits in C6</td><td>Percent pair first. <a href="processor-idle-promote-threshold.html">Promote / demote</a>.</td></tr>
+            <tr><td>IDLESTATEMAX still 0 and package C6/C7 still legal</td><td>Depth cap. <a href="processor-idle-state-maximum.html">Idle state maximum</a>.</td></tr>
+            <tr><td>IDLESCALING Enabled and a 100/80 walk undoes itself</td><td><a href="processor-idle-threshold-scaling.html">Idle threshold scaling</a>.</td></tr>
+            <tr><td>Timer resolution / JS timer coalescing</td><td><a href="multimedia-timer-resolution.html">Multimedia timer</a> / <a href="javascript-timer-frequency.html">JS timer frequency</a>. Wrong page.</td></tr>
+            <tr><td>Enable idle still 0. Promote/demote already named. Session awake. Named task Ready / 267009. First token after a quiet gap still hitch-pauses. <code>IDLECHECK</code> still 50000 µs</td><td>This page. The sample window.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Processor idle time check as the first click on a new host. Timeouts, requests, min-state, parking, boost, cooling, and idle disable vs promote/demote first. Do not write 1 µs. Do not write 200000 µs to “save watts” on a forever desk. Leave DC at 50000 if the laptop actually travels. If <code>/qh</code> omits the GUID, stop; do not invent a registry paste.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Fast Startup is already honest. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm IDLEDISABLE is still Enable idle (0)</strong> — if it is already Disable idle (1), this window is unused. Heat was the other pack. Do not shrink a window the engine is no longer sampling.</li>
+          <li><strong>Query <code>IDLECHECK</code> with <code>/qh</code> before you write</strong> — <code>powercfg /query</code> omits ATTRIB_HIDE rows. This host printed 50000 µs. If <code>/qh</code> omits the GUID, this edition did not expose the knob. <strong>Stop.</strong> Do not invent a registry paste. Do not guess GUID <code>c4581c31-89ab-4597-8e2b-9c9cab440e6b</code> from a forum as a fleet trick.</li>
+          <li><strong>Set Plugged in to 10000 microseconds</strong> — that is 10 ms. Index <code>10000</code> decimal. On battery stays 50000 if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Do not start at 1 µs</strong> — legal minimum is 1. That is max evaluation rate. Watts and scheduler noise go up. 10 ms is the pass for this desk. 50 ms on AC is a fail once the percent pair is already honest. 200 ms is slower than Balanced.</li>
+          <li><strong>Leave promote, demote, state maximum, and scaling as siblings</strong> — this click does not write 100/80. This click does not cap C-state depth. This click does not Disable scaling. Those are other pages.</li>
+          <li><strong>Activate the current scheme after the AC index write</strong> — <code>/setacvalueindex</code> does not apply until <code>/setactive SCHEME_CURRENT</code>. Query again. AC <code>0x00002710</code> = 10000 is the pass. <code>0x0000c350</code> is still 50 ms — a fail for this desk.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — one processor knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR IDLECHECK
+powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR IDLECHECK 10000
+powercfg /setactive SCHEME_CURRENT
+powercfg /qh SCHEME_CURRENT SUB_PROCESSOR IDLECHECK</pre>
+      <p><code>SUB_PROCESSOR</code> is the processor subgroup. <code>IDLECHECK</code> is Processor idle time check. Units are microseconds. This host’s Balanced default is <strong>50000</strong> (50 ms). The AC pass for this desk is <strong>10000</strong> (10 ms). Run the <code>/qh</code> line first. If the alias is omitted, skip the <code>/setacvalueindex</code> line. Promote/demote percents are siblings, not this click. Idle disable is a sibling, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="processor-idle-disable.html">Processor idle disable</a> — allow/deny. Enable idle vs stay C0. Heat. This page assumes Enable idle is still the honest choice.</li>
+        <li><a href="processor-idle-promote-threshold.html">Idle promote / demote thresholds</a> — percent hysteresis 60/40 → 100/80. How idle the window must be. Not how long the window is.</li>
+        <li><a href="processor-idle-state-maximum.html">Processor idle state maximum</a> — depth cap. 0 = unlimited. Not a sample rate.</li>
+        <li><a href="processor-idle-threshold-scaling.html">Processor idle threshold scaling</a> — Disable vs Enable scaling. Not microseconds.</li>
+        <li><a href="javascript-timer-frequency.html">JavaScript timer frequency</a> / <a href="multimedia-timer-resolution.html">multimedia timer resolution</a> — timer coalescing. Wrong subsystem.</li>
+        <li><a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a> — <code>DISKIDLE</code>. Spindle, not CPU.</li>
+        <li>This page — AC <code>IDLECHECK</code> 10000 µs so a 50 ms Balanced window cannot miss a Grok tool burst while Enable idle is still on.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. <code>powercfg /requests</code> already None. Enable idle still 0 if that is the heat choice. Promote/demote already named if that pack ran. Stand in the path.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. Fire a 5-minute named task. The first token after the quiet gap is not a hitch that a 50 ms window would have classified as still-idle.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with IDLECHECK 50000 is not proof the window is already 10 ms.</li>
+          <li>IDLECHECK still 10000 on AC. If someone set 200000 µs to “save watts,” restore 10000 on AC. Do not “fix” it by switching the whole plan to High performance. Do not write 1 µs as a cargo-cult.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the sample window is honest. Grok in-session schedulers expire in 7 days even when durable. Isolation-empty <code>scheduler_list</code> is skip recreate, not missing-forever. The Windows task is the host-forever pulse. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim the knob is already 10 ms on every host. This Yoga measured 50 ms on Balanced.</li>
+        <li>Not Processor idle disable, not promote/demote percents, not idle state maximum, not idle threshold scaling.</li>
+        <li>Not JavaScript timer frequency and not multimedia timer resolution.</li>
+        <li>Not <code>DISKIDLE</code> and not Modern Standby.</li>
+        <li>Not a High-performance plan essay. One processor setting.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="processor-idle-disable.html">Idle disable</a> · <a href="processor-idle-promote-threshold.html">Promote / demote</a> · <a href="processor-idle-state-maximum.html">Idle state maximum</a> · <a href="processor-idle-threshold-scaling.html">Idle threshold scaling</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

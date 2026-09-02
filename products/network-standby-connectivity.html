@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Network connectivity in Standby vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Windows can drop the dedicated NIC during Modern Standby even after USB suspend, ASPM, and EEE are honest. Companion to sleep-vs-forever. Not a SKU. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/network-standby-connectivity.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Network connectivity in Standby vs a forever loop","description":"Set Network connectivity in Standby to Always on AC so a closed-lid Grok desk keeps the dedicated NIC after USB, ASPM, and EEE are already honest. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm USB selective suspend, ASPM, and EEE are already healed"},{"@type":"HowToStep","name":"Open Settings System Power Network connectivity in Standby"},{"@type":"HowToStep","name":"Set plugged-in / Always, not Never, not Managed by Windows"},{"@type":"HowToStep","name":"Soak-test ping across a short S0ix without treating a vanished NIC as this page"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a>
+        <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Network connectivity in Standby vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Modern Standby diagnosis</a> page, not the <a href="energy-efficient-ethernet.html">IEEE 802.3az / Green Ethernet</a> page, and not the <a href="wake-timers-forever.html">Allow wake timers</a> page. Sleep-vs-forever tells you S0ix paused user tasks. EEE naps the PHY while the machine still looks awake. Wake timers decide whether a named task can leave sleep. This page is the remaining NIC-during-S0ix policy: Windows <strong>Network connectivity in Standby</strong> can drop the dedicated Ethernet adapter the moment the laptop enters connected standby, even after USB suspend, ASPM, and EEE are already honest.</p>
+      <a class="btn" href="network-standby-connectivity.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever first</a>
+      <a class="btn" href="energy-efficient-ethernet.html">EEE / Green Ethernet</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The USB / ASPM / EEE packs already keep the dedicated NIC present while the session is awake. That is still the first click. A closed-lid Grok desk on a UPS can still enter Modern Standby. Windows then has its own policy: keep the network, let Windows decide, or never. <strong>Never</strong> disconnects Ethernet during S0ix on purpose. <strong>Managed by Windows</strong> often treats a laptop as a battery even when the GaN brick is in, and the dedicated NIC goes dark until a human opens the lid.</p>
+      <p>GitHub MCP, a named hourly that needs the public face, and ping all look like a hung ship. Device Manager still lists the adapter. Link light may even stay on. DHCP is gone. Task Scheduler still shows Ready. The operator swaps the <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet</a> dongle. The policy was Never.</p>
+      <p>This Windows profile is not a Linux FULL AUTO daemon. Do not install systemd because Standby disconnected the NIC. Do not mint a Vercel slug because ping failed once during S0ix.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix and the hourly never ran (session paused)</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Sleep happened and the hourly never recovered</td><td>Different layer. <a href="wake-timers-forever.html">Allow wake timers</a>.</td></tr>
+            <tr><td>USB hub / USB NIC vanished while awake</td><td>Different layer. <a href="usb-selective-suspend.html">USB selective suspend</a>.</td></tr>
+            <tr><td>Thunderbolt/USB4 dock or NVMe dropped while awake</td><td>Different layer. <a href="pcie-link-state-power.html">PCIe link state</a>.</td></tr>
+            <tr><td>NIC stayed Present while awake; ping gapped or speed downshifted</td><td>Different layer. <a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a>.</td></tr>
+            <tr><td>USB / ASPM / EEE already honest. NIC stays Present. Link dies only after S0ix / connected standby</td><td>This page. Network connectivity in Standby.</td></tr>
+            <tr><td>No dedicated NIC; Wi-Fi is the only path</td><td>Hardware fail. <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet review</a>. Do not treat Always as a Wi-Fi fix.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Network connectivity in Standby to Always as the first click on a new host. USB selective suspend, then ASPM if the path is USB4/Thunderbolt, then EEE on the dedicated adapter. This page is the S0ix network policy after those three are honest. Do not cargo-cult Always onto a battery-only commute laptop.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the awake-NIC layers are already done</strong> — USB selective suspend Disabled on AC. ASPM Off if a USB4/Thunderbolt dock is in the path. EEE / Green Ethernet Disabled on the dedicated adapter. If the NIC already vanishes while the session is awake, stop here.</li>
+          <li><strong>Settings → System → Power &amp; battery</strong> — find <strong>Network connectivity in Standby</strong> (wording varies: Screen, sleep, &amp; hibernate timeouts, or Additional power settings). On a plugged-in operator desk set it to <strong>Always</strong>. Not Never. Not Managed by Windows.</li>
+          <li><strong>If the Settings row is missing</strong> — query the current Sleep subgroup. Some SKUs hide the row until Modern Standby is actually the sleep that is armed. Do not invent a registry hack on a public page.</li>
+          <li><strong>Same plan, AC only</strong> — do not copy Always onto On battery to “fix” a commute. This desk is GaN + <a href="../reviews/ups-windows-operator-host.html">UPS</a>.</li>
+          <li><strong>Confirm, then soak</strong> — query adapters before and after a short S0ix. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+powercfg /q SCHEME_CURRENT SUB_SLEEP
+Get-NetAdapter | Where-Object Status -eq 'Up' | Format-Table Name, InterfaceDescription, LinkSpeed, MediaConnectionState</pre>
+      <p><code>powercfg /a</code> still tells you whether S0 connected standby is the sleep in play. If Standby is not available, this page does not apply — you are on classic S3, and the sleep-vs-forever timeouts are the layer. If Standby is available and Network connectivity is Never or Managed, a dedicated NIC that dies only after idle is this page.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — Modern Standby paused the hourly. This page assumes S0ix can still happen and asks whether the NIC survives it.</li>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — RTC so the named task can leave sleep. Not the NIC policy during sleep.</li>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — USB hub/NIC power while awake.</li>
+        <li><a href="pcie-link-state-power.html">PCI Express Link State Power Management</a> — ASPM on a USB4/Thunderbolt path while awake.</li>
+        <li><a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a> — IEEE 802.3az Low Power Idle on the PHY while awake.</li>
+        <li><a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet review</a> — hardware criteria, SKU pending. Not this click path.</li>
+        <li>This page — Network connectivity in Standby = Always on a plugged-in Grok desk so S0ix does not disconnect the dedicated NIC.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>USB / ASPM / EEE already honest. Otherwise this soak is lying.</li>
+          <li>Network connectivity in Standby is Always on the plugged-in plan.</li>
+          <li>A short S0ix (lid closed, cooling stand in place, dedicated NIC plugged) still leaves that adapter Up with a DHCP lease after resume — without a human replugging the dongle.</li>
+          <li>If the NIC vanished from Device Manager, it is USB or ASPM, not this page. If it stayed Present and speed downshifted while awake, it is EEE, not this page.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. A Ready task with a Standby-killed NIC is not forever.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim Always is already set on every host. It is the click path after USB / ASPM / EEE.</li>
+        <li>Not a USB Ethernet SKU. Hardware criteria stay on the <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet review</a>.</li>
+        <li>Not a Wi-Fi power-saving essay. Do not set Always on the radio to “fix” a missing dedicated NIC.</li>
+        <li>Not permission to keep 5-minute sleep because the NIC stays up. Sleep-vs-forever still applies.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="wake-timers-forever.html">Wake timers</a> · <a href="energy-efficient-ethernet.html">EEE</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

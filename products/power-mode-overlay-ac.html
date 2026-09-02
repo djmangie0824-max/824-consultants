@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Power mode Best power efficiency overlay vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Windows Settings Power mode Best power efficiency sits on Balanced and greys the plan. Energy saver Off, leaf gone, Control Panel still Balanced, TUI looks hung. Not Energy saver. Not Battery saver. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/power-mode-overlay-ac.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Power mode Best power efficiency overlay vs a forever loop","description":"Set Windows Settings Power mode Plugged in off Best power efficiency on a docked AC Grok desk so the overlay cannot grey Balanced PPM while Energy saver is already Off and Task Scheduler still shows Ready. Distinct from Energy saver and Battery saver. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep, lid, requests, and Minimum processor state are already honest on AC. Confirm Energy saver / Battery saver are Off so Power mode is changeable"},{"@type":"HowToStep","name":"Open Settings → System → Power & battery → Power mode. Confirm the row is not greyed"},{"@type":"HowToStep","name":"Set Plugged in to Balanced (or Best performance). Not Best power efficiency. Leave the Balanced plan in place"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. TUI still accepts input. Power mode still changeable. Plan still Balanced"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows11-energy-saver.html">Energy saver</a>
+        <a href="battery-saver-ac-desk.html">Battery saver</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Power mode Best power efficiency overlay vs a forever loop</h1>
+      <p class="meta">Published 2026-08-31 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows11-energy-saver.html">Windows 11 Energy saver</a> slider, not <a href="battery-saver-ac-desk.html">legacy Battery saver</a>, and not a High performance plan essay. A docked AC Grok desk should not sit on <strong>Best power efficiency</strong>. Settings → System → Power &amp; battery → <strong>Power mode</strong> is an overlay on Balanced. The overlay greys the plan: Control Panel still stars Balanced, <code>powercfg /getactivescheme</code> still prints Balanced, Minimum processor state can already be 100, and the TUI still starves. Energy saver Off. Leaf gone. Task Scheduler still shows Ready and last result 267009 (still-running). The named task did not die. The overlay was Best power efficiency.</p>
+      <a class="btn" href="power-mode-overlay-ac.md" download>Download markdown</a>
+      <a class="btn" href="windows11-energy-saver.html">Energy saver (not this overlay)</a>
+      <a class="btn" href="battery-saver-ac-desk.html">Battery saver (not this overlay)</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Timeouts can already be honest. Lid close on AC can already be Do nothing. <a href="processor-min-state-ac.html">Minimum processor state</a> can already be 100. <a href="windows11-energy-saver.html">Energy saver</a> can already be Off. <a href="battery-saver-ac-desk.html">Battery saver</a> can already be Off. The leaf is gone. Power mode is changeable. The brick is in the wall. Control Panel still shows Balanced. The TUI still starves. Settings Power mode is <strong>Best power efficiency</strong> (Windows 10: Better battery). That is overlay scheme <code>OVERLAY_SCHEME_MIN</code>, not a second plan.</p>
+      <p>The overlay greys the plan. It rides on Balanced and overrides CPU / PPM and background power throttling. Display timeouts, disk idle, and sleep stay on the plan. That is why sleep-vs-forever can already be honest while Grok still looks hung. Background tool calls EcoQoS. Efficiency-biased P-states win. <code>grok.exe</code> stays alive. <code>schtasks</code> still prints Ready. The operator opens a fourth TUI. Wrong move.</p>
+      <p>Two greys, two pages. Energy saver On greys the Power mode <em>control</em> — dropdown locked, often still showing the last label while the live overlay is Better battery. That is the Energy saver page. This page is the other grey: Power mode is changeable, Energy saver is Off, and Best power efficiency is the selected overlay greying Balanced PPM. Switching the classic plan off Balanced (High performance / Power saver) also greys Power mode, because the overlay only lives on Balanced. Do not cargo-cult High performance to hide Best power efficiency. That is a third liar. Do not install systemd to paper over an overlay. Do not mint a Vercel slug because the TUI paused.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Lid close put the session to Sleep</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>DISPLAY / SYSTEM / AWAYMODE holder is not None</td><td>Different layer. <a href="powercfg-requests-blockers.html">powercfg /requests</a>.</td></tr>
+            <tr><td>Minimum processor state still 5% on AC</td><td>Different layer. <a href="processor-min-state-ac.html">Minimum processor state</a>.</td></tr>
+            <tr><td>Settings still says Battery saver. Leaf on. Windows may still think DC</td><td>Different layer. <a href="battery-saver-ac-desk.html">Battery saver on a plugged-in desk</a>. Pre-24H2 name. Wrong page.</td></tr>
+            <tr><td>Quick Settings Energy saver On. Leaf on. Power mode greyed / unselectable</td><td>Different layer. <a href="windows11-energy-saver.html">Windows 11 Energy saver slider</a>. That overlay greys this control. Wrong page.</td></tr>
+            <tr><td>Always use energy saver On / Adaptive. Auto-on row hidden. Power mode greyed</td><td>Different layer. Always-use Energy saver, not Power mode. Wrong click on this page.</td></tr>
+            <tr><td>Power mode greyed because Control Panel plan is High performance / Power saver / Ultimate</td><td>Different layer. Overlay only lives on Balanced. Restore Balanced. Do not treat this page as a plan switch.</td></tr>
+            <tr><td>Power mode already Balanced or Best performance; leaf gone; background work still EcoQoS-starved</td><td>Different layer. Process EcoQoS / power throttling. Survives after the overlay is none. Wrong page.</td></tr>
+            <tr><td>Maximum processor state 99 or 80 after the overlay is already Balanced</td><td>Different layer. <a href="processor-power-throttling.html">Maximum processor state</a>. Plan ceiling, not the overlay.</td></tr>
+            <tr><td>Docked, brick in the wall, Settings still says On battery or Plugged in, not charging</td><td>Dock / PD / cable lie. Fix AC detection first. The DC Power mode dropdown is the one that fires if Windows never saw AC.</td></tr>
+            <tr><td>Session still awake. Named task Ready / 267009. Grok TUI looks frozen. Energy saver Off. Leaf gone. Power mode changeable. Control Panel still Balanced. Settings Power mode is Best power efficiency (or Better battery / Recommended)</td><td>This page. Power mode overlay greying the plan.</td></tr>
+            <tr><td>Plugged in already Balanced or Best performance; Energy saver Off; leaf gone; TUI still starves</td><td>Different layer. Plan CPU / cooling / USB. Do not invent a registry paste here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not drag Power mode as the first click on a new host. Timeouts, <code>powercfg /requests</code>, Minimum processor state, and Energy saver / Battery saver Off first. If Power mode is greyed, you are not on this page — Energy saver is still on, or the plan is no longer Balanced. Best power efficiency on Plugged in is the fail. Balanced overlay (none) is the pass. Best performance is allowed on a desk that never unplugs. Do not Apply all on Energy recommendations. Do not switch the whole plan to High performance to hide this overlay; that greys Power mode and leaves the plan.</div>
+    </section>
+    <section>
+      <h2>What to change (docked AC Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Fast Startup is already honest. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here. The overlay does not own those timers.</li>
+          <li><strong>Confirm Minimum processor state is already honest on AC</strong> — 100 on plugged-in. If the floor is still 5%, that is <a href="processor-min-state-ac.html">min-state</a>, not this page. Best power efficiency on top of a 5% floor is two liars.</li>
+          <li><strong>Confirm Energy saver / Battery saver are Off so Power mode is changeable</strong> — <kbd>Win+A</kbd> leaf gone. If the Power mode dropdown is greyed, that overlay is still on. <a href="windows11-energy-saver.html">Energy saver</a> (24H2 name) or <a href="battery-saver-ac-desk.html">Battery saver</a> (pre-24H2 name). Stop. Do not cargo-cult Best performance on a locked control. Energy saver On can leave the last label showing while the live overlay is Better battery.</li>
+          <li><strong>Confirm Windows reports Plugged in while docked</strong> — Settings → System → Power &amp; battery, top of the page. On battery with the brick in the wall is a dock / PD / cable lie. The On battery Power mode dropdown is then the one that fires. Do not hide a 15 W charger by tapping Best performance on AC.</li>
+          <li><strong>Confirm the classic plan is still Balanced</strong> — Control Panel → Power Options, or <code>powercfg /getactivescheme</code>. The overlay only lives on Balanced. If the starred plan is High performance, Power saver, or Ultimate Performance, Power mode greys. Restore Balanced. Do not treat this page as a plan essay. Leaving Balanced starred while Power mode is Best power efficiency is the grey this page names.</li>
+          <li><strong>Settings → System → Power &amp; battery → Power mode</strong> — set <em>Plugged in</em> to <strong>Balanced</strong> (overlay none). <strong>Best performance</strong> is allowed on a desk that never unplugs. <strong>Best power efficiency</strong> is the fail. Windows 10 labels: Better battery / Better performance / Best performance. OEM “Recommended” is often still the efficiency overlay — read the Settings words, not the marketing chip. Some 24H2 builds expose two dropdowns (Plugged in and On battery). This page’s AC pass is the Plugged in row.</li>
+          <li><strong>Leave On battery as travel if the cube actually leaves the wall</strong> — Better battery / Best power efficiency on DC is travel insurance. A desk that never unplugs can set both dropdowns to Balanced. Do not leave Plugged in on Best power efficiency “until the next trip.”</li>
+          <li><strong>Leave Energy saver, Battery saver, and Lower screen brightness alone once Off</strong> — those pages own the leaf. Unchecking a brightness box does not clear Best power efficiency. Do not Apply all on Energy recommendations; that card can set sleep to 3 minutes.</li>
+          <li><strong>Leave Maximum processor state, EcoQoS registry, and Intel Speed Shift EPP alone on this page</strong> — plan ceiling, process throttling, and HWP hints are siblings. Best power efficiency engages background power throttling as a side effect. Clearing the overlay is the click here. Hunting a power-throttling registry value while Power mode is still Best power efficiency is the wrong layer.</li>
+          <li><strong>Leave the Balanced plan in place</strong> — this page is one Settings overlay, not a switch to High performance. High performance greys Power mode. Do not rename the plan. Do not claim a fleet GPO. Do not duplicate High performance to “ungrey” anything.</li>
+          <li><strong>Confirm, then soak</strong> — Settings Power mode is the live tell. <code>powercfg /getactivescheme</code> can already look honest while the overlay is still Best power efficiency. That is the grey. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /getactivescheme
+powercfg /aliasesh
+powercfg /query OVERLAY_SCHEME_MIN
+powercfg /a</pre>
+      <p><code>/getactivescheme</code> still prints Balanced while Power mode is Best power efficiency. That is the overlay greying the plan — it is not proof the overlay is none. <code>/aliasesh</code> must list <code>OVERLAY_SCHEME_MIN</code> (Better Battery-life Overlay). <code>OVERLAY_SCHEME_NONE</code> is the all-zeros Balanced overlay. <code>OVERLAY_SCHEME_MAX</code> is Best performance. If those aliases are omitted, this firmware or edition did not expose overlay schemes — stop; do not invent a registry hack on a public page. <code>/query OVERLAY_SCHEME_MIN</code> enumerates that overlay’s PPM. It does <em>not</em> prove the overlay is live this session. Settings Power mode is the live tell. There is no honest public <code>powercfg /getactiveoverlay</code> on this host. Do not write <code>/overlaysetactive</code> from this page; Settings is the click. Do not paste <code>ActiveOverlayAcPowerScheme</code>. Hidden is not Off. <code>powercfg /a</code> still names the standby type; this page is not sleep. Plugged in = Balanced (or Best performance) + Energy saver Off + Power mode changeable + plan still Balanced is the pass. Do not paste a GUID pastebin. Do not paste <code>auth.json</code>.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — Modern Standby, Interactive-only logon, result 267009 still-running as a <em>sleep</em> tell. This page is an awake overlay. The overlay does not own sleep timers.</li>
+        <li><a href="processor-min-state-ac.html">Minimum processor state</a> — plan frequency floor (<code>PROCTHROTTLEMIN</code>). Honest 100 on Balanced does not help if Best power efficiency is overlaying PPM on top.</li>
+        <li><a href="windows11-energy-saver.html">Windows 11 Energy saver</a> — live Quick Settings slider plus auto-on Never. That overlay greys Power mode. If the dropdown is locked or the leaf is on, that page, not this click.</li>
+        <li><a href="battery-saver-ac-desk.html">Battery saver on a plugged-in desk</a> — pre-24H2 name, DC-designed. If Settings still says Battery saver, that page. Not Power mode.</li>
+        <li><a href="processor-power-throttling.html">Maximum processor state</a> — plan ceiling (<code>PROCTHROTTLEMAX</code>). Not the overlay. 99 after Power mode is already Balanced is that page.</li>
+        <li>Process EcoQoS / Power throttling — background execution speed. Best power efficiency engages it. The overlay can already be Balanced and EcoQoS can still be on. Different knob after this click.</li>
+        <li>High performance plan — Control Panel scheme switch. Greys Power mode because the overlay only lives on Balanced. Wrong cargo-cult on this page.</li>
+        <li>Energy recommendations — Apply all can shorten sleep and display timers. Wrong card. Can undo <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>.</li>
+        <li>This page — Settings Power mode Plugged in off Best power efficiency so the overlay cannot grey Balanced PPM, pause background work, and freeze an Interactive Grok CLI while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. <code>powercfg /requests</code> already None. Minimum processor state already 100 on AC. Energy saver / Battery saver already Off. Otherwise this soak is lying.</li>
+          <li>Settings → Power &amp; battery shows Plugged in. Dock and brick still seated. Power mode is changeable (not greyed).</li>
+          <li>Power mode Plugged in is Balanced or Best performance. Not Best power efficiency. Not Better battery. Not an OEM Recommended chip that is still the efficiency overlay.</li>
+          <li>Control Panel still stars Balanced. <code>powercfg /getactivescheme</code> still prints Balanced. That is expected. The overlay is none or MAX, not MIN. The plan is not greyed by a High performance switch.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. The Grok TUI still accepts input. A session that paints but never completes a tool call because Best power efficiency paused background work is a fail on this page.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with Best power efficiency on is not forever. Host-forever on this Windows profile is that named task. Grok in-session schedulers still expire in 7 days even when durable — recreate them if missing. Do not claim the Windows task is a Linux systemd unit.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the overlay is already none.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Host-forever is Task Scheduler <code>LEXXII-Materialize-Forever</code>.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim Power mode is already Balanced on every host. It is the click path after Energy saver is Off and the plan is still Balanced.</li>
+        <li>Not the Windows 11 Energy saver slider (leaf, auto-on, greys this control).</li>
+        <li>Not legacy Battery saver (pre-24H2, DC-designed).</li>
+        <li>Not Always use energy saver (On / Adaptive).</li>
+        <li>Not a High-performance plan essay. One Settings overlay. Leave Balanced starred.</li>
+        <li>Not Maximum processor state and not EcoQoS registry.</li>
+        <li>Not Energy recommendations Apply all.</li>
+        <li>Not a registry paste. If Settings and <code>powercfg /aliasesh</code> omit the overlay, stop.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows11-energy-saver.html">Energy saver</a> · <a href="battery-saver-ac-desk.html">Battery saver</a> · <a href="processor-min-state-ac.html">Minimum processor state</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

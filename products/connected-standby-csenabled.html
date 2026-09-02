@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Connected Standby / CSEnabled vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="On this Yoga 7 class, Connected Standby is firmware S0ix. CsEnabled is not present. S3 is not available. Skip the DWORD. Not sleep-vs-forever. Not NIC-in-standby. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/connected-standby-csenabled.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Connected Standby / CSEnabled vs a forever loop","description":"Query whether this laptop can disable Connected Standby / CSEnabled and restore S3. On Lenovo Yoga 7 2-in-1 16IML9 the knob is not exposed. Skip. Do not write CsEnabled=0. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep-vs-forever diagnosis is already done"},{"@type":"HowToStep","name":"Query powercfg /a for S0 Low Power Idle versus S3"},{"@type":"HowToStep","name":"Query CsEnabled PlatformAoAcOverride CsEnabledOverride — missing is not Off"},{"@type":"HowToStep","name":"If BIOS has no Sleep State row and S3 is firmware-disabled, skip. Do not invent a DWORD"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="network-standby-connectivity.html">Network in Standby</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever · skip on this class</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Connected Standby / CSEnabled vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Modern Standby diagnosis</a> page and not the <a href="network-standby-connectivity.html">Network connectivity in Standby</a> page. Sleep-vs-forever tells you S0ix paused the hourly. Network-standby is whether the dedicated NIC survives that sleep. This page is the remaining firmware/policy knob: can this class of laptop turn <strong>Connected Standby / CSEnabled</strong> off and get classic S3 back so Task Scheduler behaves like a desktop.</p>
+      <p>On this class, the honest answer is <strong>skip</strong>. The knob is not exposed.</p>
+      <a class="btn" href="connected-standby-csenabled.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever first</a>
+      <a class="btn" href="network-standby-connectivity.html">NIC during S0ix</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>A closed-lid Grok desk on a Yoga 7 still looks powered. Modern Standby (S0 Low Power Idle / connected standby) has paused Interactive-only <code>LEXXII-Materialize-Forever</code>. Forum memory says write <code>HKLM\SYSTEM\CurrentControlSet\Control\Power\CsEnabled = 0</code> — that was a Windows 8 Connected Standby leftover — or flip a BIOS row named Sleep State / Modern Standby / Linux and S3 will return.</p>
+      <p>This host class is a Lenovo Yoga 7 2-in-1 16IML9 (machine type 83DL, BIOS NWCN25WW class). Measured here: <code>powercfg /a</code> lists <strong>Standby (S0 Low Power Idle) Network Connected</strong>. Hibernate and Fast Startup are available. <strong>Standby (S3) is not available</strong> — firmware does not support it, and Windows reports it is disabled when S0 low power idle is supported. Hybrid Sleep is unavailable because S3 is unavailable. The <code>CsEnabled</code> DWORD is <strong>not present</strong>. <code>PlatformAoAcOverride</code> and <code>CsEnabledOverride</code> are not present. There is no <code>powercfg</code> alias <code>CSENABLED</code>. Lenovo <code>Lenovo_BiosSetting</code> WMI is empty on this consumer Yoga. Setup does not expose the ThinkPad-style Sleep State row.</p>
+      <p>This Windows profile is not a Linux FULL AUTO daemon. Do not install systemd because S3 is missing. Do not mint a Vercel slug because Connected Standby cannot be switched off from Windows.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>S0ix paused the hourly; timeouts / lid / Interactive-only still lying</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Dedicated NIC dies only after S0ix</td><td>Different layer. <a href="network-standby-connectivity.html">Network connectivity in Standby</a>.</td></tr>
+            <tr><td>Sleep happened and the hourly never recovered</td><td>Different layer. <a href="wake-timers-forever.html">Allow wake timers</a>.</td></tr>
+            <tr><td>Lid close put the session to Sleep</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>Want S3 so Task Scheduler runs through a “real” sleep. <code>powercfg /a</code> shows S0 LPI. S3 firmware-disabled. <code>CsEnabled</code> missing. BIOS has no Sleep State row</td><td>This page. Skip.</td></tr>
+            <tr><td>A different OEM actually lists Sleep State / Modern Standby / Linux in firmware Setup, and <code>powercfg /a</code> grows an S3 line after that click</td><td>Remaining firmware knob. Use Setup. Re-query. Not a registry paste.</td></tr>
+            <tr><td>Forum recipe: write <code>CsEnabled=0</code> or <code>PlatformAoAcOverride</code></td><td>Not this page. Do not invent that DWORD on a public playbook.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not write <code>CsEnabled</code> as the first click on a new host. Sleep timeouts and lid first. This page is only whether firmware will even let you leave Connected Standby. On this Yoga 7 class it will not. Skip is the pass. A forum DWORD is not.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the diagnosis layer is already done</strong> — you already know S0ix is the sleep that pauses the hourly. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>. If plugged-in sleep is still 5–20 minutes, stop here.</li>
+          <li><strong>Confirm the NIC-during-S0ix layer is a different click</strong> — <a href="network-standby-connectivity.html">Network connectivity in Standby</a>. This page does not keep Ethernet up. It asks whether S0ix itself can be turned off.</li>
+          <li><strong>Query available sleep states</strong> — S0 Low Power Idle present and S3 “firmware does not support” is the skip tell on this class.</li>
+          <li><strong>Query the old Connected Standby DWORD</strong> — missing is not Off. Missing means Windows is not offering a policy knob.</li>
+          <li><strong>Look in firmware Setup</strong> (Novo / F2 on this Lenovo) for Sleep State, Modern Standby, Connected Standby, or Linux. On Yoga 7 2-in-1 16IML9 (83DL) that row is not there. Empty <code>Lenovo_BiosSetting</code> is the same skip. Some ThinkPads expose it. This Yoga does not.</li>
+          <li><strong>Stop.</strong> Do not create <code>CsEnabled</code>. Do not create <code>PlatformAoAcOverride</code>. Do not <code>powercfg /hibernate off</code> to “kill” Modern Standby — Hibernate is a different file, and S0ix still remains. Do not install systemd because S3 is missing.</li>
+          <li><strong>Forever on this class</strong> is therefore: keep the session out of S0ix (<a href="sleep-after-timeout.html">sleep after</a>, <a href="lid-close-do-nothing.html">lid close Do nothing</a>), then NIC-in-standby, then <a href="wake-timers-forever.html">wake timers</a>. You cannot firmware-convert this SKU to S3 from Windows.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+Get-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Power | Select-Object CsEnabled, PlatformAoAcOverride, CsEnabledOverride</pre>
+      <p><code>powercfg /a</code> is the source of truth for whether S3 exists. Empty <code>CsEnabled</code> plus S3 firmware-disabled is a green skip, not a failed soak. If a future BIOS on a <em>different</em> machine lists S3 after a Setup click, re-query; do not assume this Yoga grew the row. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — diagnosis: S0ix, Interactive-only, result 267009 still-running as a <em>timeout / sleep</em> tell. This page asks whether firmware can turn Connected Standby off.</li>
+        <li><a href="network-standby-connectivity.html">Network connectivity in Standby</a> — NIC policy <em>during</em> S0ix. Assumes S0ix can still happen.</li>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — whether Task Scheduler may leave sleep. Not whether sleep is S0 or S3.</li>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — lid action. Not CSEnabled.</li>
+        <li><a href="hybrid-sleep-ac.html">Allow hybrid sleep</a> — HYBRIDSLEEP needs S3. This class has no S3, so that row is a different skip.</li>
+        <li>This page — query CSEnabled / firmware Sleep State. On Yoga 7 2-in-1 16IML9 the conversion knob is not exposed. Skip.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep-vs-forever already honest. Otherwise this soak is lying about timeouts vs firmware.</li>
+          <li><code>powercfg /a</code> still shows S0 Low Power Idle and no S3. That is the pass for this class: the conversion knob was never exposed.</li>
+          <li><code>CsEnabled</code> still absent. A DWORD that appeared because someone followed a forum paste is a fail — delete the experiment. Do not keep a hack that did not restore S3.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code> because the session stayed out of S0ix, not because Connected Standby was “disabled.”</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof CSEnabled flipped.</li>
+          <li>Skip is not a red soak. Inventing <code>CsEnabled=0</code> is.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every host can disable Connected Standby. This class cannot.</li>
+        <li>Not sleep-vs-forever, not NIC-in-standby, not lid-close, not wake timers, not hybrid sleep.</li>
+        <li>Not a recipe to write <code>CsEnabled=0</code> or <code>PlatformAoAcOverride</code>.</li>
+        <li>Not a ThinkPad Sleep State tutorial pretending this Yoga has the row.</li>
+        <li>Not permission to keep 5-minute sleep because “Connected Standby is the platform.” Timeouts still matter.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="network-standby-connectivity.html">Network in Standby</a> · <a href="wake-timers-forever.html">Wake timers</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

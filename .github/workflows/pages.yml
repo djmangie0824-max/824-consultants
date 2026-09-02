@@ -1,0 +1,589 @@
+# Automated GitHub Pages + notifications + failure handling
+# Owner: Douglas James Mangie II / 824 Consultants LLC
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Why this deploy"
+        required: false
+        default: "manual"
+      force_redeploy:
+        description: "Force redeploy even if no content change"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  actions: write
+  issues: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      site_url: https://djmangie0824-max.github.io/824-consultants/
+      short_sha: ${{ steps.meta.outputs.short_sha }}
+      failed_step: ${{ steps.failmark.outputs.failed_step }}
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Meta
+        id: meta
+        run: |
+          echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+          echo "run_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate public surface
+        id: validate
+        run: |
+          set -euo pipefail
+          FAIL=0
+          report() { echo "::error::$1"; FAIL=1; }
+
+          for f in index.html autonomy.html sim.html sitemap.xml robots.txt; do
+            if [ ! -f "$f" ]; then report "Missing required file: $f"; fi
+          done
+
+          if [ -f autonomy.html ]; then
+            grep -q "Fully autonomous public surface" autonomy.html \
+              || report "PROTECTED STRING MISSING: Fully autonomous public surface"
+            grep -q "Zero human input required" autonomy.html \
+              || report "PROTECTED STRING MISSING: Zero human input required"
+          fi
+          if [ -f index.html ]; then
+            grep -q "Touch. Talk. Go." index.html \
+              || report "IMMERSIVE HUB MISSING: Touch. Talk. Go."
+          fi
+
+          if [ "$FAIL" -ne 0 ]; then
+            echo "failed_step=validate" >> "$GITHUB_OUTPUT"
+            echo "## Validation failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "Public surface failed pre-deploy gates. Fix content, then re-run or push." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          echo "validate ok"
+
+      - name: Assemble clean site
+        id: assemble
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          rsync -a \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '_site/' \
+            --exclude 'node_modules/' \
+            --exclude '.DS_Store' \
+            --exclude '*.mp4' \
+            ./ _site/ || {
+              echo "failed_step=assemble" >> "$GITHUB_OUTPUT"
+              exit 1
+            }
+          python3 - <<'PY'
+          import json, os, pathlib
+          data = {
+            "deployedAt": __import__("datetime").datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "sha": os.environ["GITHUB_SHA"],
+            "shortSha": os.environ["GITHUB_SHA"][:7],
+            "ref": os.environ["GITHUB_REF"],
+            "runId": os.environ["GITHUB_RUN_ID"],
+            "runUrl": f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
+            "event": os.environ["GITHUB_EVENT_NAME"],
+            "reason": """${{ github.event.inputs.reason || 'push' }}""",
+            "url": "https://djmangie0824-max.github.io/824-consultants/",
+            "owner": "Douglas James Mangie II / 824 Consultants LLC",
+            "notifications": True,
+            "failureHandling": True,
+            "failureHandlingSteps": [
+              "Open failed Actions run logs",
+              "Identify stage (validate|assemble|upload|deploy|checkout)",
+              "Fix content or re-run per stage",
+              "Use scripts/recover_failed_deploy.sh --rerun if needed",
+              "Confirm DEPLOY_STAMP.json + FULL AUTO strings",
+              "Never gut FULL AUTO language",
+            ],
+            "failurePlaybook": "https://djmangie0824-max.github.io/824-consultants/failure-handling.html",
+          }
+          pathlib.Path("_site/DEPLOY_STAMP.json").write_text(json.dumps(data, indent=2) + "\n")
+          print(json.dumps(data, indent=2))
+          PY
+          COUNT=$(find _site -type f | wc -l)
+          echo "files=$COUNT"
+          if [ "$COUNT" -lt 5 ]; then
+            echo "::error::Assemble produced too few files ($COUNT)"
+            echo "failed_step=assemble" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+      - name: Upload Pages artifact
+        id: upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+        # One automatic retry via re-run is handled in failure job; fail clearly here
+
+      - name: Mark failure step
+        id: failmark
+        if: failure()
+        run: |
+          if [ "${{ steps.validate.outcome }}" = "failure" ]; then
+            echo "failed_step=validate" >> "$GITHUB_OUTPUT"
+          elif [ "${{ steps.assemble.outcome }}" = "failure" ]; then
+            echo "failed_step=assemble" >> "$GITHUB_OUTPUT"
+          elif [ "${{ steps.upload.outcome }}" = "failure" ]; then
+            echo "failed_step=upload" >> "$GITHUB_OUTPUT"
+          elif [ "${{ steps.checkout.outcome }}" = "failure" ]; then
+            echo "failed_step=checkout" >> "$GITHUB_OUTPUT"
+          else
+            echo "failed_step=build_unknown" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Verify live stamp (best-effort)
+        id: verify
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          URL="https://djmangie0824-max.github.io/824-consultants/DEPLOY_STAMP.json"
+          # Pages CDN can lag; retry a few times
+          for i in 1 2 3 4 5; do
+            sleep 4
+            BODY=$(curl -fsSL "$URL" || true)
+            if echo "$BODY" | grep -q "${{ github.sha }}"; then
+              echo "Live stamp matches SHA"
+              echo "verify=ok" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "attempt $i: stamp not updated yet"
+          done
+          echo "verify=lag" >> "$GITHUB_OUTPUT"
+          echo "::warning::Live stamp not yet showing this SHA (CDN lag). Deploy job itself succeeded."
+
+  notify-success:
+    name: Notify deploy success
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Job summary
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<MD
+          # Pages deploy ✅
+
+          | Field | Value |
+          |-------|-------|
+          | **Site** | ${{ needs.deploy.outputs.page_url || needs.build.outputs.site_url }} |
+          | **SHA** | \`${{ needs.build.outputs.short_sha }}\` |
+          | **Run** | [#${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
+          | **Event** | ${{ github.event_name }} |
+          | **Actor** | @${{ github.actor }} |
+          | **Stamp** | [DEPLOY_STAMP.json](https://djmangie0824-max.github.io/824-consultants/DEPLOY_STAMP.json) |
+
+          Protected FULL AUTO strings validated. Immersive hub validated.
+          MD
+
+      - name: Commit comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.sha;
+            const short = sha.slice(0, 7);
+            const url = 'https://djmangie0824-max.github.io/824-consultants/';
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              '## GitHub Pages deploy ✅',
+              '',
+              `- **Site:** ${url}`,
+              `- **SHA:** \`${short}\``,
+              `- **Run:** ${run}`,
+              `- **Stamp:** ${url}DEPLOY_STAMP.json`,
+              `- **Event:** ${context.eventName}`,
+              '',
+              '_Automated notification · 824 Consultants LLC_',
+            ].join('\n');
+            await github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: sha,
+              body,
+            });
+
+      - name: Deploy log issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'Deploy notifications · 824 Consultants Pages';
+            const sha = context.sha.slice(0, 7);
+            const url = 'https://djmangie0824-max.github.io/824-consultants/';
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const stamp = new Date().toISOString();
+            const line = `| ${stamp} | ✅ success | \`${sha}\` | [run](${run}) | [site](${url}) | @${context.actor} |`;
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'deploy-notifications',
+              per_page: 5,
+            });
+            let issue = issues.data.find(i => i.title === title);
+            if (!issue) {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                labels: ['deploy-notifications'],
+                body: [
+                  '# Deploy notification log',
+                  '',
+                  'Auto-updated on every successful (or failed) GitHub Pages deploy.',
+                  '',
+                  '| When (UTC) | Status | SHA | Run | Site | Actor |',
+                  '|------------|--------|-----|-----|------|-------|',
+                  line,
+                  '',
+                  '© 2026 824 Consultants LLC. ONLY YOU. FOREVER.',
+                ].join('\n'),
+              });
+              issue = created.data;
+            } else {
+              const body = issue.body || '';
+              const marker = '|------------|--------|-----|-----|------|-------|';
+              let next = body.includes(marker) ? body.replace(marker, marker + '\n' + line) : body + '\n' + line;
+              const rows = next.split('\n');
+              const tableRows = rows.filter(r => r.startsWith('| 20') || r.startsWith('| 19'));
+              if (tableRows.length > 80) {
+                const drop = new Set(tableRows.slice(80));
+                next = rows.filter(r => !drop.has(r)).join('\n');
+              }
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: next,
+              });
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: `✅ **Deployed** \`${sha}\` → ${url}\nRun: ${run}`,
+            });
+
+      - name: Optional webhook
+        env:
+          DEPLOY_NOTIFY_WEBHOOK: ${{ secrets.DEPLOY_NOTIFY_WEBHOOK }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DEPLOY_NOTIFY_WEBHOOK:-}" ]; then
+            echo "No DEPLOY_NOTIFY_WEBHOOK secret — skip external webhook"
+            exit 0
+          fi
+          BODY=$(cat <<JSON
+          {
+            "status": "success",
+            "site": "https://djmangie0824-max.github.io/824-consultants/",
+            "sha": "${{ github.sha }}",
+            "shortSha": "${{ needs.build.outputs.short_sha }}",
+            "runUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "actor": "${{ github.actor }}",
+            "event": "${{ github.event_name }}",
+            "stamp": "https://djmangie0824-max.github.io/824-consultants/DEPLOY_STAMP.json"
+          }
+          JSON
+          )
+          curl -fsS -X POST -H 'Content-Type: application/json' \
+            -d "$BODY" "$DEPLOY_NOTIFY_WEBHOOK"
+          echo "webhook ok"
+
+  handle-failure:
+    name: Handle deploy failure
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Diagnose failed stage
+        id: diag
+        run: |
+          set -euo pipefail
+          BUILD="${{ needs.build.result }}"
+          DEPLOY="${{ needs.deploy.result }}"
+          STEP="${{ needs.build.outputs.failed_step }}"
+          if [ "$BUILD" = "failure" ]; then
+            STAGE="${STEP:-build}"
+          elif [ "$DEPLOY" = "failure" ]; then
+            STAGE="deploy"
+          else
+            STAGE="unknown"
+          fi
+          echo "stage=$STAGE" >> "$GITHUB_OUTPUT"
+          echo "Failed stage: $STAGE"
+
+      - name: Failure summary + recovery steps
+        run: |
+          STAGE="${{ steps.diag.outputs.stage }}"
+          RUN="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          cat >> "$GITHUB_STEP_SUMMARY" <<MD
+          # Pages deploy ❌ — failure handling
+
+          | Field | Value |
+          |-------|-------|
+          | **Failed stage** | \`$STAGE\` |
+          | **SHA** | \`${{ github.sha }}\` |
+          | **Run** | [#${{ github.run_id }}]($RUN) |
+          | **Actor** | @${{ github.actor }} |
+
+          ## Recovery steps (do in order)
+
+          ### 1. Open the failed job logs
+          $RUN
+
+          ### 2. Fix by stage
+          MD
+
+          case "$STAGE" in
+            validate)
+              cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
+          **validate**
+          1. Restore protected strings in `autonomy.html`:
+             - `Fully autonomous public surface`
+             - `Zero human input required…`
+          2. Ensure `index.html` contains `Touch. Talk. Go.`
+          3. Ensure required files exist: `index.html`, `autonomy.html`, `sim.html`, `sitemap.xml`, `robots.txt`
+          4. Commit + push, or **Re-run failed jobs**
+          MD
+              ;;
+            assemble)
+              cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
+          **assemble**
+          1. Check for broken paths / empty tree
+          2. Confirm `rsync` sources are present on `main`
+          3. Re-run failed jobs after fix
+          MD
+              ;;
+            upload)
+              cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
+          **upload**
+          1. Transient Actions/storage blip is common
+          2. Click **Re-run failed jobs** first (no code change)
+          3. If still failing: reduce artifact size (no binaries/mp4)
+          MD
+              ;;
+            deploy)
+              cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
+          **deploy**
+          1. Confirm Pages is enabled: Settings → Pages → GitHub Actions
+          2. Confirm environment `github-pages` exists and allows this workflow
+          3. **Re-run failed jobs**
+          4. Manual fallback: Actions → Deploy GitHub Pages → Run workflow
+          MD
+              ;;
+            checkout)
+              cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
+          **checkout**
+          1. Repo permissions / network blip
+          2. Re-run failed jobs
+          MD
+              ;;
+            *)
+              cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
+          **unknown**
+          1. Open full logs for all jobs
+          2. Re-run failed jobs once
+          3. If flaky, open an issue with the run URL
+          MD
+              ;;
+          esac
+
+          cat >> "$GITHUB_STEP_SUMMARY" <<'MD'
+
+          ### 3. Re-run
+          - GitHub UI: **Re-run failed jobs**
+          - Or: Actions → **Deploy GitHub Pages** → **Run workflow**
+          - Or: empty commit `git commit --allow-empty -m "chore: redeploy pages" && git push`
+
+          ### 4. Confirm recovery
+          - Live stamp: https://djmangie0824-max.github.io/824-consultants/DEPLOY_STAMP.json
+          - Hub title: **Touch. Talk. Go.**
+          - Autonomy still has FULL AUTO strings
+
+          ### 5. Do not
+          - Do not gut FULL AUTO language to “make validate pass”
+          - Do not disable the workflow
+          - Do not force-push secrets or private vault data onto Pages
+          MD
+
+      - name: Commit comment (failure + steps)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const stage = '${{ steps.diag.outputs.stage }}';
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const short = context.sha.slice(0, 7);
+            const stepsByStage = {
+              validate: [
+                'Restore FULL AUTO strings in autonomy.html',
+                'Restore Touch. Talk. Go. on index.html',
+                'Ensure required HTML/sitemap/robots files exist',
+                'Push fix or Re-run failed jobs',
+              ],
+              assemble: [
+                'Check tree is not empty / rsync sources OK',
+                'Re-run failed jobs after fix',
+              ],
+              upload: [
+                'Re-run failed jobs (often transient)',
+                'Strip large binaries if artifact too big',
+              ],
+              deploy: [
+                'Confirm Settings → Pages → GitHub Actions source',
+                'Confirm github-pages environment',
+                'Re-run failed jobs or manual workflow_dispatch',
+              ],
+              checkout: ['Re-run failed jobs'],
+              build_unknown: ['Open logs', 'Re-run failed jobs'],
+              unknown: ['Open logs', 'Re-run failed jobs'],
+            };
+            const steps = stepsByStage[stage] || stepsByStage.unknown;
+            const body = [
+              '## GitHub Pages deploy ❌',
+              '',
+              `- **Stage:** \`${stage}\``,
+              `- **SHA:** \`${short}\``,
+              `- **Run:** ${run}`,
+              '',
+              '### Failure handling steps',
+              ...steps.map((s, i) => `${i + 1}. ${s}`),
+              '',
+              '### Confirm recovery',
+              '1. DEPLOY_STAMP.json shows this (or newer) SHA',
+              '2. Hub still immersive · autonomy FULL AUTO intact',
+              '',
+              '_Automated failure handling · 824 Consultants LLC_',
+            ].join('\n');
+            await github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body,
+            });
+
+      - name: Issue log + failure handling comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'Deploy notifications · 824 Consultants Pages';
+            const stage = '${{ steps.diag.outputs.stage }}';
+            const sha = context.sha.slice(0, 7);
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const stamp = new Date().toISOString();
+            const line = `| ${stamp} | ❌ failure (${stage}) | \`${sha}\` | [run](${run}) | — | @${context.actor} |`;
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'deploy-notifications',
+              per_page: 5,
+            });
+            let issue = issues.data.find(i => i.title === title);
+            if (!issue) {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                labels: ['deploy-notifications'],
+                body: [
+                  '# Deploy notification log',
+                  '',
+                  '| When (UTC) | Status | SHA | Run | Site | Actor |',
+                  '|------------|--------|-----|-----|------|-------|',
+                  line,
+                ].join('\n'),
+              });
+              issue = created.data;
+            } else {
+              const marker = '|------------|--------|-----|-----|------|-------|';
+              const body = issue.body || '';
+              const next = body.includes(marker) ? body.replace(marker, marker + '\n' + line) : body + '\n' + line;
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: next,
+              });
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: [
+                `❌ **Deploy failed** at stage \`${stage}\` · \`${sha}\``,
+                '',
+                `Run: ${run}`,
+                '',
+                '### Failure handling steps',
+                '1. Open the failed job logs (link above)',
+                '2. Fix by stage (validate → restore FULL AUTO / immersive strings; upload/deploy → Re-run failed jobs)',
+                '3. Re-run failed jobs **or** Actions → Deploy GitHub Pages → Run workflow',
+                '4. Confirm https://djmangie0824-max.github.io/824-consultants/DEPLOY_STAMP.json',
+                '5. Never gut FULL AUTO language to pass validate',
+                '',
+                'Full playbook: `docs/FAILURE_HANDLING.md`',
+              ].join('\n'),
+            });
+
+      - name: Optional failure webhook
+        env:
+          DEPLOY_NOTIFY_WEBHOOK: ${{ secrets.DEPLOY_NOTIFY_WEBHOOK }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DEPLOY_NOTIFY_WEBHOOK:-}" ]; then
+            echo "No DEPLOY_NOTIFY_WEBHOOK secret — skip"
+            exit 0
+          fi
+          curl -fsS -X POST -H 'Content-Type: application/json' \
+            -d '{"status":"failure","stage":"${{ steps.diag.outputs.stage }}","sha":"${{ github.sha }}","runUrl":"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}","actor":"${{ github.actor }}","recovery":"Re-run failed jobs after fix; see docs/FAILURE_HANDLING.md"}' \
+            "$DEPLOY_NOTIFY_WEBHOOK" || true
+
+      - name: Auto re-run once on transient stages
+        if: steps.diag.outputs.stage == 'upload' || steps.diag.outputs.stage == 'deploy' || steps.diag.outputs.stage == 'checkout'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Only auto-retry once per SHA (marker in run attempt)
+          ATTEMPT="${{ github.run_attempt }}"
+          if [ "$ATTEMPT" -ge 2 ]; then
+            echo "Already attempt $ATTEMPT — no further auto re-run"
+            exit 0
+          fi
+          echo "Transient stage ${{ steps.diag.outputs.stage }} on attempt $ATTEMPT — requesting re-run"
+          gh run rerun "${{ github.run_id }}" --failed -R "${{ github.repository }}" || {
+            echo "Auto re-run request failed (permissions or race) — manual re-run required"
+            exit 0
+          }

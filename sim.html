@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Sim roll · 824 Consultants</title>
+<meta name="description" content="Live-pretend simulation mesh: MoE, VLLM, Ray, Parallel, APIs. Production egress off."/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/sim.html"/>
+<meta name="theme-color" content="#0a0a0b"/>
+<style>
+:root{color-scheme:dark;--bg:#0a0a0b;--fg:#f4f4f5;--muted:#a1a1aa;--line:rgba(255,255,255,.1);--ok:#4ade80}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,sans-serif;padding:16px 14px 40px;max-width:720px;margin-inline:auto}
+a{color:#a5f3fc}h1{font-size:2rem;margin:8px 0}.sub{color:var(--muted)}
+.grid{display:grid;gap:10px;grid-template-columns:1fr}.cards{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+.card{border:1px solid var(--line);border-radius:20px;padding:14px;background:rgba(255,255,255,.04)}
+.card .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.card .v{font-family:ui-monospace,monospace;font-size:1.8rem;font-weight:600;margin-top:6px}
+.bar{height:6px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;background:var(--ok);width:30%}
+button{min-height:48px;border:0;border-radius:14px;background:#fff;color:#000;font-weight:600;padding:0 16px;width:100%;margin-top:12px}
+.nav{display:flex;gap:12px;flex-wrap:wrap;font-size:.9rem;margin-bottom:12px}
+.nav a{color:var(--muted);text-decoration:none}.stamp{font-size:11px;color:rgba(255,255,255,.35);margin-top:16px}
+ul{padding-left:1.1rem;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="./">← Hub</a>
+  <a href="autonomy.html">Autonomy</a>
+  <a href="production-audit.html">Audit</a>
+</nav>
+<p class="k" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ok)">ROL-9 · LIVE-PRETEND · EGRESS OFF</p>
+<h1>Sim roll</h1>
+<p class="sub">MoE · VLLM · Ray · Parallel · APIs · theories. Not production money rails.</p>
+<div class="cards" style="margin-top:16px">
+  <div class="card"><div class="k">MoE active</div><div class="v"><span id="moe">8</span>/32</div><div class="bar"><i id="moeBar"></i></div></div>
+  <div class="card"><div class="k">Tok/s</div><div class="v" id="tps">4200</div></div>
+  <div class="card"><div class="k">Ray workers</div><div class="v" id="ray">64</div></div>
+  <div class="card"><div class="k">Lanes</div><div class="v"><span id="lane">8</span>/16</div></div>
+</div>
+<div class="card" style="margin-top:10px">
+  <div class="k">Tick · score</div>
+  <div class="v" style="font-size:1.3rem">tick <span id="tick">0</span> · score <span id="score">1.0000</span></div>
+  <div class="k" style="margin-top:8px">Voice overlap · BLOCKED · productionEgress=false</div>
+</div>
+<button type="button" id="roll">Full roll now</button>
+<div class="card" style="margin-top:14px">
+  <div class="k">Theories compounding</div>
+  <ul>
+    <li>Never Weaken · OWNED</li>
+    <li>Black Hole Memory · OWNED</li>
+    <li>Wormhole Planes · ACTIVE</li>
+    <li>God of Generation · COMPOUNDING</li>
+    <li>Zero Idle · ACTIVE</li>
+    <li>MoE Router · COMPOUNDING</li>
+    <li>Fuse Never Kill · OWNED</li>
+  </ul>
+</div>
+<p class="stamp">PUBLISH 2026-08-09T04:25PDT · © 2026 824 Consultants LLC · ONLY YOU. FOREVER.</p>
+<script>
+const s={tick:0,score:1,moe:8,tps:4200,lane:8};
+function paint(){
+  document.getElementById('tick').textContent=s.tick;
+  document.getElementById('score').textContent=s.score.toFixed(4);
+  document.getElementById('moe').textContent=s.moe;
+  document.getElementById('tps').textContent=s.tps;
+  document.getElementById('lane').textContent=s.lane;
+  document.getElementById('moeBar').style.width=((s.moe/32)*100)+'%';
+}
+function step(){
+  s.tick++;
+  s.score=+(s.score+0.0039+Math.random()*0.001).toFixed(4);
+  s.moe=4+(s.tick%21);
+  s.tps=3800+Math.floor(Math.random()*2400);
+  s.lane=2+(s.tick%15);
+  paint();
+}
+setInterval(step,280);
+document.getElementById('roll').onclick=()=>{for(let i=0;i<12;i++)step();
+  if(speechSynthesis){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance('Full roll. Tick '+s.tick+'. Score '+s.score));}
+};
+paint();
+</script>
+</body>
+</html>

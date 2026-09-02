@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adaptive display vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="VIDEOADAPT is Adaptive display under SUB_VIDEO, not ADAPTBRIGHT. This desk AC/DC already Off. Confirm Off. Do not cargo-cult On on AC. Not VIDEOIDLE. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/adaptive-display.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Adaptive display vs a forever loop","description":"Confirm Adaptive display (VIDEOADAPT / GUID 90959d22-d6a1-49b9-af93-bce885ad335b) under SUB_VIDEO is Off on AC. Distinct from Enable adaptive brightness (ADAPTBRIGHT). Distinct from VIDEOIDLE and ADVANCEDCOLORQUALITYBIAS. This Yoga Balanced already prints Off / Off. Confirm. Do not cargo-cult On. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Turn off display after, adaptive brightness, and Advanced Color quality bias are already named"},{"@type":"HowToStep","name":"Query VIDEOADAPT with powercfg /qh under SUB_VIDEO. Stop if the GUID is missing after unhide"},{"@type":"HowToStep","name":"Read AC and DC. This Yoga measured Off / Off. Confirm. Do not rewrite Off to Off. Do not write On on AC"},{"@type":"HowToStep","name":"Soak a 5-minute named pulse with dual ultrawide still enumerated. Do not setac on this host"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="adaptive-brightness-ac.html">Adaptive brightness</a>
+        <a href="turn-off-display-after.html">Turn off display after</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Adaptive display vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="adaptive-brightness-ac.html">Enable adaptive brightness</a> page, not <a href="turn-off-display-after.html">Turn off display after</a>, not <a href="advanced-color-quality-bias.html">Advanced Color quality bias</a>, and not Intel panel power. <code>ADAPTBRIGHT</code> is the ALS hunter that dips lid nits. <code>VIDEOIDLE</code> blacks unlocked idle. This page is the remaining Display leaf Microsoft names <strong>Adaptive display</strong>. Alias <code>VIDEOADAPT</code>. GUID <code>90959d22-d6a1-49b9-af93-bce885ad335b</code>. Subgroup <code>SUB_VIDEO</code>. Indexes: <strong>0 = Off</strong>, <strong>1 = On</strong>. This Grok host queried <code>powercfg /qh SCHEME_CURRENT SUB_VIDEO VIDEOADAPT</code> before this pack was written: Balanced AC <code>0x00000000</code> (<strong>Off</strong>), DC <code>0x00000000</code> (<strong>Off</strong>). That is the pass. Confirm. Do not cargo-cult On on AC. Do not <code>/setacvalueindex</code> or <code>/setactive</code> on this desk. This pack reports the measured index. It does not invent a kernel essay about every Adaptive display internal.</p>
+      <a class="btn" href="adaptive-display.md" download>Download markdown</a>
+      <a class="btn" href="adaptive-brightness-ac.html">Adaptive brightness</a>
+      <a class="btn" href="turn-off-display-after.html">Turn off display after</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p><a href="adaptive-brightness-ac.html">Enable adaptive brightness</a> can already be Off on AC. <a href="turn-off-display-after.html">VIDEOIDLE</a> can already be Never. Dual ultrawide can still look “adaptive” because a different Display GUID is On: Adaptive display. Same subgroup. Different alias. Forum cargo-cult “turn Adaptive display On to save panel watts on a docked desk” is not the ALS pack and is not VIDEOIDLE. The TUI is still a process. Task Scheduler still prints Ready / 267009. The operator thinks the dock handshake died.</p>
+      <p>This host already prints <strong>Off / Off</strong>. That is the pass. This pack does not rewrite Off to Off as a fake ship. Query first. If your desk also reads Off, confirm and stop. If your desk reads On on AC after VIDEOIDLE and ADAPTBRIGHT are already named, that measured row is the liar — not this host’s Off.</p>
+      <p>Do not install systemd to paper over Adaptive display. Do not mint a Vercel slug because the lid looked adaptive. Do not buy another DP cable until this row is queried. Do not paste <code>ADAPTBRIGHT</code> onto this GUID.</p>
+    </section>
+    <section>
+      <h2>Live query on this host (2026-09-01)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Field</th><th>This desk</th></tr></thead>
+          <tbody>
+            <tr><td>Scheme</td><td><code>SCHEME_BALANCED</code> <code>381b4222-f694-41f0-9685-ff5bb260df2e</code></td></tr>
+            <tr><td>Subgroup</td><td><code>SUB_VIDEO</code> <code>7516b95f-f776-4464-8c53-06167f40cc99</code></td></tr>
+            <tr><td>Setting GUID</td><td><code>90959d22-d6a1-49b9-af93-bce885ad335b</code> alias <code>VIDEOADAPT</code></td></tr>
+            <tr><td>Microsoft name</td><td>Adaptive display</td></tr>
+            <tr><td>Indexes</td><td><strong>0 = Off</strong> · <strong>1 = On</strong></td></tr>
+            <tr><td>AC / DC</td><td><code>0x00000000</code> / <code>0x00000000</code> = <strong>Off / Off</strong> — confirm pass. Do not rewrite Off to Off</td></tr>
+            <tr><td>Sibling <code>ADAPTBRIGHT</code></td><td>Enable adaptive brightness. ALS nits. Different GUID. <a href="adaptive-brightness-ac.html">adaptive-brightness-ac</a>.</td></tr>
+            <tr><td>Sibling <code>VIDEOIDLE</code></td><td>Turn off display after. Different GUID. <a href="turn-off-display-after.html">turn-off-display-after</a>.</td></tr>
+            <tr><td>Sibling <code>ADVANCEDCOLORQUALITYBIAS</code></td><td>HDR/Advanced Color quality vs power saving. Different GUID. <a href="advanced-color-quality-bias.html">advanced-color-quality-bias</a>.</td></tr>
+            <tr><td>Sibling <code>ALLOWDISPLAY</code></td><td>Allow display required policy. Different GUID. Different URL. Not this file.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>powercfg /qh SCHEME_CURRENT SUB_VIDEO VIDEOADAPT</code> printed this row. Querying it under <code>SUB_PROCESSOR</code> or <code>SUB_SLEEP</code> fails — this GUID is Display. A SKU that omits it after unhide is skip, not a fail. This fire does not <code>/setacvalueindex</code> on this host — AC is already Off.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle / light change</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Session unlocked. Panels black. Dock re-enumerates. VIDEOIDLE is not 0</td><td>Different layer. <a href="turn-off-display-after.html">Turn off display after</a>.</td></tr>
+            <tr><td>Lid nits dip. Dual ultrawide stay enumerated. ALS hunter is On</td><td>Different layer. <a href="adaptive-brightness-ac.html">Enable adaptive brightness</a>.</td></tr>
+            <tr><td>HDR looks washed. Advanced Color quality bias is power saving on AC</td><td>Different layer. <a href="advanced-color-quality-bias.html">Advanced Color quality bias</a>.</td></tr>
+            <tr><td>GUID missing from <code>powercfg /qh</code> after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+            <tr><td>This host already AC Off / DC Off. Confirm. Do not rewrite Off to Off as a fake ship. Do not cargo-cult On</td><td>This page still documents the knob so the next desk that reads On on AC has a measured baseline.</td></tr>
+            <tr><td>VIDEOIDLE already Never. ADAPTBRIGHT already Off. Session awake. Named task Ready / 267009. Adaptive display on AC is On</td><td><strong>This page.</strong> Query. Do not invent. Restore only from a measured liar, not from this host’s Off. This pack does not <code>/setac</code> on this desk.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Adaptive display as the first click on a new host. Timeouts, VIDEOIDLE, ADAPTBRIGHT, and Advanced Color quality bias first. Hidden is not Off. Missing GUID after unhide is skip, not a registry paste. Do not cargo-cult On onto this desk — Off is the measured pass. Do not paste <code>ADAPTBRIGHT</code> onto this GUID. If this host already reads Off on AC, confirm and stop. Do not <code>/setacvalueindex</code>. Do not <code>/setactive</code>.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>.</li>
+          <li><strong>Confirm VIDEOIDLE and ADAPTBRIGHT are already named</strong> — <a href="turn-off-display-after.html">turn-off-display-after</a> and <a href="adaptive-brightness-ac.html">adaptive-brightness-ac</a>. This page is Adaptive display only.</li>
+          <li><strong>Query this GUID with <code>/qh</code> before you write</strong> — <code>powercfg /query</code> omits ATTRIB_HIDE rows. If <code>/qh</code> still omits the GUID after unhide, <strong>stop</strong>.</li>
+          <li><strong>Read the current AC index first</strong> — this Grok host already reads Off on AC and DC. That is the pass. If your desk also reads Off, confirm and stop. If your desk reads On on AC, continue only from that measurement — not from this host’s Off.</li>
+          <li><strong>Do not invent a forever On</strong> — this pack does not publish a cargo-cult On. This desk’s pass is the measured Off. This edition does not run <code>/setacvalueindex</code> or <code>/setactive</code> on this host.</li>
+          <li><strong>Leave ADAPTBRIGHT, VIDEOIDLE, ADVANCEDCOLORQUALITYBIAS, and ALLOWDISPLAY as siblings</strong> — those are not this click.</li>
+          <li><strong>Leave the current plan in place</strong> — this page is one Display leaf, not a switch to High performance. Confirm, then soak. Do not paste live brokerage numbers. Do not paste operator tokens.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_VIDEO VIDEOADAPT
+powercfg /qh SCHEME_CURRENT SUB_VIDEO 90959d22-d6a1-49b9-af93-bce885ad335b
+powercfg -attributes SUB_VIDEO 90959d22-d6a1-49b9-af93-bce885ad335b -ATTRIB_HIDE
+rem If AC is already Off: stop. That is the pass.
+rem Do not cargo-cult On. Do not /setacvalueindex. Do not /setactive.
+powercfg /qh SCHEME_CURRENT SUB_VIDEO VIDEOADAPT
+powercfg /qh SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT</pre>
+      <p><code>SUB_VIDEO</code> is the Display subgroup. GUID <code>90959d22-d6a1-49b9-af93-bce885ad335b</code> is Adaptive display. Alias <code>VIDEOADAPT</code>. Indexes: 0 Off, 1 On. This Grok host queried it before this pack was written: the row exists on Balanced, AC is Off, DC is Off. <strong>Confirm Off on AC</strong> is the honest pass on this desk; do not rewrite Off to Off; do not cargo-cult On. If <code>/qh</code> omits the GUID after unhide, this edition did not expose the knob — stop. ALS is <a href="adaptive-brightness-ac.html">adaptive-brightness-ac</a>, not this click. VIDEOIDLE is <a href="turn-off-display-after.html">turn-off-display-after</a>, not this click. Do not paste a Linux <code>xrandr</code> backlight script on this Windows profile.</p>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. VIDEOIDLE already Never if that pack ran. ADAPTBRIGHT already named if that pack ran. Otherwise this soak is lying about siblings, not Adaptive display.</li>
+          <li>Leave the desk idle across one 5-minute named pulse, lid closed, cooling stand in place, dedicated NIC plugged. Dual ultrawide stay enumerated. Do not use this soak to invent On.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 is not proof this leaf is the liar.</li>
+          <li>Adaptive display still Off on AC on this host. If someone pasted On, restore from <em>their</em> query after you measure. If this host already read Off, confirming Off is the pass — do not invent a rewrite. Missing GUID after unhide = skip.</li>
+          <li>No fourth Grok TUI. Isolation-empty <code>scheduler_list</code> is skip recreate. Host-forever is that named Windows task. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Enable adaptive brightness. That ALS hunter is <a href="adaptive-brightness-ac.html">adaptive-brightness-ac</a>.</li>
+        <li>Not Turn off display after. That timer is <a href="turn-off-display-after.html">turn-off-display-after</a>.</li>
+        <li>Not Advanced Color quality bias. That HDR lever is <a href="advanced-color-quality-bias.html">advanced-color-quality-bias</a>.</li>
+        <li>Not Allow display required policy. Different GUID. Different URL. Not this file.</li>
+        <li>Not Intel Graphics panel power. That is <a href="intel-graphics-panel-power.html">intel-graphics-panel-power</a>.</li>
+        <li>Not a Microsoft kernel essay about every Adaptive display internal. This pack reports the measured Off.</li>
+        <li>Not a Linux <code>xrandr</code> paste. This host is Windows. Not systemd.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not live capital. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="adaptive-brightness-ac.html">Adaptive brightness</a> · <a href="turn-off-display-after.html">Turn off display after</a> · <a href="advanced-color-quality-bias.html">Advanced Color quality bias</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

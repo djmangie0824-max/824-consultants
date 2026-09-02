@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allow display required policy vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="ALLOWDISPLAY is Allow display required policy under SUB_VIDEO, not SYSTEMREQUIRED. This desk AC/DC already Yes. Confirm Yes. Do not cargo-cult No. Not VIDEOIDLE. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/allow-display-required.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Allow display required policy vs a forever loop","description":"Confirm Allow display required policy (ALLOWDISPLAY / GUID a9ceb8da-cd46-44fb-a98b-02af69de4623) under SUB_VIDEO is Yes on AC so DISPLAY required requests are honored. Distinct from SYSTEMREQUIRED. Distinct from VIDEOIDLE and VIDEOADAPT. This Yoga Balanced already prints Yes / Yes. Confirm. Do not cargo-cult No. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Turn off display after and Allow system required policy are already named"},{"@type":"HowToStep","name":"Query ALLOWDISPLAY with powercfg /qh under SUB_VIDEO. Stop if the GUID is missing after unhide"},{"@type":"HowToStep","name":"Read AC and DC. This Yoga measured Yes / Yes. Confirm. Do not rewrite Yes to Yes. Do not write No on AC"},{"@type":"HowToStep","name":"Soak a 5-minute named pulse. Dual ultrawide stay enumerated. Do not setac on this host"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="allow-system-required.html">Allow system required</a>
+        <a href="powercfg-requests-blockers.html">/requests</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Allow display required policy vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="allow-system-required.html">Allow system required policy</a> page, not <a href="powercfg-requests-blockers.html">powercfg /requests</a>, not <a href="turn-off-display-after.html">Turn off display after</a>, and not Adaptive display. <code>SYSTEMREQUIRED</code> is whether Windows honors a SYSTEM required request. <code>/requests</code> lists who is holding DISPLAY right now. This page is whether Windows will honor a legitimate <em>DISPLAY</em> required request at all: Power Options → Display → <strong>Allow display required policy</strong>. Alias <code>ALLOWDISPLAY</code>. GUID <code>a9ceb8da-cd46-44fb-a98b-02af69de4623</code>. Subgroup <code>SUB_VIDEO</code>. Indexes: <strong>0 = No</strong>, <strong>1 = Yes</strong>. This Grok host queried <code>powercfg /qh SCHEME_CURRENT SUB_VIDEO ALLOWDISPLAY</code> before this pack was written: Balanced AC <code>0x00000001</code> (<strong>Yes</strong>), DC <code>0x00000001</code> (<strong>Yes</strong>). Confirm. Do not rewrite Yes to Yes. Do not cargo-cult No “to force the panel off.” Do not <code>/setacvalueindex</code> or <code>/setactive</code> on this desk.</p>
+      <a class="btn" href="allow-display-required.md" download>Download markdown</a>
+      <a class="btn" href="allow-system-required.html">Allow system required</a>
+      <a class="btn" href="powercfg-requests-blockers.html">/requests</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p><code>powercfg /requests</code> lists who is currently holding DISPLAY, SYSTEM, or AWAYMODE. That list is empty when nobody asked. Allow display required policy is the permission bit for the DISPLAY column: if it is No, an app that would have set a DISPLAY required request cannot hold the panel even when the operator wants dual ultrawide alive. Forum cargo-cult “set Allow display required to No so nothing can pin the screen” turns a later honest DISPLAY holder into a no-op. VIDEOIDLE can still drop the panels. The Interactive Grok CLI can still look Ready in Task Scheduler. Last result 267009 is still-running, not proof this bit is Yes.</p>
+      <p>This host already reads Yes / Yes. That is the pass. Do not paste <code>SYSTEMREQUIRED</code> onto this GUID. Do not paste VIDEOIDLE Never onto this GUID. Do not install systemd to paper over a No. Do not mint a Vercel slug because the TUI paused after someone wrote No.</p>
+    </section>
+    <section>
+      <h2>Live query on this host (2026-09-01)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Field</th><th>This desk</th></tr></thead>
+          <tbody>
+            <tr><td>Scheme</td><td><code>SCHEME_BALANCED</code> <code>381b4222-f694-41f0-9685-ff5bb260df2e</code></td></tr>
+            <tr><td>Subgroup</td><td><code>SUB_VIDEO</code> <code>7516b95f-f776-4464-8c53-06167f40cc99</code></td></tr>
+            <tr><td>Setting GUID</td><td><code>a9ceb8da-cd46-44fb-a98b-02af69de4623</code> alias <code>ALLOWDISPLAY</code></td></tr>
+            <tr><td>Microsoft name</td><td>Allow display required policy</td></tr>
+            <tr><td>Indexes</td><td><strong>0 = No</strong> · <strong>1 = Yes</strong></td></tr>
+            <tr><td>AC / DC this fire</td><td><code>0x00000001</code> / <code>0x00000001</code> = <strong>Yes / Yes</strong> — already the pass</td></tr>
+            <tr><td>Sibling <code>SYSTEMREQUIRED</code></td><td>Allow system required policy. Sleep subgroup. Different pack. <a href="allow-system-required.html">allow-system-required</a>.</td></tr>
+            <tr><td>Sibling <code>VIDEOIDLE</code></td><td>Turn off display after. Different pack. <a href="turn-off-display-after.html">turn-off-display-after</a>.</td></tr>
+            <tr><td>Sibling <code>VIDEOADAPT</code></td><td>Adaptive display. Different pack. <a href="adaptive-display.html">adaptive-display</a>.</td></tr>
+            <tr><td>Sibling <code>/requests</code></td><td>Who is holding DISPLAY right now. Different pack. <a href="powercfg-requests-blockers.html">powercfg-requests-blockers</a>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>powercfg /qh SCHEME_CURRENT SUB_VIDEO ALLOWDISPLAY</code> printed this row. Querying it under <code>SUB_SLEEP</code> or <code>SUB_PROCESSOR</code> fails — this GUID is Display. A SKU that omits it after unhide is skip, not a fail.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Session unlocked. Panels black. Dock re-enumerates. VIDEOIDLE is not 0</td><td>Different layer. <a href="turn-off-display-after.html">Turn off display after</a>.</td></tr>
+            <tr><td>SYSTEM required holders cannot pin sleep. Allow system required is No</td><td>Different layer. <a href="allow-system-required.html">Allow system required</a>.</td></tr>
+            <tr><td><code>/requests</code> shows a DISPLAY holder but the panel still drops</td><td><strong>This page</strong> if Allow display required is No. Query. This host already Yes — confirm, do not rewrite.</td></tr>
+            <tr><td>GUID missing from <code>powercfg /qh</code> after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+            <tr><td>This host already AC Yes / DC Yes. Confirm. Do not rewrite Yes to Yes as a fake ship. Do not cargo-cult No</td><td>This page still documents the knob so the next desk that reads No has a measured baseline.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Allow display required as the first click on a new host. Timeouts, VIDEOIDLE, /requests, and Allow system required first. Hidden is not Yes. Missing GUID after unhide is skip, not a registry paste. Do not cargo-cult No onto this desk — Yes is the measured pass. Do not paste <code>SYSTEMREQUIRED</code> onto this GUID. If this host already reads Yes on AC, confirm and stop. Do not <code>/setacvalueindex</code>. Do not <code>/setactive</code>.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>.</li>
+          <li><strong>Confirm VIDEOIDLE and SYSTEMREQUIRED are already named</strong> — <a href="turn-off-display-after.html">turn-off-display-after</a> and <a href="allow-system-required.html">allow-system-required</a>. This page is DISPLAY required permission only.</li>
+          <li><strong>Query this GUID with <code>/qh</code> before you write</strong> — <code>powercfg /query</code> omits ATTRIB_HIDE rows. If <code>/qh</code> still omits the GUID after unhide, <strong>stop</strong>.</li>
+          <li><strong>Read the current AC index first</strong> — this Grok host already reads Yes on AC and DC. That is the pass. If your desk also reads Yes, confirm and stop. If your desk reads No, continue only from that measurement — not from this host’s Yes.</li>
+          <li><strong>Do not invent a forever No</strong> — this pack does not publish a cargo-cult No. This desk’s pass is the measured Yes. This edition does not run <code>/setacvalueindex</code> or <code>/setactive</code> on this host.</li>
+          <li><strong>Leave SYSTEMREQUIRED, VIDEOIDLE, VIDEOADAPT, and /requests as siblings</strong> — those are not this click.</li>
+          <li><strong>Leave the current plan in place</strong> — this page is one Display permission bit, not a switch to High performance. Confirm, then soak. Do not paste live brokerage numbers. Do not paste operator tokens.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_VIDEO ALLOWDISPLAY
+powercfg /qh SCHEME_CURRENT SUB_VIDEO a9ceb8da-cd46-44fb-a98b-02af69de4623
+powercfg -attributes SUB_VIDEO a9ceb8da-cd46-44fb-a98b-02af69de4623 -ATTRIB_HIDE
+rem If AC is already Yes: stop. That is the pass.
+rem Do not cargo-cult No. Do not /setacvalueindex. Do not /setactive.
+powercfg /qh SCHEME_CURRENT SUB_VIDEO ALLOWDISPLAY
+powercfg /qh SCHEME_CURRENT SUB_SLEEP SYSTEMREQUIRED</pre>
+      <p><code>SUB_VIDEO</code> is the Display subgroup. GUID <code>a9ceb8da-cd46-44fb-a98b-02af69de4623</code> is Allow display required policy. Alias <code>ALLOWDISPLAY</code>. Indexes: 0 No, 1 Yes. This Grok host queried it before this pack was written: the row exists on Balanced, AC is Yes, DC is Yes. <strong>Confirm Yes on AC</strong> is the honest pass on this desk; do not rewrite Yes to Yes; do not cargo-cult No. If <code>/qh</code> omits the GUID after unhide, this edition did not expose the knob — stop. SYSTEM required is <a href="allow-system-required.html">allow-system-required</a>, not this click. VIDEOIDLE is <a href="turn-off-display-after.html">turn-off-display-after</a>, not this click. Do not paste a Linux <code>xdg-screensaver</code> inhibit on this Windows profile.</p>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. VIDEOIDLE already Never if that pack ran. SYSTEMREQUIRED already Yes if that pack ran. Otherwise this soak is lying about siblings, not Allow display required.</li>
+          <li>Leave the desk idle across one 5-minute named pulse, lid closed, cooling stand in place, dedicated NIC plugged. Dual ultrawide stay enumerated. Do not use this soak to invent No.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 is not proof this bit is the liar.</li>
+          <li>Allow display required still Yes on AC on this host. If someone pasted No, restore from <em>their</em> query after you measure. If this host already read Yes, confirming Yes is the pass — do not invent a rewrite. Missing GUID after unhide = skip.</li>
+          <li>No fourth Grok TUI. Isolation-empty <code>scheduler_list</code> is skip recreate. Host-forever is that named Windows task. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Allow system required policy. That Sleep bit is <a href="allow-system-required.html">allow-system-required</a>.</li>
+        <li>Not <code>powercfg /requests</code>. That live holder list is <a href="powercfg-requests-blockers.html">powercfg-requests-blockers</a>.</li>
+        <li>Not Turn off display after. That timer is <a href="turn-off-display-after.html">turn-off-display-after</a>.</li>
+        <li>Not Adaptive display. That leaf is <a href="adaptive-display.html">adaptive-display</a>.</li>
+        <li>Not a Microsoft kernel essay about every DISPLAY required internal. This pack reports the measured Yes.</li>
+        <li>Not a Linux screensaver-inhibit paste. This host is Windows. Not systemd.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="allow-system-required.html">Allow system required</a> · <a href="powercfg-requests-blockers.html">/requests</a> · <a href="adaptive-display.html">Adaptive display</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

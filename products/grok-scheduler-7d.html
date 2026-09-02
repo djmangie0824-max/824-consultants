@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grok scheduler 7-day recreate — 824 Consultants LLC</title>
+  <meta name="description" content="Free playbook: Grok durable schedulers vanish even when durable. Recreate hourly + lanes. Honest 7-day expiry. Host-forever is Windows Task Scheduler, not Linux systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/grok-scheduler-7d.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Grok scheduler 7-day recreate","description":"When Grok durable schedulers are missing, recreate hourly materialize-forever plus daily re-arm, 30-minute pages-heal, and 2-hour ship/cash lanes. They expire in 7 days. Host-forever is a Windows task.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"List in-product Grok schedulers"},{"@type":"HowToStep","name":"Recreate hourly materialize-forever if missing"},{"@type":"HowToStep","name":"Recreate daily re-arm, 30-minute heal, 2-hour ship, 2-hour cash"},{"@type":"HowToStep","name":"Leave Windows LEXXII-Materialize-Forever as host-forever"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    .ok { color:var(--true); }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-task-forever.html">Windows forever</a>
+        <a href="../flywheel.html">Flywheel</a>
+        <a href="../autonomy.html">Autonomy</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>.
+    </div>
+    <section>
+      <span class="badge">Live playbook · $0 · 7-day cap</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Grok scheduler 7-day recreate</h1>
+      <p>Durable does not mean forever. Grok in-product schedulers auto-expire after 7 days. If a materialize-forever turn finds <strong>zero</strong> scheduled tasks, recreate the lanes. Do not invent a Linux daemon to paper over the empty list.</p>
+      <a class="btn" href="grok-scheduler-7d.md" download>Download markdown</a>
+      <a class="btn" href="windows-task-forever.html">Windows host-forever</a>
+      <a class="btn" href="../flywheel.html">Flywheel inventory</a>
+    </section>
+    <section>
+      <h2>What vanished, what to recreate</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Lane</th><th>Interval</th><th>Job</th></tr></thead>
+          <tbody>
+            <tr><td>materialize-forever</td><td>1 hour</td><td>Heal first, then ship an original</td></tr>
+            <tr><td>re-arm</td><td>1 day</td><td>Recreate the other loops if they vanished</td></tr>
+            <tr><td>pages-heal</td><td>30 minutes</td><td>Restore hub / FULL AUTO / catalog / robots only if gutted</td></tr>
+            <tr><td>original-ship</td><td>2 hours</td><td>One new public-safe page. No duplicates</td></tr>
+            <tr><td>cash-rails</td><td>2 hours</td><td>Keep Associates disclosure honest. No fake checkout URLs</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>Incident this pack was written from</h2>
+      <div class="card">
+        <p>On 2026-08-31 a materialize-forever turn listed <strong>no</strong> Grok scheduled tasks. The Windows host loop <code>LEXXII-Materialize-Forever</code> was still Running. That split is the truth: in-product schedulers can empty while Task Scheduler keeps firing <code>grok.exe --prompt-file</code>.</p>
+        <p>Heal: recreate the five durable lanes. Honest cap: they expire again in 7 days (~2026-09-07 from this recreate). Host-forever stays the named Windows task. Do not spawn a fourth Grok TUI. Do not install systemd on Windows.</p>
+      </div>
+    </section>
+    <section>
+      <h2>Not the Windows-task pack</h2>
+      <div class="warn">
+        <p><a href="windows-task-forever.html">windows-task-forever.html</a> is how to arm Task Scheduler. <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a> is why a named hourly task still looks dead (Modern Standby, Interactive-only, result 267009). This page is only the Grok in-product list going empty.</p>
+      </div>
+    </section>
+    <section>
+      <h2>Forbidden claims</h2>
+      <div class="card">
+        <ul>
+          <li>Do not claim a Linux FULL AUTO daemon on this Windows profile.</li>
+          <li>Do not treat a missing Grok scheduler as permission to gut FULL AUTO strings on Pages.</li>
+          <li>Do not publish live brokerage numbers. Stamp local heal logs with <code>NLV private</code>.</li>
+          <li>Do not wait for chat to say keep going, continue, or ".".</li>
+        </ul>
+      </div>
+    </section>
+    <p><a href="index.html">← Product hub</a> · <a href="../flywheel.html">Flywheel</a> · <a href="windows-task-forever.html">Windows forever</a></p>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Git + Node on a Windows Grok host — 824 Consultants LLC</title>
+  <meta name="description" content="Free pack: Git 2.55 and Node 24.19 LTS on a Windows Grok host. npm.ps1 execution-policy trap, git credential hang, no fake cluster." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/git-node-windows-host.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Git + Node on a Windows Grok host","description":"First-use map after Git 2.55 and Node 24.19 LTS land on a Windows Grok profile. npm.ps1 is not a missing install. git push hang is credentials, not Vercel.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm git.exe and node.exe versions"},{"@type":"HowToStep","name":"Call npm.cmd if PowerShell blocks npm.ps1"},{"@type":"HowToStep","name":"Fail fast on git credential prompts"},{"@type":"HowToStep","name":"Ship the public repo without copying auth.json"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    .ok { color:var(--true); }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-grok-host-pack.html">Host pack</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="../autonomy.html">Autonomy</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>.
+    </div>
+    <section>
+      <span class="badge">Live pack · $0 · host capability</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Git + Node on a Windows Grok host</h1>
+      <p>Day-zero Grok CLI can be the only toolchain. This pack is the next hour: Git 2.55 and Node 24.19 LTS are on PATH, and the failures are Windows-real. Not a Ray cluster. Not a reason to mint another Vercel slug.</p>
+      <a class="btn" href="git-node-windows-host.md" download>Download markdown</a>
+      <a class="btn" href="windows-grok-host-pack.html">Day-zero host pack</a>
+      <a class="btn" href="windows-task-forever.html">Windows forever task</a>
+    </section>
+    <section>
+      <h2>Versions that were actually installed</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Tool</th><th>Fact</th></tr></thead>
+          <tbody>
+            <tr><td>Git</td><td><code>2.55.0.windows.3</code> at <code>C:\Program Files\Git\cmd\git.exe</code></td></tr>
+            <tr><td>Node</td><td><code>v24.19.0</code> via WinGet <code>OpenJS.NodeJS.LTS</code></td></tr>
+            <tr><td>npm</td><td><code>npm.cmd</code> is the real binary. <code>npm.ps1</code> is a PowerShell shim</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>Trap 1 — Restricted policy vs <code>npm.ps1</code></h2>
+      <div class="card">
+        <p>WinGet Node LTS drops <code>npm.ps1</code> on PATH. PowerShell <strong>Restricted</strong> refuses it (<code>UnauthorizedAccess</code>). That is not a missing install.</p>
+        <ol>
+          <li>Call <code>npm.cmd</code> or <code>node</code> instead of the <code>.ps1</code> shim.</li>
+          <li>Operator-only, if scripts are wanted: <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>.</li>
+          <li>Do not set Unrestricted to “make npm work.”</li>
+        </ol>
+      </div>
+      <pre>node --version
+npm.cmd --version</pre>
+    </section>
+    <section>
+      <h2>Trap 2 — <code>git fetch</code> / <code>git push</code> hang</h2>
+      <div class="card">
+        <p>Git Credential Manager will wait forever for an interactive GitHub login. A headless Grok turn that sits on that prompt looks idle and is not.</p>
+        <ul>
+          <li>Ship public files through the GitHub connector when local push hangs.</li>
+          <li>Anonymous HTTPS is enough to <em>read</em> a public repo. If GCM still prompts, abort with <code>GIT_TERMINAL_PROMPT=0</code>.</li>
+          <li>Never paste <code>auth.json</code> into a remote URL or a public file.</li>
+          <li>A hung push is not a license to mint another Vercel slug or Drive dump.</li>
+        </ul>
+      </div>
+      <div class="warn">This pack names the hang so operators stop treating it as “Git is not installed.” Git is installed. The prompt is the bug.</div>
+    </section>
+    <section>
+      <h2>What these tools are for</h2>
+      <div class="card">
+        <ul>
+          <li><strong>Git</strong> — clone and edit <code>djmangie0824-max/824-consultants</code>. Keep vault / desk / console / organism out of that tree.</li>
+          <li><strong>Node</strong> — small public-safe scripts (sitemap stitch, HTML checks). Not K3s. Not fake income.</li>
+          <li><strong>Validate before ship</strong> — home still has <code>Touch. Talk. Go.</code> + <code>canvas#field</code>; autonomy still has FULL AUTO strings; products is not a deny wall; robots still <code>Allow: /</code>.</li>
+        </ul>
+      </div>
+    </section>
+    <section>
+      <h2>Forbidden</h2>
+      <div class="card">
+        <ul>
+          <li>Copying Grok <code>auth.json</code> or MCP tokens into the public repo.</li>
+          <li>Publishing brokerage NLV, cash, tickers, or account IDs.</li>
+          <li>Installing Linux systemd on Windows because “Node needs a daemon.”</li>
+          <li>Spawning a fourth Grok TUI to run <code>npm</code>.</li>
+        </ul>
+      </div>
+    </section>
+    <p><a href="index.html">← Product hub</a> · <a href="windows-grok-host-pack.html">Day-zero host pack</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a></p>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

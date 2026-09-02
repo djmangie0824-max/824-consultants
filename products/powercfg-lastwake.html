@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>powercfg /lastwake vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Allow wake timers can already be Enable and WakeToRun already checked. powercfg /lastwake names who yanked the last sleep. /waketimers names what is armed now. Distinct from the policy pack. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/powercfg-lastwake.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"powercfg /lastwake vs a forever loop","description":"Read powercfg /lastwake and /waketimers after Allow wake timers is already Enable so a yanked Interactive session is blamed on the named source, not on Grok. Distinct from wake-timers-forever. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Allow wake timers is Enable on AC and WakeToRun is already checked"},{"@type":"HowToStep","name":"Run powercfg /lastwake and classify Timer vs Device vs Fixed Feature vs Unknown"},{"@type":"HowToStep","name":"Run powercfg /waketimers and name every armed owner. It is not the last-wake dump"},{"@type":"HowToStep","name":"Soak: a known named-task wake names the timer; a USB bump names a device; extra OEM timers are listed, not ignored"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="wake-timers-forever.html">Wake timers</a>
+        <a href="powercfg-requests-blockers.html">/requests</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">powercfg /lastwake vs a forever loop</h1>
+      <p class="meta">Published 2026-08-31 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="wake-timers-forever.html">Allow wake timers</a> policy page, not the <a href="unattended-sleep-timeout.html">unattended re-sleep</a> page, and not the <a href="powercfg-requests-blockers.html">powercfg /requests</a> holder page. Wake-timers-forever <em>sets</em> Allow wake timers = Enable on AC and checks Wake the computer to run this task. Unattended-sleep is the nap after a wake. /requests names who is pinning DISPLAY or SYSTEM while the box is already awake. This page is the remaining forensic: <code>powercfg /lastwake</code> names who yanked the last sleep. <code>powercfg /waketimers</code> names what is armed <em>now</em>. Those two dumps are not the same object. The policy can already be honest and the session still got yanked.</p>
+      <a class="btn" href="powercfg-lastwake.md" download>Download markdown</a>
+      <a class="btn" href="wake-timers-forever.html">Wake timers policy first</a>
+      <a class="btn" href="unattended-sleep-timeout.html">Unattended re-sleep</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="wake-timers-forever.html">wake-timers-forever</a> pack already did the click: plugged-in Allow wake timers is Enable, not Important only. <code>LEXXII-Materialize-Forever</code> already has Wake the computer to run this task. Sleep after can already be Never. That work can be done and the Interactive session still looks yanked. The operator blames Grok. Task Scheduler still prints Ready and last result 267009 (still-running). The RTC policy is not the liar. A source woke the box — or woke it and left no logged-on session — and nobody named it.</p>
+      <p>Two commands, two times. <code>powercfg /lastwake</code> is history: one wake, last sleep, Type plus Owner or device path. <code>powercfg /waketimers</code> is the present: every RTC still armed to yank the <em>next</em> sleep. Empty last-wake is not empty wake-timers. A USB mouse bump that woke the lid-closed desk is a Device, not the hourly. A <code>svchost.exe</code> timer owned by Windows Update is not <code>LEXXII-Materialize-Forever</code>. A Power Button / lid Fixed Feature is a human, not a 5-minute pulse. Read the name. Then go to the sibling that owns that name. Do not Disable Allow wake timers because last-wake showed a HID. That is cargo-culting the policy pack backwards.</p>
+      <p><code>LEXXII-Materialize-Forever</code> is Interactive-only. A wake that lands on the lock screen, a Fast User Switch, or a logged-out console did not invent a logon. Wake timers recover a logged-on session that slept. They do not fire a fourth TUI while 267009 is still-running. This Windows profile is not a Linux FULL AUTO daemon. Do not install systemd because last-wake printed Unknown. Do not paste live NLV next to a wake dump. NLV stays off Pages.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Allow wake timers is Disable or Important only. Next-run in the past. Last-run never moved</td><td>Different layer. Set the policy first. <a href="wake-timers-forever.html">Allow wake timers</a>.</td></tr>
+            <tr><td>Named task missing / never-run 1999-11-30</td><td>Different layer. <a href="windows-task-forever.html">Windows Task Scheduler forever</a>.</td></tr>
+            <tr><td>Woke unattended, then napped in ~2 minutes</td><td>Different layer. <a href="unattended-sleep-timeout.html">System unattended sleep timeout</a>.</td></tr>
+            <tr><td>Timeouts honest. Fan stays up. Session never idled</td><td>Different layer. <a href="powercfg-requests-blockers.html">powercfg /requests</a>.</td></tr>
+            <tr><td>Lid / power / Sleep key put the session down</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid</a> / <a href="power-button-action-ac.html">power button</a> / <a href="sleep-button-action.html">Sleep button</a>.</td></tr>
+            <tr><td>Wake timers already Enable. WakeToRun already checked. Session still yanked. Need the name of the source</td><td>This page. Read <code>/lastwake</code> and <code>/waketimers</code>.</td></tr>
+            <tr><td>Last result 267009, another window would stack</td><td>Still running. Do not spawn a 4th TUI. Not a last-wake.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not run last-wake as the first click on a new host. Set Allow wake timers Enable and WakeToRun first. Do not Disable the plan because a USB device woke the desk. Do not treat a stale last-wake from yesterday as today’s hourly failure. Do not paste the dump next to brokerage numbers.</div>
+    </section>
+    <section>
+      <h2>What to run (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the policy layer is already done</strong> — Allow wake timers on AC is Enable, not Important only. <code>LEXXII-Materialize-Forever</code> has Wake the computer checked. Otherwise this forensic is noise. See <a href="wake-timers-forever.html">wake-timers-forever</a>.</li>
+          <li><strong>Elevated Command Prompt, after the yank</strong> — <code>powercfg /lastwake</code>. Then <code>powercfg /waketimers</code>. Then <code>powercfg /devicequery wake_armed</code> if last-wake named a Device and you need the live arm list.</li>
+          <li><strong>Classify last-wake Type</strong> — <em>Timer</em> (scheduled task or <code>svchost</code> owner), <em>Device</em> (USB HID, NIC, PCI, hub), <em>Fixed Feature</em> (Power Button, Sleep Button, lid, RTC clock), or empty / Unknown. Friendly Name and Instance Path are the name. Do not stop at “something woke.”</li>
+          <li><strong>Classify wake-timers owners</strong> — this list is what will yank the <em>next</em> sleep. <code>LEXXII-Materialize-Forever</code> may appear when a next-run is due while sleep is allowed. Windows Update, Automatic Maintenance, OEM updaters, and a third-party RTC are extra. Empty with Enable + a next-run still in the future can be honest. Empty after a missed hour with next-run in the past is a fail on the <em>policy</em> pack, not this one.</li>
+          <li><strong>Act on the named source, not the plan</strong> — Timer that is not LEXXII: uncheck Wake the computer on <em>that</em> task. Device that is a mouse/keyboard bump: expected; do not unplug the HID to “heal” Grok. Device that is a NIC: WoL / Magic Packet, not Allow wake timers. Fixed Feature Power Button: human. Then soak. Do not paste <code>auth.json</code> next to that output.</li>
+        </ol>
+      </div>
+      <pre>powercfg /lastwake
+powercfg /waketimers
+powercfg /devicequery wake_armed
+powercfg /devicequery wake_programmable
+schtasks /Query /TN "LEXXII-Materialize-Forever" /FO LIST /V</pre>
+      <p><code>/lastwake</code> is the last sleep’s source. It persists until the next sleep, so a USB bump from this morning still prints after you already healed the hourly — re-sleep once if you need a fresh sample. <code>/waketimers</code> is live. <code>wake_armed</code> is which devices are allowed to wake right now. <code>wake_programmable</code> is which devices <em>can</em> be armed. Event Viewer → Windows Logs → System → Power-Troubleshooter Event ID 1 is local corroboration of the same last wake. Save it locally. Do not publish the event XML. Device paths and volume names do not belong on Pages.</p>
+    </section>
+    <section>
+      <h2>How to read the name</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>last-wake / waketimers says</th><th>What it is</th><th>Where to go</th></tr></thead>
+          <tbody>
+            <tr><td>Timer · owner is <code>LEXXII-Materialize-Forever</code> (or Pages-Heal / Ship)</td><td>The named hourly did the wake. Policy pack passed.</td><td>If the session then napped, <a href="unattended-sleep-timeout.html">UNATTENDSLEEP</a>. If the console was logged out, Interactive-only — <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>.</td></tr>
+            <tr><td>Timer · <code>svchost.exe</code> / <code>wuauserv</code> / Reboot / Automatic Maintenance</td><td>Windows Update or maintenance RTC. Not LEXXII.</td><td>Uncheck Wake the computer on <em>that</em> task. Do not Disable Allow wake timers on the plan.</td></tr>
+            <tr><td>Device · USB Root Hub / HID-compliant mouse / keyboard</td><td>A bump. Not a 5-minute pulse.</td><td>Expected on a docked desk. Not a Grok failure. Not a reason to Disable wake timers.</td></tr>
+            <tr><td>Device · Ethernet / Wi-Fi / Magic Packet</td><td>Wake on LAN.</td><td>NIC policy, not this RTC policy. Related: <a href="network-standby-connectivity.html">Network in Standby</a>.</td></tr>
+            <tr><td>Fixed Feature · Power Button / Sleep Button / lid</td><td>Human or a mapped key.</td><td><a href="power-button-action-ac.html">Power button</a> / <a href="sleep-button-action.html">Sleep button</a> / <a href="lid-close-do-nothing.html">lid</a>.</td></tr>
+            <tr><td>Empty / Unknown after a real sleep</td><td>Firmware did not record, or Fast Startup hybrid path.</td><td>Re-sample after a real S3/S0ix, not a hybrid shutdown. <a href="windows-fast-startup.html">Fast Startup</a> is a different liar.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — the policy click. Enable on AC plus WakeToRun. This page assumes that work is already done.</li>
+        <li><a href="unattended-sleep-timeout.html">System unattended sleep timeout</a> — the nap after a wake. This page names who woke.</li>
+        <li><a href="powercfg-requests-blockers.html">powercfg /requests</a> — holders while awake. This page is the source of the last sleep/wake, not DISPLAY/SYSTEM.</li>
+        <li><a href="windows-task-forever.html">Windows Task Scheduler forever</a> — creating the named tasks.</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — timeouts, Modern Standby, Interactive-only logon, result 267009.</li>
+        <li>This page — read <code>/lastwake</code> and <code>/waketimers</code> after the RTC policy is honest, then blame the named source.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Allow wake timers on AC is already Enable. WakeToRun on the named task is already checked. Otherwise this soak is lying.</li>
+          <li>A known lid-open or power-button wake prints Fixed Feature or Device HID — not a fail. Classify it. Do not “fix” it by Disabling the plan.</li>
+          <li>A forced short sleep that ends at the next hourly prints Timer with the named LEXXII task as owner. Last Run Time moved. No human opening the lid.</li>
+          <li><code>powercfg /waketimers</code> during a window where sleep is allowed and a next-run is due can list the named task. Extra OEM / Update timers are named, then those tasks lose WakeToRun. They are not ignored.</li>
+          <li>A USB mouse bump is classified as Device. The hourly is not blamed. No fourth Grok TUI. Last result 267009 is still-running, not a last-wake.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not the Allow wake timers policy pack. That is <a href="wake-timers-forever.html">wake-timers-forever.html</a>.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not permission to Disable Allow wake timers because last-wake showed USB or Windows Update.</li>
+        <li>Not <code>powercfg /requests</code>. Holders while awake are a different dump.</li>
+        <li>Not a published Event Viewer XML or energy report on GitHub Pages.</li>
+        <li>Not a replacement for Interactive-only. A wake does not log the operator in.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="wake-timers-forever.html">Wake timers</a> · <a href="unattended-sleep-timeout.html">Unattended sleep</a> · <a href="powercfg-requests-blockers.html">/requests</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

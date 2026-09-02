@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Processor performance boost mode vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Disabled PERFBOOSTMODE leaves an Ultra 7 on base clocks after min-state, core parking, and Active cooling are already honest. Grok CLI looks hung. Task Scheduler still shows Ready. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/processor-boost-mode.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Processor performance boost mode vs a forever loop","description":"Set Processor performance boost mode to Enabled on AC so Disabled turbo cannot starve an Interactive Grok CLI after Minimum processor state, core parking, and Active cooling are already honest. Companion to min-state. Not Intel Speed Shift. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm min-state, core parking, and cooling policy are already honest on AC"},{"@type":"HowToStep","name":"Open Processor power management → Processor performance boost mode"},{"@type":"HowToStep","name":"Set Plugged in to Enabled. Do not start at Aggressive on a sealed chassis"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. TUI still accepts input"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="system-cooling-policy.html">System cooling policy</a>
+        <a href="processor-min-state-ac.html">Minimum processor state</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Processor performance boost mode vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-min-state-ac.html">Minimum processor state</a> page, not the <a href="processor-core-parking.html">core parking</a> page, and not the <a href="system-cooling-policy.html">system cooling policy</a> page. Min-state sets the frequency floor. Parking sets the unparked-core floor. Cooling policy decides fans vs throttle. This page is the remaining turbo allow: Power Options → Processor power management → <strong>Processor performance boost mode</strong>. That is <code>PERFBOOSTMODE</code>. <strong>Disabled</strong> leaves an Ultra 7 on base clocks. An Interactive Grok CLI looks hung. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="processor-boost-mode.md" download>Download markdown</a>
+      <a class="btn" href="system-cooling-policy.html">Cooling policy first</a>
+      <a class="btn" href="processor-min-state-ac.html">Minimum processor state</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="processor-min-state-ac.html">min-state</a>, <a href="processor-core-parking.html">core parking</a>, and <a href="system-cooling-policy.html">cooling policy</a> packs can already be honest on AC. Frequency floor 100. Unparked cores 100. Fans allowed. The TUI still starves. Some OEM “quiet” Balanced plans set <strong>Processor performance boost mode</strong> to Disabled. That is <code>PERFBOOSTMODE</code> = 0. Windows may not enter turbo P-states. Minimum processor state 100% of a non-turbo ceiling is still a slow ceiling. <code>grok.exe</code> is alive. The named task still prints Ready and last result 267009 (still-running). The operator thinks the loop died. Turbo was off.</p>
+      <p>This is not sleep. <code>powercfg /a</code> still reports the same standby type. Requests can still be None. The boost policy is the liar. Do not install systemd to paper over Disabled turbo. Do not mint a Vercel slug because the TUI paused. Do not switch the whole plan to High performance to hide four other forever-loop bugs. Do not jump to Aggressive on a closed-lid chassis that already thermal-throttles — that is cooling policy and the <a href="../reviews/laptop-cooling-stand-14h.html">cooling stand</a>, not a louder boost click.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Minimum processor state still 5% on AC</td><td>Different layer. <a href="processor-min-state-ac.html">Minimum processor state</a>.</td></tr>
+            <tr><td>Task Manager shows most cores Parked</td><td>Different layer. <a href="processor-core-parking.html">Core parking</a>.</td></tr>
+            <tr><td>Fans stay quiet, frequency drops, closed lid</td><td>Different layer. <a href="system-cooling-policy.html">System cooling policy</a>.</td></tr>
+            <tr><td>USB NIC / dock / radio dropped</td><td>Different layer. USB / PCIe / Wi-Fi playbooks.</td></tr>
+            <tr><td>Min-state, parking, and Active cooling already honest on AC. Session awake. Named task Ready / 267009. Grok TUI looks frozen. Task Manager clocks stay at base. Boost mode is Disabled</td><td>This page. Processor performance boost mode on AC.</td></tr>
+            <tr><td>PERFBOOSTMODE already Enabled; package still will not turbo</td><td>Different layer. Firmware / Intel Speed Shift / EPP is not this click. Do not invent a registry paste here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set boost mode as the first click on a new host. Timeouts, requests, Minimum processor state, core parking, and cooling policy first. This page is the remaining turbo allow after those are honest. Enabled on AC is the pass. Aggressive is a soak upgrade, not the opening move on a sealed Ultra 7.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Fast Startup is already honest. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm Minimum processor state, core parking min cores, and System cooling policy are already honest on AC</strong> — 100 / 100 / Active. If any of those is still a travel default, that is <a href="processor-min-state-ac.html">min-state</a>, <a href="processor-core-parking.html">core parking</a>, or <a href="system-cooling-policy.html">cooling policy</a>, not this page.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Processor power management → Processor performance boost mode</strong> — set <em>Plugged in</em> to <strong>Enabled</strong>. On battery may stay Efficient Enabled or Disabled if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Do not start at Aggressive</strong> — Enabled is the pass. If a 30-minute soak still shows base clocks with cooling already Active and a stand in the path, then Aggressive. Aggressive on a Passive cooling policy is just a louder thermal lie.</li>
+          <li><strong>Leave Efficient Enabled / Efficient Aggressive alone on AC</strong> — those modes bias energy over turbo. They are not the AC pass for this desk. Do not “save the Ultra 7” with Efficient on a machine that never unplugs.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one processor knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the processor subgroup. Enabled (1) or Aggressive (2) on AC is the pass. Disabled (0) is a fail. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_PROCESSOR
+powercfg /a</pre>
+      <p><code>SUB_PROCESSOR</code> is the processor subgroup. <code>PERFBOOSTMODE</code> is Processor performance boost mode. Typical values: <strong>0 = Disabled</strong>, <strong>1 = Enabled</strong>, <strong>2 = Aggressive</strong>, <strong>3 = Efficient Enabled</strong>, <strong>4 = Efficient Aggressive</strong>. Enabled on AC is the pass for this desk. If the row is missing from the GUI, query with <code>powercfg</code> anyway — hidden is not the same as Enabled. If powercfg also omits the alias, this firmware or edition did not expose the knob — stop; do not invent a registry hack on a public page. Intel Speed Shift / EPP is a sibling, not this click. Heterogeneous thread scheduling is a sibling, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="processor-min-state-ac.html">Minimum processor state</a> — frequency floor (<code>PROCTHROTTLEMIN</code>). This page is whether turbo above that floor is allowed (<code>PERFBOOSTMODE</code>).</li>
+        <li><a href="processor-core-parking.html">Core parking</a> — unparked-core floor (<code>CPMINCORES</code>). Parking is not turbo.</li>
+        <li><a href="system-cooling-policy.html">System cooling policy</a> — Passive vs Active fans. Thermal policy, not the turbo allow.</li>
+        <li><a href="../reviews/laptop-cooling-stand-14h.html">Laptop cooling stand</a> — air under a closed lid. Hardware. Boost does not replace a stand.</li>
+        <li>Intel Speed Shift / EPP — sibling processor row. Energy-performance preference, not this click. Do not invent a registry paste on this page.</li>
+        <li>This page — AC Processor performance boost mode = Enabled so Disabled turbo cannot starve an Interactive Grok CLI while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. <code>powercfg /requests</code> already None. Min-state 100. Parking 100. Cooling Active. Otherwise this soak is lying.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. The Grok TUI still accepts input. Task Manager Performance does not sit on base clocks the entire soak while <code>grok.exe</code> is the foreground session.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with turbo Disabled is not forever.</li>
+          <li>Boost mode still Enabled (or Aggressive after a named soak) on AC. If someone set Efficient to “save watts,” restore Enabled. Do not “fix” it by switching the whole plan to High performance.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof turbo is already allowed.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim the knob is already Enabled on every host. It is the click path after cooling policy is honest.</li>
+        <li>Not Minimum processor state, not core parking, not system cooling policy.</li>
+        <li>Not Intel Speed Shift / EPP and not heterogeneous scheduling.</li>
+        <li>Not a High-performance plan essay. One processor setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="system-cooling-policy.html">System cooling policy</a> · <a href="processor-min-state-ac.html">Minimum processor state</a> · <a href="processor-core-parking.html">Core parking</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

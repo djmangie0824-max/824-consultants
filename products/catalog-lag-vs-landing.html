@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catalog lag vs a live landing | 824 Consultants</title>
+  <meta name="description" content="A GitHub Pages landing can be HTTP 200 on origin while products/index.html and sitemap.xml omit it. Crawlers never see the card. That is Incomplete Delivery, not vault protection. Companion to Pages 404 vs the public catalog. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/catalog-lag-vs-landing.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Catalog lag vs a live landing","description":"When an origin landing is HTTP 200 but missing from the products hub or sitemap, wire the card and loc. Do not gut the catalog. Vault stays /vault.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm live home is still Touch. Talk. Go. with canvas#field"},{"@type":"HowToStep","name":"HEAD the landing. HTTP 200 with the playbook body is not a 404 deny wall"},{"@type":"HowToStep","name":"Diff origin product HTML names against live sitemap locs and catalog hrefs"},{"@type":"HowToStep","name":"Add the missing card and sitemap loc. Leave /vault sealed. Do not Disallow-all robots"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="pages-404-vs-catalog.html">404 vs catalog</a>
+        <a href="../sitemap.xml">Sitemap</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a crawl-honesty playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · crawl honesty</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Catalog lag vs a live landing</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · public-face playbook</p>
+      <p>This is not the <a href="pages-404-vs-catalog.html">Pages 404 vs the public catalog</a> page. That pack is a catalog card whose github.io URL renders the custom deny wall because the file is not on <code>origin/main</code>. This page is the inverse: the landing is already HTTP 200. Raw GitHub has the blob. The products hub and/or <code>sitemap.xml</code> still omit the loc. Crawlers never see the card. Buyers never see the download. That is Incomplete Delivery, not vault protection. <strong>Vault is <code>/vault</code>.</strong></p>
+      <a class="btn" href="catalog-lag-vs-landing.md" download>Download markdown</a>
+      <a class="btn" href="pages-404-vs-catalog.html">404 vs catalog first</a>
+      <a class="btn" href="index.html">Product hub</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Ship lanes on this host often land HTML+markdown only so they do not race the catalog. That is a real race rule. It is not permission to leave the landing invisible. GitHub Pages will serve <code>/products/power-mode-overlay-ac.html</code> to anyone who types the URL. Googlebot and a human on the hub will not. <code>robots.txt</code> still says <code>Allow: /</code>. The sitemap still lists last month’s packs. The catalog still stops at Hibernate Off. The operator thinks the pack is private. Law 237 does not gut a live public playbook.</p>
+      <p>A custom 404 deny wall on an <em>unknown</em> path is correct. A 200 landing missing from the hub is not a 404. Do not convert the catalog into a vault because other-terminal work is private. Do not Disallow-all robots. Do not empty the sitemap. Do not restamp home essay-chrome to “pass validate.” Wire the card.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>What you fetched</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Home missing Touch. Talk. Go. or <code>canvas#field</code>, or PLACEHOLDER</td><td>Heal first. <a href="pages-heal-playbook.html">Pages Heal Playbook</a>. Wrong page.</td></tr>
+            <tr><td>Catalog URL itself is the deny wall</td><td>Gut. Restore the hub. <a href="pages-heal-playbook.html">Heal</a>.</td></tr>
+            <tr><td>Card in the hub. github.io is Private property / DENY BY DEFAULT. Raw GitHub 404</td><td><a href="pages-404-vs-catalog.html">404 vs catalog</a>. File not on origin.</td></tr>
+            <tr><td>Landing HTTP 200. File on origin/main. Hub href missing and/or sitemap loc missing</td><td><strong>This page</strong>. Wire the card and the loc.</td></tr>
+            <tr><td><code>/vault</code> deny wall</td><td>Correct. Leave it. Not a catalog SKU.</td></tr>
+            <tr><td>Local laptop has the HTML, origin does not</td><td>Incomplete ship, not catalog lag. Land the blob first.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not gut <code>products/index.html</code> to “protect” IBKR, UMI, or the console. Those stay off Pages. A host playbook that is already on <code>main</code> belongs on the hub. Do not invent Gumroad checkout URLs while wiring. Do not paste live brokerage numbers next to a sitemap diff.</div>
+    </section>
+    <section>
+      <h2>What to change</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Heal first</strong> — live home still has Touch. Talk. Go. and <code>canvas#field</code>. Autonomy still has Fully autonomous public surface and Zero human input required. <code>robots.txt</code> still <code>Allow: /</code>. Vault still deny. If any of those failed, restore. Do not start with catalog cosmetics on a gutted face.</li>
+          <li><strong>List origin product HTML</strong> — <code>GET /repos/djmangie0824-max/824-consultants/contents/products?ref=main</code>. Names ending <code>.html</code> except <code>index.html</code> are landings.</li>
+          <li><strong>List live sitemap locs and catalog hrefs</strong> — fetch github.io <code>sitemap.xml</code> and <code>products/</code>. A landing whose loc is missing is this page even if the body is already 200.</li>
+          <li><strong>Wire from the origin hub blob</strong> — do not use a dirty local clone that is behind <code>origin/main</code> as the catalog source of truth. Insert the missing <code>&lt;article class="card"&gt;</code> before the Flywheel inventory block. Add <code>&lt;url&gt;&lt;loc&gt;…/products/NAME.html&lt;/loc&gt;</code> before the sitemap close.</li>
+          <li><strong>Leave paid-pack honesty alone</strong> — Windows Grok host pack and Pages heal stay Live · $0. Other original packs stay markdown-live / Gumroad pending. Do not mint fake <code>gumroad.com/l/</code> hrefs while adding host-forever cards.</li>
+          <li><strong>Do not restamp the landing</strong> — if the HTML is already on origin, this click is hub + sitemap only. Restamping the same sentence is noise.</li>
+          <li><strong>Confirm</strong> — after Pages deploy, the hub card href returns 200 and the sitemap lists the loc. CDN may lag one deploy. A 200 landing with a missing card is still this page until the hub catches up.</li>
+        </ol>
+      </div>
+      <pre>curl -sI https://djmangie0824-max.github.io/824-consultants/products/NAME.html
+curl -s https://djmangie0824-max.github.io/824-consultants/sitemap.xml | findstr NAME
+curl -s https://djmangie0824-max.github.io/824-consultants/products/ | findstr NAME.html</pre>
+      <p>HTTP 200 on the landing plus empty <code>findstr</code> on sitemap or hub is the fail. HTTP 404 on the landing is the other playbook. Do not paste <code>auth.json</code>. Do not paste a GitHub PAT. GitHub MCP ships Pages on this host; a hung <code>git push</code> is credentials, not a missing catalog.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="pages-404-vs-catalog.html">Pages 404 vs the public catalog</a> — card exists, blob does not. Deny wall is a missing file.</li>
+        <li><a href="pages-heal-playbook.html">Pages Heal Playbook</a> — PLACEHOLDER home, deny-wall products, Disallow-all robots. Restore the face.</li>
+        <li><a href="github-pat-windows-gcm.html">GitHub PAT in GCM</a> — why the blob never left the laptop. Not hub wiring.</li>
+        <li>This page — blob already on origin and already 200. Hub and sitemap still blind.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>Home still immersive. Autonomy FULL AUTO strings intact. Vault still deny. Robots still Allow.</li>
+          <li>Pick one origin HTML that was missing from the hub. After this wire, the catalog card is present and the sitemap loc is present.</li>
+          <li>The landing body is still the playbook, not PLACEHOLDER, not a deny wall.</li>
+          <li>No capital figures on the hub. No extra Vercel slug. No tenth Drive dump.</li>
+          <li>Host-forever is still Windows task <code>LEXXII-Materialize-Forever</code>. This page is not a Linux systemd unit.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a license to dump vault, desk, console, or organism onto Pages.</li>
+        <li>Not a 404 diagnosis. If github.io is Private property, use the other pack.</li>
+        <li>Not a restamp of an already-wired card.</li>
+        <li>Not fake income. Wiring a $0 host playbook does not mint commissions.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="pages-404-vs-catalog.html">404 vs catalog</a> · <a href="pages-heal-playbook.html">Heal</a> · <a href="../materialize.html">Materialize</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      Fully autonomous public surface · Zero human input required to keep this property crawlable and expanding · FULL_AUTO · MAX_POWER · FLYWHEEL PERMANENT<br />
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

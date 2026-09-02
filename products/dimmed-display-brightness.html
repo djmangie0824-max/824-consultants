@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dimmed display brightness vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Dimmed display brightness is the nits floor after Dim display after fires. Not VIDEODIM. Not Display brightness. Not ALS. A 50% floor still looks dead. Not a DP unplug. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/dimmed-display-brightness.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Dimmed display brightness vs a forever loop","description":"Set Dimmed display brightness to 100% on AC so the nits floor after VIDEODIM cannot make a live, enumerated panel look dead. Not Dim display after. Not Display brightness. Not Enable adaptive brightness. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm VIDEOIDLE and VIDEOCONLOCK are already 0 on AC"},{"@type":"HowToStep","name":"Prefer VIDEODIM 0 first. This page is the remaining floor when the timer still fires or cannot be zeroed"},{"@type":"HowToStep","name":"Unhide Dimmed display brightness if ATTRIB_HIDE. Set Plugged in to 100%"},{"@type":"HowToStep","name":"Soak idle past the dim minutes. Lid stays at working nits. Named task still next-runs"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="dim-display-after.html">Dim display after</a>
+        <a href="display-brightness-ac.html">Display brightness</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Dimmed display brightness vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="dim-display-after.html">Dim display after</a> page, not the <a href="display-brightness-ac.html">Display brightness</a> page, and not <a href="adaptive-brightness-ac.html">Enable adaptive brightness</a>. VIDEODIM is the idle-dim <em>timer</em>. VIDEONORMALLEVEL is the working percentage from the first second. ALS hunts with room light. This page is the remaining nits <em>floor</em>: Power Options → Display → <strong>Dimmed display brightness</strong>. GUID <code>f1faff23-45d6-45aa-81f7-15f500fdf866</code>. Balanced default is often <strong>50%</strong>. The timer fires. The lid drops to half. Dual ultrawide stay listed. Task Scheduler still shows Ready. <strong>The floor is not the timer. Dim is still not a DP unplug.</strong></p>
+      <a class="btn" href="dimmed-display-brightness.md" download>Download markdown</a>
+      <a class="btn" href="dim-display-after.html">Dim display after first</a>
+      <a class="btn" href="display-brightness-ac.html">Display brightness</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="dim-display-after.html">idle-dim timer</a> pack already tells you plugged-in <strong>Dim display after</strong> is 0 (Never). That is the preferred pass. Some images hide VIDEODIM after unhide. Some operators leave five minutes because an OLED lid “should rest.” Either way the lid still looks dead after idle. Display settings still lists both screens. The dock does not re-enumerate. First input does not handshake. The named task still prints Ready and last result 267009 (still-running). The operator buys another DP lead. A percent floor napped the backlight after the timer, or instead of the timer.</p>
+      <p>This is not Sleep. This is not VIDEOIDLE. This is not VIDEOCONLOCK. This is not VIDEODIM. A black panel with a handshake is an off timer — those are the other two pages. A drop to a dimmed level with both screens still listed is either the timer or this floor. If VIDEODIM is already 0 on AC, this row does not fire. Leave it. Do not cargo-cult 100% as a second Never. If VIDEODIM still fires, or the GUID for the timer is missing after unhide, the remaining honesty is this percent: 100 on AC so idle-dim cannot look like a dead lid. Do not install systemd to paper over 50%. Do not mint a Vercel slug because a lid looked asleep. Do not buy another DP cable until you have queried both the timer and the floor. <strong>The floor is not the timer. Dim is still not a DP unplug.</strong></p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Session unlocked. Panels black. Dock re-enumerates</td><td>Different layer. <a href="turn-off-display-after.html">Turn off display after</a>. That is a DP drop.</td></tr>
+            <tr><td>Session locked. Panels black. Dock re-enumerates</td><td>Different layer. <a href="console-lock-display-off.html">Console lock display off</a>.</td></tr>
+            <tr><td>VIDEOIDLE and VIDEOCONLOCK already 0. Lid drops after idle minutes. Dim display after is not 0 on AC</td><td>Different layer first. <a href="dim-display-after.html">Dim display after</a>. Zero the timer. Then this page is leftover.</td></tr>
+            <tr><td>Brightness hunts with room light. Dim-after already 0. Floor already 100</td><td>Different layer. <a href="adaptive-brightness-ac.html">Enable adaptive brightness</a>. ALS, not a floor.</td></tr>
+            <tr><td>Internal panel looks dead from the first second. Percentage leftover 20–40. No wait for idle</td><td>Different layer. <a href="display-brightness-ac.html">Display brightness on AC</a>. Working percent, not the dimmed floor.</td></tr>
+            <tr><td>Quick Settings leaf on. ~30% dim. Power mode greyed</td><td>Different layer. Energy saver overlay. Not this GUID.</td></tr>
+            <tr><td>VIDEODIM already 0 on AC. Floor still 50. Lid never drops</td><td>Skip. The floor does not fire when the timer is Never. Do not treat 50 as a fail.</td></tr>
+            <tr><td>VIDEODIM still fires, or the timer GUID is missing after unhide. Dual ultrawide stay listed. Laptop lid drops to a dimmed level (often half). First input restores nits with no handshake. Dimmed display brightness on AC is 50 or 20</td><td>This page. Dimmed display brightness on AC. The floor is not the timer. Dim is still not a DP unplug.</td></tr>
+            <tr><td>GUID missing from <code>powercfg /query SCHEME_CURRENT SUB_VIDEO</code> after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Dimmed display brightness as the first click on a new host. Sleep, lid, Turn off display after, Console lock display off, and Dim display after first. Prefer VIDEODIM 0. This page is the remaining nits floor when the timer still fires or cannot be zeroed. 100 on AC is the pass for that leftover. Hidden is not 100. A black panel with a dock re-plug is VIDEOIDLE or VIDEOCONLOCK, not this click. The floor is not the timer. Dim is still not a DP unplug.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the off-timer and idle-dim layers are already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Turn off display after is 0 on AC. Console lock display off is 0 on AC (or skip if missing). Prefer <a href="dim-display-after.html">Dim display after</a> 0 on AC. If VIDEODIM is already 0, stop here. This row will not fire. Do not cargo-cult the floor.</li>
+          <li><strong>Unhide the row if it is missing</strong> — Dimmed display brightness is ATTRIB_HIDE on many consumer images. Missing from Display before this step is expected, not a skip.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Display → Dimmed display brightness</strong> — set <em>Plugged in</em> to <strong>100</strong> percent. On battery may stay 50 if this laptop actually travels. A desk that never unplugs should not idle-dim the operator TUI to half nits.</li>
+          <li><strong>Leave Dim display after, Turn off display after, Display brightness, and Enable adaptive brightness alone on this click</strong> — VIDEODIM is the timer. VIDEOIDLE is off. VIDEONORMALLEVEL is the working percentage. ADAPTBRIGHT is ALS. This GUID is the floor <em>after</em> the timer. 100 on the floor is not Never on the timer. The floor is not the timer.</li>
+          <li><strong>Leave Energy saver and Always use energy saver alone</strong> — a leaf-on overlay is a different dim. Not this GUID.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one display knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Do not Apply all on Energy recommendations.</li>
+          <li><strong>Confirm, then soak</strong> — query the GUID. 100 on AC is the pass when the timer still fires. If the GUID is missing after unhide, stop. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg -attributes SUB_VIDEO f1faff23-45d6-45aa-81f7-15f500fdf866 -ATTRIB_HIDE
+powercfg /query SCHEME_CURRENT SUB_VIDEO f1faff23-45d6-45aa-81f7-15f500fdf866
+powercfg /query SCHEME_CURRENT SUB_VIDEO VIDEODIM
+powercfg /setacvalueindex SCHEME_CURRENT SUB_VIDEO f1faff23-45d6-45aa-81f7-15f500fdf866 100
+powercfg /setactive SCHEME_CURRENT
+powercfg /a</pre>
+      <p><code>SUB_VIDEO</code> / GUID <code>f1faff23-45d6-45aa-81f7-15f500fdf866</code> is Dimmed display brightness. Units are percent. <strong>100 on AC is the pass</strong> when the idle-dim timer still fires. 50 remaining on AC is Balanced laptop default, not a pass for that leftover. There is often no well-known alias — query by GUID. Apply with <code>/setactive</code> or the GUI change does not take. Unhide is <code>powercfg -attributes … -ATTRIB_HIDE</code>, not a registry paste. If powercfg still omits the GUID after that, this edition did not expose the knob — stop; do not invent a dimmed-floor hack on a public page. VIDEODIM is the timer, not this click. VIDEOIDLE is unlocked off, not this click. VIDEONORMALLEVEL is the working percentage, not this click. ADAPTBRIGHT is ALS, not this click. If VIDEODIM is already 0, this floor does not apply — leave it. External DP/HDMI often ignore this Windows dim and keep their own OSD — a dim lid with both screens still listed is this click or the timer, not a handshake. The floor is not the timer. Dim is still not a DP unplug.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="dim-display-after.html">Dim display after</a> — idle-dim timer (<code>VIDEODIM</code>). Zero that first. This page is the nits floor after it fires.</li>
+        <li><a href="turn-off-display-after.html">Turn off display after</a> — unlocked VIDEOIDLE. Panels black. DP/HDMI drop. Not a floor.</li>
+        <li><a href="console-lock-display-off.html">Console lock display off</a> — lock-screen VIDEOCONLOCK. Same drop. Not a floor.</li>
+        <li><a href="display-brightness-ac.html">Display brightness on AC</a> — leftover working percentage from the first second. Not a timer floor.</li>
+        <li><a href="adaptive-brightness-ac.html">Enable adaptive brightness</a> — ALS hunt when the room changes. Not a percent floor after idle minutes.</li>
+        <li><a href="../reviews/displayport-cable-sitstand.html">DisplayPort cable sit/stand</a> — slack and latch. A real yank. Not a timer floor.</li>
+        <li>This page — AC Dimmed display brightness = 100 so a leftover 50% floor cannot make a live, enumerated lid look dead after the idle-dim timer still fires. The floor is not the timer. Dim is still not a DP unplug.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep, lid, VIDEOIDLE, and VIDEOCONLOCK already honest. Prefer VIDEODIM 0. If VIDEODIM is already 0, this soak is a skip, not a red fail. The floor does not fire.</li>
+          <li>When the timer still fires: leave the desk idle past the dim minutes. Lid closed, dedicated NIC plugged, dual ultrawide up. Laptop lid stays at working nits, not half. Display settings still shows the same screens. No dock re-plug. First input does not handshake.</li>
+          <li><strong>The floor is not the timer. Dim is still not a DP unplug.</strong> Fail this soak only if the dimmed percent was the liar. A black-then-handshake is VIDEOIDLE or VIDEOCONLOCK. A drop that recovers when you zero VIDEODIM is the timer page, not this one. Do not buy a DP cable because the laptop lid looked dark.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a half-nits lid is not forever if this floor is still 50 and the timer still fires. Host-forever on this Windows profile is that named task. Grok in-session schedulers still expire in 7 days even when durable — recreate them if missing. Do not claim the Windows task is a Linux systemd unit.</li>
+          <li>GUID still 100 on AC if this page applied. If someone set 50 to “save the OLED lid,” restore 100 on this class of operator desk, or zero VIDEODIM instead. Do not “fix” it by switching the whole plan to High performance.</li>
+          <li>Missing GUID after unhide = skip, not a red soak. Do not invent the dimmed-floor value in the registry to make this page apply.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the floor is already 100.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Host-forever is Task Scheduler <code>LEXXII-Materialize-Forever</code>.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not Dim display after. That timer is <a href="dim-display-after.html">VIDEODIM</a>.</li>
+        <li>Not Turn off display after. That blackout is <a href="turn-off-display-after.html">VIDEOIDLE</a>.</li>
+        <li>Not Console lock display off. That blackout is <a href="console-lock-display-off.html">VIDEOCONLOCK</a>.</li>
+        <li>Not Display brightness on AC. That leftover percentage is <a href="display-brightness-ac.html">display-brightness-ac</a>.</li>
+        <li>Not Enable adaptive brightness. That ALS hunt is <a href="adaptive-brightness-ac.html">adaptive-brightness-ac</a>.</li>
+        <li>Not Energy saver Always-use. A leaf-on 30% cut is the overlay, not this GUID.</li>
+        <li>Not a DisplayPort or dock SKU and not a commission claim. A dim lid is not a reason to buy another cable.</li>
+        <li>Not a High-performance plan essay. One display setting.</li>
+        <li>Not a registry paste. If Settings and <code>powercfg</code> omit the knob after unhide, stop.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="dim-display-after.html">Dim display after</a> · <a href="display-brightness-ac.html">Display brightness</a> · <a href="adaptive-brightness-ac.html">Adaptive brightness</a> · <a href="turn-off-display-after.html">Turn off display after</a> · <a href="../reviews/displayport-cable-sitstand.html">DisplayPort cable</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

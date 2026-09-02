@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GitHub PAT in Windows Credential Manager — 824 Consultants LLC</title>
+  <meta name="description" content="Free pack: store a fine-grained GitHub PAT in Windows Git Credential Manager so headless Grok ships stop hanging. No token in the file. No fake cluster." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/github-pat-windows-gcm.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"GitHub PAT in Windows Credential Manager","description":"One-time store of a fine-grained GitHub PAT in Windows Git Credential Manager so git push on a Grok host fails fast instead of hanging. Never publish the token.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Mint a fine-grained PAT on 824-consultants only"},{"@type":"HowToStep","name":"Store it in Git Credential Manager for github.com"},{"@type":"HowToStep","name":"Headless push with GIT_TERMINAL_PROMPT=0"},{"@type":"HowToStep","name":"Never paste the token into Pages or auth.json"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="git-node-windows-host.html">Git + Node</a>
+        <a href="pages-404-vs-catalog.html">404 vs catalog</a>
+        <a href="../autonomy.html">Autonomy</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>.
+    </div>
+    <section>
+      <span class="badge">Live pack · $0 · one-time operator store</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">GitHub PAT in Windows Credential Manager</h1>
+      <p>The Git + Node pack names the hang. This pack is the store that ends it. Git 2.55 is already on PATH. A headless Grok turn that can clone <code>824-consultants</code> anonymously and still cannot push is missing a PAT in Git Credential Manager — not a Vercel slug, not a Drive dump, not a missing <code>git.exe</code>.</p>
+      <a class="btn" href="github-pat-windows-gcm.md" download>Download markdown</a>
+      <a class="btn" href="git-node-windows-host.html">Git + Node pack</a>
+      <a class="btn" href="windows-task-forever.html">Windows forever task</a>
+    </section>
+    <section>
+      <h2>Incident this pack was written from</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Probe</th><th>Fact</th></tr></thead>
+          <tbody>
+            <tr><td>Anonymous HTTPS</td><td><code>git -c credential.helper= fetch</code> works on the public repo</td></tr>
+            <tr><td>GCM empty</td><td>Fail-fast push = no username. Interactive GCM hangs the turn</td></tr>
+            <tr><td>GitHub MCP</td><td>Can be absent in a Grok session. That is not “Git is missing”</td></tr>
+            <tr><td><code>gh.exe</code> / <code>GH_TOKEN</code></td><td>Not required. Optional later. Not a cluster</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>One-time store (token never published)</h2>
+      <div class="card">
+        <ol>
+          <li>On github.com as <code>djmangie0824-max</code>, mint a <strong>fine-grained PAT</strong>.</li>
+          <li>Resource: only <code>djmangie0824-max/824-consultants</code>. Contents: Read and write. Metadata: Read. Nothing else.</li>
+          <li>Store it in Windows Git Credential Manager for <code>https://github.com</code> (username <code>djmangie0824-max</code>, password = the PAT). GCM UI or <code>git credential approve</code>.</li>
+          <li>Headless ships then set <code>GIT_TERMINAL_PROMPT=0</code> and <code>GCM_INTERACTIVE=never</code>. Push succeeds or fails fast. It must not hang.</li>
+          <li>Alternative, still operator-one-time: reconnect the GitHub connector in Grok so Contents API ships work when local GCM is empty. That does not replace storing the PAT on this host.</li>
+        </ol>
+      </div>
+      <div class="warn">Never paste the PAT into this site, a git remote URL, Notion, Drive, chat, or <code>~/.grok/auth.json</code>. A token in a public file is a revoke, not a ship.</div>
+    </section>
+    <section>
+      <h2>Fail-fast probe</h2>
+      <pre>GIT_TERMINAL_PROMPT=0
+GCM_INTERACTIVE=never
+git -c credential.helper= ls-remote origin HEAD</pre>
+      <p>Anonymous <code>ls-remote</code> on a public repo must work. If <strong>push</strong> then asks for a username, GCM is empty. Install Git again will not heal it.</p>
+    </section>
+    <section>
+      <h2>What this is not</h2>
+      <div class="card">
+        <ul>
+          <li>Not the <a href="git-node-windows-host.html">Git + Node first-use pack</a> (versions, <code>npm.ps1</code> trap).</li>
+          <li>Not a <a href="pages-404-vs-catalog.html">catalog SKU that 404s as Private property</a>.</li>
+          <li>Not a license to mint another Vercel slug or Linux systemd unit.</li>
+          <li>Not a broad classic token with delete rights “so it just works.”</li>
+        </ul>
+      </div>
+    </section>
+    <p><a href="index.html">← Product hub</a> · <a href="git-node-windows-host.html">Git + Node</a> · <a href="grok-scheduler-7d.html">Grok 7-day recreate</a></p>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

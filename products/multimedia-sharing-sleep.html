@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>When sharing media vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Power Options Multimedia settings When sharing media can pin SYSTEM or AWAYMODE even when nothing is playing. Companion to powercfg /requests. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/multimedia-sharing-sleep.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"When sharing media vs a forever loop","description":"Set Multimedia settings When sharing media to Allow the computer to sleep on AC so a named hourly is not pinned by a share policy. Companion to powercfg /requests. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep-vs-forever timeouts are already honest on the plugged-in desk"},{"@type":"HowToStep","name":"Set When sharing media to Allow the computer to sleep on the plugged-in plan, not Prevent and not Away Mode"},{"@type":"HowToStep","name":"Leave When playing video as a display-quality choice, not a silent SYSTEM pin"},{"@type":"HowToStep","name":"Confirm with powercfg /requests that AWAYMODE and SYSTEM are None when nothing is sharing"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="powercfg-requests-blockers.html">powercfg /requests</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">When sharing media vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">Modern Standby diagnosis</a> page and not the <a href="powercfg-requests-blockers.html">powercfg /requests</a> diagnostic. Sleep-vs-forever sets timeouts. Requests tells you who is holding DISPLAY / SYSTEM / AWAYMODE <em>right now</em>. This page is the Power Options policy that can create those holders with no player on screen: <strong>Multimedia settings → When sharing media</strong>.</p>
+      <a class="btn" href="multimedia-sharing-sleep.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever first</a>
+      <a class="btn" href="powercfg-requests-blockers.html">Read the holders</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Balanced and some OEM “entertainment” plans ship <strong>When sharing media</strong> as <em>Prevent the computer from sleeping</em> or <em>Allow the computer to enter Away Mode</em>. Windows Media Player sharing, nearby sharing leftovers, Cast / DLNA, and a few vendor “Smart Share” helpers leave that row on Prevent even when you are not playing anything. The sleep timeout then looks like a lie. Task Scheduler still shows Ready. <code>LEXXII-Materialize-Forever</code> last-run is stale because the session never idled.</p>
+      <p>Three values, one forever-desk answer. <strong>Allow the computer to sleep</strong> is the plugged-in Grok desk. <strong>Prevent the computer from sleeping</strong> is a silent SYSTEM pin for as long as Windows thinks media is shared. <strong>Allow the computer to enter Away Mode</strong> is fake-sleep: fans, NIC, and session stay up while the panel pretends to be off. Away Mode is not host-forever. It is a media-center leftover. Do not cargo-cult it onto a closed-lid cooling-stand laptop.</p>
+      <p>The sibling row <strong>When playing video</strong> is display quality versus power, not a share policy. Optimize video quality can keep the panel awake <em>while a video is actually playing</em>. That is expected. It is not permission to leave When sharing media on Prevent. Read <a href="powercfg-requests-blockers.html">/requests</a> after the click: AWAYMODE and SYSTEM should print <code>None</code> when nothing is sharing.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Plan still has 5–20 minute sleep / hibernate on AC</td><td>Different layer. Heal timeouts first. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>A named PROCESS/DRIVER holds DISPLAY or SYSTEM (video, audio, Teams)</td><td>Different layer. Close the holder. <a href="powercfg-requests-blockers.html">powercfg /requests</a>.</td></tr>
+            <tr><td>Sleep still happened, next-run in the past, task Enabled</td><td>Different layer. <a href="wake-timers-forever.html">Allow wake timers</a>.</td></tr>
+            <tr><td>Timeouts honest. Nothing playing. AWAYMODE or SYSTEM still held. Sharing media is Prevent or Away Mode</td><td>This page.</td></tr>
+            <tr><td>Last result 267009</td><td>Still running. Do not spawn a 4th TUI.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set When sharing media to Prevent to “keep the forever loop alive.” That pins sleep; it does not run the hourly. Do not use Away Mode as a substitute for lid-close Do nothing. Do not change this on battery to paper over an unplugged desk.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Multimedia settings → When sharing media</strong> — <em>Plugged in</em> = <strong>Allow the computer to sleep</strong>. Not Prevent. Not Away Mode. Battery can stay Prevent; this desk is AC + UPS.</li>
+          <li><strong>When playing video</strong> — leave as a quality choice. Do not treat Optimize video quality as a SYSTEM pin. If a video is not playing, this row should not hold anything.</li>
+          <li><strong>If the Multimedia settings subgroup is missing</strong> — unhide it, then set it. Do not invent a random registry value on a public page.</li>
+          <li><strong>Confirm with requests</strong> — idle session, no share, no player. DISPLAY and SYSTEM print None. Then soak. Do not paste live brokerage numbers next to that output.</li>
+        </ol>
+      </div>
+      <pre>powercfg /q SCHEME_CURRENT SUB_MULTIMEDIA
+powercfg /requests</pre>
+      <p><code>SUB_MULTIMEDIA</code> is the subgroup on current plans that expose it. If query prints nothing, the GUI path above still applies — some SKUs hide the alias. Empty <code>/requests</code> after Allow, with nothing sharing, is the pass. A leftover AWAYMODE holder with Allow already set is a vendor helper, not this row — go back to <a href="powercfg-requests-blockers.html">requests</a> and name the PROCESS/SERVICE.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — timeouts, Modern Standby, Interactive-only, result 267009.</li>
+        <li><a href="powercfg-requests-blockers.html">powercfg /requests</a> — who is holding DISPLAY / SYSTEM / AWAYMODE right now.</li>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — RTC if sleep still happened.</li>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — the lid is not a Sleep key. Away Mode is not a lid policy.</li>
+        <li>This page — When sharing media = Allow the computer to sleep on AC so a share policy does not pin the session.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep timeouts already honest on AC. Otherwise this soak is lying.</li>
+          <li>When sharing media on the plugged-in plan is Allow the computer to sleep, not Prevent, not Away Mode.</li>
+          <li>Idle session, no player, no Cast. <code>powercfg /requests</code> prints None under SYSTEM and AWAYMODE.</li>
+          <li>Starting a real share (if you even have one) may hold SYSTEM; stopping the share clears it. A holder that survives “stop sharing” is a vendor helper, not this row.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not a share policy.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not permission to leave 5-minute sleep in place because sharing is Allow.</li>
+        <li>Not Away Mode as host-forever.</li>
+        <li>Not a Cast / DLNA product review. SKU pending honesty gate is a different lane.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="powercfg-requests-blockers.html">powercfg /requests</a> · <a href="wake-timers-forever.html">Wake timers</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

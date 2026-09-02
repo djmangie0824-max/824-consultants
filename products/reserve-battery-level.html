@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reserve battery level vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="BATRESERVELEVEL is a leftover percent, not a dump verb. Cargo-cult 0 does not disarm Low/Critical. Leave OEM ~7%. Distinct from LOWBATACTION. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/reserve-battery-level.html" />
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="low-battery-action.html">Low battery action</a>
+        <a href="critical-battery-action.html">Critical battery action</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note"><strong>As an Amazon Associate I earn from qualifying purchases.</strong> Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.</div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Reserve battery level vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not <a href="low-battery-action.html">Low battery action</a> and not <a href="critical-battery-action.html">Critical battery action</a>. Those are dump verbs. This page is the leftover percent: Power Options → Battery → <strong>Reserve battery level</strong>. <code>BATRESERVELEVEL</code>. GUID <code>f3c5027d-cd16-4930-aa6b-90db844a8f00</code>. Default is often <strong>7%</strong>. Operators cargo-cult 0 thinking it disarms Low/Critical. <strong>0 is not never. Reserve is not a dump.</strong></p>
+      <a class="btn" href="reserve-battery-level.md" download>Download markdown</a>
+      <a class="btn" href="low-battery-action.html">Low battery first</a>
+      <a class="btn" href="critical-battery-action.html">Critical battery</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Low and Critical can already be Do nothing on a docked desk. The tray still shows a reserve band. Someone sets Reserve to 0 to “turn off battery lies.” That is not a pass. Reserve is the emergency floor. It does not Sleep the session. A lying gauge that jumps to 5% is still Critical or Low. Do not raise Reserve to 20 as a fake UPS. Do not install systemd.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>What happened</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Tray ~10%, then Sleep</td><td><a href="low-battery-action.html">LOWBATACTION</a></td></tr>
+            <tr><td>Tray ~5%, then Hibernate / Sleep / Shut down</td><td><a href="critical-battery-action.html">CRITBATACTION</a></td></tr>
+            <tr><td>Leaf on, CPU capped, session awake</td><td>Energy saver overlay. Not reserve.</td></tr>
+            <tr><td>Reserve still 7. Actions already Do nothing. Toast only</td><td>Skip. Do not zero it.</td></tr>
+            <tr><td>Operator wants Reserve 0 to “disable battery” on a docked desk</td><td>This page. Leave OEM. The verbs are the click.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Reserve as the first Battery click. Sleep, lid, S4, Critical, and Low first. Do not copy 0 onto a commute laptop.</div>
+    </section>
+    <section>
+      <h2>What to change</h2>
+      <div class="card">
+        <ol>
+          <li>Confirm Low and Critical are already Do nothing on this docked desk (or skip if missing).</li>
+          <li>Query <code>BATRESERVELEVEL</code>. OEM 7 is a skip, not a fail.</li>
+          <li><strong>Do not set 0.</strong> Leave the percent.</li>
+          <li>Leave notification toasts alone. A toast is not a dump.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_BATTERY BATRESERVELEVEL
+powercfg /query SCHEME_CURRENT SUB_BATTERY f3c5027d-cd16-4930-aa6b-90db844a8f00</pre>
+      <p>Units are percent. Leave OEM. If the GUID is missing, stop. Not a registry hack. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</p>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>Low and Critical already Do nothing.</li>
+          <li>Reserve still OEM. Session does not Sleep because of this row.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. A surprise Sleep is a verb fail, not a reserve fail. Grok schedulers expire in 7 days even when durable. Host-forever is that named Windows task. Not systemd.</li>
+          <li>Missing GUID = skip. No fourth Grok TUI.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Low battery action. Not Critical battery action.</li>
+        <li>Not a UPS SKU. Not a Linux systemd unit. Not live capital.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="low-battery-action.html">Low battery</a> · <a href="critical-battery-action.html">Critical battery</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">© 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />As an Amazon Associate I earn from qualifying purchases.</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allow system required policy vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="SYSTEMREQUIRED is Allow system required policy. This desk AC/DC already Yes/Yes so a legitimate SYSTEM request can hold sleep. Not powercfg /requests. Not wake timers. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/allow-system-required.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Allow system required policy vs a forever loop","description":"Confirm Allow system required policy (SYSTEMREQUIRED / GUID a4b195f5-8225-47d8-8012-9d41369786e2) under SUB_SLEEP. This desk already reads Yes on AC and DC so a legitimate SYSTEM request can hold sleep. Leave it. Do not cargo-cult No. Distinct from powercfg /requests holders and from Allow wake timers. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep after, lid-close, and wake timers are already named"},{"@type":"HowToStep","name":"Query SYSTEMREQUIRED with powercfg /qh under SUB_SLEEP. Stop if the GUID is missing after unhide"},{"@type":"HowToStep","name":"If Plugged in is already Yes, confirm and stop. Do not rewrite Yes to Yes. Do not write No"},{"@type":"HowToStep","name":"Soak a 5-minute pulse. Named task still next-runs. powercfg /requests SYSTEM None is a different pack"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="powercfg-requests-blockers.html">/requests</a>
+        <a href="wake-timers-forever.html">Wake timers</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Allow system required policy vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="powercfg-requests-blockers.html">powercfg /requests</a> page, not <a href="wake-timers-forever.html">Allow wake timers</a>, not <a href="allow-sleep-remote-opens.html">Allow sleep with remote opens</a>, and not a High performance plan essay. Timeouts can already be Never. Lid can already be Do nothing. Wake timers can already be Enable. This page is whether Windows will honor a legitimate SYSTEM required request at all: Power Options → Sleep → <strong>Allow system required policy</strong>. That is <code>SYSTEMREQUIRED</code>. GUID <code>a4b195f5-8225-47d8-8012-9d41369786e2</code>. Subgroup <code>SUB_SLEEP</code>. Indexes: <strong>0 = No</strong>, <strong>1 = Yes</strong>. This host queried it before this pack was written: Balanced is already <strong>Yes on AC</strong> and <strong>Yes on DC</strong>. Confirm. Do not rewrite Yes to Yes. Do not cargo-cult No “to force sleep.”</p>
+      <a class="btn" href="allow-system-required.md" download>Download markdown</a>
+      <a class="btn" href="powercfg-requests-blockers.html">/requests first</a>
+      <a class="btn" href="wake-timers-forever.html">Wake timers</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p><code>powercfg /requests</code> lists who is currently holding DISPLAY, SYSTEM, or AWAYMODE. That list is empty when nobody asked. Allow system required policy is the permission bit: if it is No, an app that would have set a SYSTEM required request cannot hold sleep even when the operator wants the session alive. Forum cargo-cult “set Allow system required to No so nothing can pin sleep” turns a later honest SYSTEM holder into a no-op. The Interactive Grok CLI can still look Ready in Task Scheduler while Modern Standby proceeds. Last result 267009 is still-running, not proof this bit is Yes.</p>
+      <p>This host already reads Yes / Yes. That is the pass. Do not paste wake-timer Enable onto this GUID. Do not paste remote-files sleep onto this GUID. Do not install systemd to paper over a No. Do not mint a Vercel slug because the TUI paused after someone wrote No.</p>
+    </section>
+    <section>
+      <h2>Live query on this host (2026-09-01)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Field</th><th>This desk</th></tr></thead>
+          <tbody>
+            <tr><td>Scheme</td><td><code>SCHEME_BALANCED</code> <code>381b4222-f694-41f0-9685-ff5bb260df2e</code></td></tr>
+            <tr><td>Subgroup</td><td><code>SUB_SLEEP</code> <code>238c9fa8-0aad-41ed-83f4-97be242c8f20</code></td></tr>
+            <tr><td>Setting GUID</td><td><code>a4b195f5-8225-47d8-8012-9d41369786e2</code> alias <code>SYSTEMREQUIRED</code></td></tr>
+            <tr><td>Microsoft name</td><td>Allow system required policy</td></tr>
+            <tr><td>Indexes</td><td><strong>0 = No</strong> · <strong>1 = Yes</strong></td></tr>
+            <tr><td>AC / DC this fire</td><td><code>0x00000001</code> / <code>0x00000001</code> = <strong>Yes / Yes</strong> — already the pass</td></tr>
+            <tr><td>Sibling <code>RTCWAKE</code></td><td>Allow wake timers. Different pack. <a href="wake-timers-forever.html">wake-timers-forever</a>.</td></tr>
+            <tr><td>Sibling <code>REMOTEFILESLEEP</code></td><td>Allow sleep with remote opens. Different pack. <a href="allow-sleep-remote-opens.html">allow-sleep-remote-opens</a>.</td></tr>
+            <tr><td>Sibling <code>/requests</code></td><td>Who is holding SYSTEM right now. Different pack. <a href="powercfg-requests-blockers.html">powercfg-requests-blockers</a>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>powercfg /qh SCHEME_CURRENT SUB_SLEEP SYSTEMREQUIRED</code> printed this row. Querying it under <code>SUB_PROCESSOR</code> fails — this GUID is Sleep, not Processor power management. A SKU that omits it after unhide is skip, not a fail.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer first. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td><code>powercfg /requests</code> still shows a SYSTEM holder</td><td>Different layer. <a href="powercfg-requests-blockers.html">/requests</a>. Who asked, not whether asking is allowed.</td></tr>
+            <tr><td>Wake timers still Important-only</td><td>Different layer. <a href="wake-timers-forever.html">Allow wake timers</a>.</td></tr>
+            <tr><td>GUID missing after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+            <tr><td>This host already Yes / Yes. Confirm. Do not rewrite 1 to 1. Do not cargo-cult No</td><td>This page still documents the knob so the next desk that reads No has a restore.</td></tr>
+            <tr><td>Timeouts honest. /requests None. Wake timers Enable. Session awake. Named task Ready / 267009. Someone set Allow system required to No “so nothing pins sleep”</td><td><strong>This page.</strong> Restore Yes.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Allow system required as the first click on a new host. Timeouts, lid, /requests, and wake timers first. Hidden is not Yes. Missing GUID after unhide is skip, not a registry paste. Do not cargo-cult No on this desk — Yes is already the pass. Do not paste <code>RTCWAKE</code> onto this GUID. If this host already reads Yes on AC, confirm and stop — do not restamp the index as a fake change.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>.</li>
+          <li><strong>Confirm <code>powercfg /requests</code> and wake timers are already named</strong> — empty holders and Enable wake timers first. If either is still a travel default, that is the matching sibling, not this page.</li>
+          <li><strong>Query this GUID under <code>SUB_SLEEP</code></strong> — not <code>SUB_PROCESSOR</code>. If <code>/qh</code> omits it after unhide, <strong>stop</strong>.</li>
+          <li><strong>Read the current AC index first</strong> — this Grok host already reads <code>0x00000001</code> (Yes) on AC and DC. If your desk also reads Yes, confirm and stop. If your desk reads No, restore Yes.</li>
+          <li><strong>Leave /requests, wake timers, and remote-files sleep as siblings</strong> — those are other URLs. This fire does not write a new index because Yes is already the pass.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — one Yes/No bit, not a switch to High performance. Do not paste live brokerage numbers. Do not paste operator tokens.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_SLEEP SYSTEMREQUIRED
+powercfg /qh SCHEME_CURRENT SUB_SLEEP a4b195f5-8225-47d8-8012-9d41369786e2
+powercfg -attributes SUB_SLEEP a4b195f5-8225-47d8-8012-9d41369786e2 -ATTRIB_HIDE
+rem If AC is already Yes (1): stop. That is the pass. Do not cargo-cult No.
+rem Only if AC is No:
+powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP SYSTEMREQUIRED 1
+powercfg /setactive SCHEME_CURRENT
+powercfg /qh SCHEME_CURRENT SUB_SLEEP SYSTEMREQUIRED</pre>
+      <p><code>SUB_SLEEP</code> is the Sleep subgroup. GUID <code>a4b195f5-8225-47d8-8012-9d41369786e2</code> is Allow system required policy. Alias <code>SYSTEMREQUIRED</code>. Indexes: 0 = No, 1 = Yes. This Grok host queried it before this pack was written: AC <code>0x1</code> (Yes), DC <code>0x1</code> (Yes). <strong>Yes on AC</strong> is the honest host-forever pass — already true on this desk; write 1 only when the current index is No. If <code>/qh</code> omits the GUID after unhide, skip. /requests is <a href="powercfg-requests-blockers.html">powercfg-requests-blockers</a>, not this click. Wake timers is <a href="wake-timers-forever.html">wake-timers-forever</a>, not this click. Remote files is <a href="allow-sleep-remote-opens.html">allow-sleep-remote-opens</a>, not this click. Do not paste a Linux sleep inhibitor on this Windows profile.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="powercfg-requests-blockers.html">powercfg /requests</a> — who is holding SYSTEM right now. Not whether asking is allowed.</li>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — RTC wake Enable vs Important-only. Not SYSTEM required.</li>
+        <li><a href="allow-sleep-remote-opens.html">Allow sleep with remote opens</a> — remote files. Not SYSTEM required.</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — timeouts and Modern Standby diagnosis. Floor first.</li>
+        <li>This page — AC Allow system required = Yes so a cargo-cult No cannot make a later honest SYSTEM holder a no-op while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. Wake timers already Enable. <code>powercfg /requests</code> already understood on its own pack.</li>
+          <li>Idle across one 5-minute named pulse, lid closed, cooling stand in place, dedicated NIC plugged. Allow system required still reads Yes on AC. The TUI still accepts input.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with Allow system required No after a folklore write is not forever.</li>
+          <li>Allow system required still Yes on AC. If someone set No so “nothing pins sleep,” restore Yes. If this host already read Yes before the pack, confirming Yes is the pass — do not invent a rewrite. Missing GUID after unhide = skip, not a red soak.</li>
+          <li>No extra Grok TUI. Isolation-empty <code>scheduler_list</code> is skip recreate, not missing forever. Host-forever is that named Windows task. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not <a href="powercfg-requests-blockers.html">powercfg /requests</a>. Different lever.</li>
+        <li>Not <a href="wake-timers-forever.html">Allow wake timers</a>. Different lever.</li>
+        <li>Not <a href="allow-sleep-remote-opens.html">Allow sleep with remote opens</a>. Different lever.</li>
+        <li>Not a claim that a SYSTEM holder currently exists. This fire’s /requests pack is a sibling. This page is the permission bit.</li>
+        <li>Not a High-performance plan essay. One Sleep Yes/No.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="powercfg-requests-blockers.html">/requests</a> · <a href="wake-timers-forever.html">Wake timers</a> · <a href="allow-sleep-remote-opens.html">Remote opens</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

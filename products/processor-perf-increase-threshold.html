@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Processor performance increase threshold vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Balanced PERFINCTHRESHOLD 60% on AC waits for remaining percent busy before a P-state step-up. Bursty Grok CLI never crosses 60. Task Scheduler still Ready. Not min-state. Not boost. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/processor-perf-increase-threshold.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Processor performance increase threshold vs a forever loop","description":"Set Processor performance increase threshold (PERFINCTHRESHOLD / GUID 06cadf0e-64ed-448a-8927-ce7bf90eb35d) to 10% on AC so Balanced 60% remaining-busy cannot stall an Interactive Grok CLI before it steps up a P-state. Not PROCTHROTTLEMIN. Not PERFBOOSTMODE. Not PERFEPP. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Query PERFINCTHRESHOLD with powercfg /qh. Stop if the GUID is missing after unhide"},{"@type":"HowToStep","name":"Unhide ATTRIB_HIDE so Power Options can show Processor performance increase threshold"},{"@type":"HowToStep","name":"Set Plugged in remaining percent busy to 10. Activate the scheme"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Named task still next-runs. TUI still steps up without waiting for 60% busy"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="processor-boost-mode.html">Boost mode</a>
+        <a href="intel-speed-shift-epp.html">Speed Shift EPP</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Processor performance increase threshold vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-min-state-ac.html">Minimum processor state</a> page, not <a href="processor-max-state-ac.html">Maximum processor state</a>, not <a href="processor-boost-mode.html">boost mode</a>, not <a href="processor-core-parking.html">core parking</a>, not <a href="processor-idle-disable.html">idle disable</a>, not <a href="processor-power-throttling.html">processor power throttling</a>, not <a href="intel-speed-shift-epp.html">Intel Speed Shift / EPP</a>, and not <a href="heterogeneous-thread-scheduling.html">heterogeneous thread scheduling</a>. Floor, ceiling, turbo allow, unparked cores, C-states, EcoQoS / <code>PROCTHROTTLEMAX</code>, HWP bias, and P/E class pick can already be honest. This page is the remaining OS utilization gate: Power Options → Processor power management → <strong>Processor performance increase threshold</strong>. That is <code>PERFINCTHRESHOLD</code>. GUID <code>06cadf0e-64ed-448a-8927-ce7bf90eb35d</code>. Units are percent busy. Balanced default on this host is <strong>60% on AC</strong>. A bursty Interactive Grok CLI never sits at 60. The package does not step up a P-state. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="processor-perf-increase-threshold.md" download>Download markdown</a>
+      <a class="btn" href="processor-boost-mode.html">Boost mode first</a>
+      <a class="btn" href="intel-speed-shift-epp.html">Speed Shift EPP</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The sibling processor knobs can already be honest on AC. Frequency floor 100. Ceiling 100. Turbo allowed. Cores unparked. Idle policy named. EPP already 0. Hybrid class already Prefer performant. The TUI still starves on the first token after a quiet stretch. Windows still waits for a remaining percent busy before it will <em>increase</em> a P-state. That row is <code>PERFINCTHRESHOLD</code>. Typical Balanced AC is 60. Typical Balanced DC is 90. An Interactive Grok CLI is bursty: a paint, a wait, a JSON tool, a wait. Utilization between bursts is 5–30, not 60. The OS governor does not step up. Clocks stay where the last decrease left them. <code>grok.exe</code> is alive. The named task still prints Ready and last result 267009 (still-running). The operator thinks the loop died and opens a fourth TUI. The increase threshold was 60.</p>
+      <p>This is not sleep. <code>powercfg /a</code> still reports the same standby type. Requests can still be None. Min-state 100 of a P-state the governor will not <em>enter</em> is still a slow desk. Boost Enabled only <em>permits</em> turbo P-states. EPP 0 is a 0–100 hardware hint, not a percent-busy gate. Autonomous mode (<code>PERFAUTONOMOUS</code>) can already be Enabled on this host — that is Speed Shift picking P-states, not a skip of this click. When HWP is later Disabled, or when the package still reads the OS threshold, 60% is the liar. Do not install systemd to paper over a 60% gate. Do not mint a Vercel slug because the TUI paused. Do not switch the whole plan to High performance to hide eight other forever-loop bugs.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Minimum processor state still 5% on AC</td><td>Different layer. <a href="processor-min-state-ac.html">Minimum processor state</a>. Floor, not remaining-busy.</td></tr>
+            <tr><td>Maximum processor state is 99% or 80%</td><td>Different layer. <a href="processor-max-state-ac.html">Maximum processor state</a> / <a href="processor-power-throttling.html">processor power throttling</a>. Ceiling, not the step-up gate.</td></tr>
+            <tr><td>Task Manager shows most cores Parked</td><td>Different layer. <a href="processor-core-parking.html">Core parking</a>. Unparked cores, not percent busy.</td></tr>
+            <tr><td>Boost mode is Disabled; clocks sit at base</td><td>Different layer. <a href="processor-boost-mode.html">Processor performance boost mode</a>. Turbo allow, not remaining-busy.</td></tr>
+            <tr><td>Wake stall after a quiet minute; C-states still Enabled</td><td>Different layer. <a href="processor-idle-disable.html">Processor idle disable</a>. C-states, not P-state step-up.</td></tr>
+            <tr><td>PERFEPP on AC is still 60–70</td><td>Different layer. <a href="intel-speed-shift-epp.html">Intel Speed Shift / EPP</a>. HWP bias 0–100, not a utilization percent.</td></tr>
+            <tr><td>Ultra 7 dumps grok.exe onto E-cores</td><td>Different layer. <a href="heterogeneous-thread-scheduling.html">Heterogeneous thread scheduling</a>. Class pick, not remaining-busy.</td></tr>
+            <tr><td>GUID missing from <code>powercfg /qh</code> after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+            <tr><td>Floor, ceiling, turbo, parking, idle, EPP, and class pick already honest on AC. Session awake. Named task Ready / 267009. Grok TUI looks frozen between bursts. <code>PERFINCTHRESHOLD</code> on AC is still 60</td><td>This page. Remaining percent busy before a P-state increase.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Processor performance increase threshold as the first click on a new host. Timeouts, requests, min-state, max-state, parking, boost, idle disable, and Speed Shift EPP first. This page is the remaining OS percent-busy gate. Hidden is not 10%. Missing GUID after unhide is skip, not a registry paste. Do not start at 0% on a sealed chassis. Do not cargo-cult Class 1 (<code>PERFINCTHRESHOLD1</code>) or increase time (<code>PERFINCTIME</code>) on this click.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Fast Startup is already honest. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm the sibling processor knobs are already honest on AC</strong> — Minimum processor state 100. Maximum processor state 100. Core parking min cores 100. Processor performance boost mode Enabled. Processor idle disable named if that pack already ran. Intel Speed Shift EPP 0 if that pack already ran. Heterogeneous policy Prefer performant if that pack already ran. If any of those is still a travel default, that is the matching sibling, not this page.</li>
+          <li><strong>Query this GUID with <code>/qh</code> before you write</strong> — <code>powercfg /query</code> omits ATTRIB_HIDE rows. This host’s Balanced scheme hid <code>06cadf0e-64ed-448a-8927-ce7bf90eb35d</code>. Hidden is not 10%. If <code>/qh</code> still omits the GUID after the unhide line, this edition did not expose the knob. <strong>Stop.</strong> Do not invent a registry paste. Do not guess a GUID from a forum.</li>
+          <li><strong>Unhide, then open Power Options → Change plan settings → Change advanced power settings → Processor power management → Processor performance increase threshold</strong> — set <em>Plugged in</em> to <strong>10%</strong>. On battery may stay 90 if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Do not start at 0%</strong> — 0 means any remaining busy wants a step-up. That is a soak upgrade on a stand with Active cooling, not the opening move on a sealed Ultra 7. 10% on AC is the pass for this desk. 60% on AC is a fail.</li>
+          <li><strong>Leave Class 1 and increase time as siblings</strong> — <code>PERFINCTHRESHOLD1</code> (<code>06cadf0e-64ed-448a-8927-ce7bf90eb35e</code>) is Processor Power Efficiency Class 1 remaining-busy. <code>PERFINCTIME</code> is how many time-check intervals utilization must stay above the threshold. Decrease threshold is <code>PERFDECTHRESHOLD</code>. Those are not this click. Do not cargo-cult them to 0.</li>
+          <li><strong>Leave autonomous mode and EPP alone on this click</strong> — <code>PERFAUTONOMOUS</code> Enabled is Speed Shift picking P-states. That sibling is <a href="intel-speed-shift-epp.html">intel-speed-shift-epp</a>. This page does not Disable autonomous to “make the percent matter.” This page does not write EPP 0.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one processor knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Activate the scheme after the AC index write — <code>/setacvalueindex</code> does not apply until <code>/setactive SCHEME_CURRENT</code>.</li>
+          <li><strong>Confirm, then soak</strong> — AC Current AC Power Setting Index <code>0x0000000a</code> (10) is the pass. <code>0x0000003c</code> (60) is a fail for this desk. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR 06cadf0e-64ed-448a-8927-ce7bf90eb35d
+powercfg -attributes SUB_PROCESSOR 06cadf0e-64ed-448a-8927-ce7bf90eb35d -ATTRIB_HIDE
+powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR 06cadf0e-64ed-448a-8927-ce7bf90eb35d 10
+powercfg /setactive SCHEME_CURRENT
+powercfg /qh SCHEME_CURRENT SUB_PROCESSOR 06cadf0e-64ed-448a-8927-ce7bf90eb35d</pre>
+      <p><code>SUB_PROCESSOR</code> is the processor subgroup. GUID <code>06cadf0e-64ed-448a-8927-ce7bf90eb35d</code> is Processor performance increase threshold. Alias <code>PERFINCTHRESHOLD</code>. Units are percent remaining busy, 0–100. This Grok host queried <code>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR</code> before this pack was written: the row exists, ATTRIB_HIDE is set, AC is <code>0x0000003c</code> (60), DC is <code>0x0000005a</code> (90). <strong>10% on AC</strong> is the honest host-forever try — low enough that a bursty Interactive CLI steps up without sitting at 60. If <code>/qh</code> omits the GUID after unhide, this edition did not expose the knob — stop. Class 1 is a sibling, not this click. Increase time is a sibling, not this click. EPP is <a href="intel-speed-shift-epp.html">intel-speed-shift-epp</a>, not this click. Do not paste a Linux <code>cpufreq</code> governor on this Windows profile.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="processor-min-state-ac.html">Minimum processor state</a> — frequency floor (<code>PROCTHROTTLEMIN</code>). This page is the remaining percent busy that must be crossed before the OS steps <em>up</em> from that floor (<code>PERFINCTHRESHOLD</code>).</li>
+        <li><a href="processor-max-state-ac.html">Maximum processor state</a> — frequency ceiling (<code>PROCTHROTTLEMAX</code>). A 100 ceiling with a 60% increase gate still waits.</li>
+        <li><a href="processor-boost-mode.html">Processor performance boost mode</a> — turbo allow (<code>PERFBOOSTMODE</code>). Enabled turbo with a 60% gate still refuses the step-up.</li>
+        <li><a href="processor-core-parking.html">Core parking</a> — unparked-core floor (<code>CPMINCORES</code>). Parking is not remaining-busy.</li>
+        <li><a href="processor-idle-disable.html">Processor idle disable</a> — C-states (<code>IDLEDISABLE</code>). Wake from C6 is not a P-state increase.</li>
+        <li><a href="processor-power-throttling.html">Processor power throttling</a> — the catalog ceiling / EcoQoS overlay page. Not this utilization gate.</li>
+        <li><a href="intel-speed-shift-epp.html">Intel Speed Shift / EPP</a> — HWP bias 0–100 (<code>PERFEPP</code>). Not a percent of busy. Autonomous Enabled does not replace this click and this click does not write EPP.</li>
+        <li><a href="heterogeneous-thread-scheduling.html">Heterogeneous thread scheduling</a> — P vs E class pick (<code>SCHEDPOLICY</code>). Not remaining-busy.</li>
+        <li>This page — AC Processor performance increase threshold = 10% so Balanced 60% remaining-busy cannot stall an Interactive Grok CLI while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. <code>powercfg /requests</code> already None. Min-state 100. Max-state 100. Parking 100. Boost Enabled. Otherwise this soak is lying about the floor, the ceiling, or the turbo allow.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. Start a Grok turn. Task Manager Performance steps up without waiting for a 60% busy plateau. The TUI still accepts input between bursts.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with PERFINCTHRESHOLD 60 is not forever.</li>
+          <li>Increase threshold still 10 on AC. If someone set 60 to “save watts,” restore 10. Do not “fix” it by switching the whole plan to High performance. Missing GUID after unhide = skip, not a red soak. Do not invent the percent in the registry.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the remaining-busy gate is already 10. Grok in-session schedulers expire in 7 days even when durable. Isolation-empty <code>scheduler_list</code> is skip recreate, not missing forever. Host-forever is that named Windows task. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Minimum processor state. That floor is <a href="processor-min-state-ac.html">processor-min-state-ac</a>.</li>
+        <li>Not Maximum processor state. That ceiling is <a href="processor-max-state-ac.html">processor-max-state-ac</a>.</li>
+        <li>Not Processor performance boost mode. That turbo allow is <a href="processor-boost-mode.html">processor-boost-mode</a>.</li>
+        <li>Not core parking. That unparked-core floor is <a href="processor-core-parking.html">processor-core-parking</a>.</li>
+        <li>Not Processor idle disable. Those C-states are <a href="processor-idle-disable.html">processor-idle-disable</a>.</li>
+        <li>Not processor power throttling / EcoQoS. That overlay is <a href="processor-power-throttling.html">processor-power-throttling</a>.</li>
+        <li>Not Intel Speed Shift / EPP. That HWP bias is <a href="intel-speed-shift-epp.html">intel-speed-shift-epp</a>.</li>
+        <li>Not heterogeneous thread scheduling. That class pick is <a href="heterogeneous-thread-scheduling.html">heterogeneous-thread-scheduling</a>.</li>
+        <li>Not Class 1 remaining-busy (<code>PERFINCTHRESHOLD1</code>) and not increase time (<code>PERFINCTIME</code>).</li>
+        <li>Not a Linux <code>cpufreq</code> paste. This host is Windows. Not systemd.</li>
+        <li>Not a High-performance plan essay. One processor setting.</li>
+        <li>Not live capital. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="processor-boost-mode.html">Boost mode</a> · <a href="processor-min-state-ac.html">Minimum processor state</a> · <a href="intel-speed-shift-epp.html">Speed Shift EPP</a> · <a href="processor-idle-disable.html">Idle disable</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

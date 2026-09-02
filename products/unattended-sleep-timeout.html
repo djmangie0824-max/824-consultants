@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>System unattended sleep timeout vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="UNATTENDSLEEP is the hidden Sleep-subgroup timer Windows uses after a wake-timer or WoL, instead of STANDBYIDLE. Two minutes puts the session back to sleep. Task Scheduler still shows Ready. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/unattended-sleep-timeout.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"System unattended sleep timeout vs a forever loop","description":"Unhide and set System unattended sleep timeout (UNATTENDSLEEP) to Never on AC so a wake-timer or WoL cannot put the Interactive-only LEXXII session back to sleep after two minutes. Distinct from STANDBYIDLE, HIBERNATEIDLE, and powercfg /h off. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Sleep after (STANDBYIDLE) is already 0 on AC"},{"@type":"HowToStep","name":"Unhide System unattended sleep timeout under SUB_SLEEP"},{"@type":"HowToStep","name":"Set Plugged in to 0 seconds (Never). Leave the current plan in place"},{"@type":"HowToStep","name":"Soak an unattended wake-timer for five minutes. Session stays awake. Named task still next-runs"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="sleep-after-timeout.html">Sleep after</a>
+        <a href="wake-timers-forever.html">Wake timers</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">System unattended sleep timeout vs a forever loop</h1>
+      <p class="meta">Published 2026-08-31 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">sleep vs forever</a> diagnosis, not the <a href="sleep-after-timeout.html">Sleep after</a> minutes knob, not <a href="hibernate-off-forever.html">powercfg /h off</a>, and not Hibernate after idle. Those packs are <code>STANDBYIDLE</code>, ACPI S4, and <code>HIBERNATEIDLE</code>. This page is the remaining hidden Sleep-subgroup timer: Power Options → Sleep → <strong>System unattended sleep timeout</strong>. That is <code>UNATTENDSLEEP</code> (GUID <code>7bc4a2f9-d8fc-4469-b07b-33eb785aaca0</code>). After a wake-timer or Wake on LAN, Windows uses this value <em>instead of</em> Sleep after. OEM default is often 120 seconds. Interactive-only <code>LEXXII-Materialize-Forever</code> wakes, then naps. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="unattended-sleep-timeout.md" download>Download markdown</a>
+      <a class="btn" href="sleep-after-timeout.html">Sleep after first</a>
+      <a class="btn" href="wake-timers-forever.html">Wake timers</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="sleep-after-timeout.html">Sleep after</a> pack already sets plugged-in <code>STANDBYIDLE</code> to 0 (Never). Lid can already be Do nothing. Hibernate can already be off. <a href="wake-timers-forever.html">Allow wake timers</a> can already be Enable so Task Scheduler may wake the box. That work can be done and a 5-minute pulse still dies. Windows woke unattended — timed event, <code>WakeToRun</code>, WoL, automatic maintenance. No keyboard. No mouse. The power manager does not count <code>STANDBYIDLE</code> on that wake. It counts <code>UNATTENDSLEEP</code>. Two minutes later the session is back in S3 or S0ix. <code>grok.exe</code> may still be a process. The named task still prints Ready and last result 267009 (still-running). The operator thinks Sleep after lied. A second timer, hidden by default, put the box back down.</p>
+      <p><code>LEXXII-Materialize-Forever</code> is Interactive-only. That is honest for a Grok TUI that must not stack a fourth window. A wake-timer recovers a logged-on session that slept. It does not invent a logon. It also does not keep the session awake past the unattended idle timeout. Host-forever is that Windows task on a 5-minute pulse. Two minutes of unattended awake is shorter than the pulse. Grok in-session schedulers expire in 7 days even when durable. They are not this knob. Do not install systemd to paper over 120 seconds. Do not mint a Vercel slug because a wake-timer nap looked like a dead loop. Do not paste live NLV next to a <code>powercfg</code> dump. NLV stays off Pages.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle / wake</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Host “looks on,” user tasks frozen, RAM still powered — S0ix diagnosis, 267009 as the tell</td><td>Different layer. <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a>.</td></tr>
+            <tr><td>Session slept after 10–20 minutes of attended idle. Sleep after is not Never</td><td>Different layer. <a href="sleep-after-timeout.html">sleep-after-timeout.html</a>. <code>STANDBYIDLE</code>, not this hidden row.</td></tr>
+            <tr><td>Closing the lid was the trigger</td><td>Different layer. <a href="lid-close-do-nothing.html">lid-close-do-nothing.html</a>.</td></tr>
+            <tr><td>Machine actually off. RAM written to hiberfil.sys. S4</td><td>Different layer. <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>. <code>powercfg /h off</code>. Not a timeout.</td></tr>
+            <tr><td>Idle-to-S4 minutes while Hibernate is still available. <code>HIBERNATEIDLE</code></td><td>Different layer. Hibernate after idle. Setting that row to Never still leaves S4, Start-menu Hibernate, and this unattended sleep timer.</td></tr>
+            <tr><td>Sleep still happened; next-run in the past; task Enabled. Need RTC recovery</td><td>Different layer. <a href="wake-timers-forever.html">wake-timers-forever.html</a>. That pack wakes the box. This pack stops the unattended re-sleep after the wake.</td></tr>
+            <tr><td>Sleep after already Never. Hibernate after already Never or S4 already gone. Wake timers Enable. WakeToRun checked. Box wakes for the named task, then sleeps again in about two minutes with nobody at the keyboard. Named task Ready / 267009</td><td>This page. <code>UNATTENDSLEEP</code> on AC.</td></tr>
+            <tr><td><code>UNATTENDSLEEP</code> already 0 on AC, or GUID missing after unhide</td><td>This minutes knob is already honest, or this edition did not expose it. Stop. Not a fail. Not a registry hack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set System unattended sleep timeout to Never as the first click on a new host. Sleep after (<code>STANDBYIDLE</code>) first. Lid close on AC is Do nothing if this desk soaks with the lid shut. Hibernate after idle and <code>powercfg /h off</code> are sibling cuts, not this alias. Hidden is not Never. Missing from the GUI before unhide is expected. Never on AC means 0 seconds in <code>powercfg</code> (GUI minutes = 0). Do not use <code>/h off</code> to hide this knob.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm attended idle is already honest</strong> — plugged-in Sleep after is Never. See <a href="sleep-after-timeout.html">sleep-after-timeout</a> and <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever</a>. If <code>STANDBYIDLE</code> is still 10–20 minutes, this hidden row is not the liar yet.</li>
+          <li><strong>Confirm the sibling Sleep rows are not this click</strong> — Hibernate after idle is <code>HIBERNATEIDLE</code>, a different timeout. Deleting S4 is <a href="hibernate-off-forever.html">hibernate-off-forever</a> (<code>powercfg /h off</code>). Allow hybrid sleep is <a href="hybrid-sleep-ac.html">hybrid-sleep-ac</a>. Allow wake timers is <a href="wake-timers-forever.html">wake-timers-forever</a> — leave that Enable on AC so a named task can still recover if sleep happens. This page is the re-sleep after an unattended wake, not the wake itself.</li>
+          <li><strong>Unhide the row</strong> — System unattended sleep timeout is ATTRIB_HIDE on most consumer images. It will not appear under Sleep until you clear the hide bit. Missing from the GUI before this step is expected, not a skip.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Sleep → System unattended sleep timeout</strong> — set <em>Plugged in</em> to <strong>0</strong> (Never). On battery may stay 2 minutes if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Leave Sleep after alone on this click</strong> — <code>STANDBYIDLE</code> is attended idle. <code>UNATTENDSLEEP</code> is unattended idle after a wake. Do not treat 0 on one as 0 on the other.</li>
+          <li><strong>Leave Hibernate after idle and <code>/h off</code> alone on this click</strong> — those are S4. This row is still a sleep timeout.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one hidden Sleep knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak an unattended wake</strong> — query <code>UNATTENDSLEEP</code>. AC index 0 is the pass. GUI Never = 0 seconds in <code>powercfg</code>. If the GUID is missing after unhide, stop. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg -attributes SUB_SLEEP 7bc4a2f9-d8fc-4469-b07b-33eb785aaca0 -ATTRIB_HIDE
+powercfg /query SCHEME_CURRENT SUB_SLEEP UNATTENDSLEEP
+powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP UNATTENDSLEEP 0
+powercfg /setactive SCHEME_CURRENT
+powercfg /waketimers</pre>
+      <p><code>SUB_SLEEP</code> is the Sleep subgroup. <code>UNATTENDSLEEP</code> is System unattended sleep timeout. Microsoft Learn also names the same GUID <code>UnattendTimeout</code> — query by GUID <code>7bc4a2f9-d8fc-4469-b07b-33eb785aaca0</code> if the alias is missing. The AC index is <strong>seconds</strong>. <strong>0</strong> is Never. 120 is 2 minutes — the usual hidden OEM default. Apply with <code>/setactive</code> or the GUI change does not take. Unhide is <code>powercfg -attributes … -ATTRIB_HIDE</code>, not a registry paste. If powercfg still omits the GUID after that, this edition did not expose the knob — stop; do not invent an unattended-sleep hack on a public page. <code>STANDBYIDLE</code> is Sleep after, not this click. <code>HIBERNATEIDLE</code> is Hibernate after idle, not this click. <code>powercfg /h off</code> deletes S4, not this click. Wake timers are RTC recovery, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a> — Modern Standby, Interactive-only logon, result 267009 still-running as a <em>diagnosis</em>. This page is the unattended re-sleep value after a wake.</li>
+        <li><a href="sleep-after-timeout.html">sleep-after-timeout.html</a> — <code>STANDBYIDLE</code>. Attended idle. Windows uses that timeout when a user is present. This page replaces it on an unattended wake.</li>
+        <li><a href="hibernate-off-forever.html">hibernate-off-forever.html</a> — ACPI S4. <code>powercfg /h off</code>. Deletes the hiberfile. Not a seconds knob.</li>
+        <li>Hibernate after idle — <code>HIBERNATEIDLE</code>. Idle-to-S4 minutes while Hibernate still exists. Setting that to Never still leaves this unattended sleep timer.</li>
+        <li><a href="wake-timers-forever.html">wake-timers-forever.html</a> — whether Task Scheduler may wake the box. This page is whether the box stays awake after that wake when nobody is at the keyboard.</li>
+        <li><a href="lid-close-do-nothing.html">lid-close-do-nothing.html</a> — lid action. Not idle seconds after a timed wake.</li>
+        <li><a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a> — <code>HYBRIDSLEEP</code>. On writes a hiberfile then S3. Not <code>UNATTENDSLEEP</code>.</li>
+        <li>This page — AC System unattended sleep timeout = Never so <code>UNATTENDSLEEP</code> cannot put the signed-in session back to sleep two minutes after a wake-timer while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep after already Never on AC. Lid already Do nothing on AC if this soak closes the lid. Hibernate after idle already Never, or S4 already gone if that was the measured cut. Wake timers Enable on AC. <code>WakeToRun</code> checked on <code>LEXXII-Materialize-Forever</code>. Otherwise this soak is lying about which timer killed the wake.</li>
+          <li>Let the box sleep once (or wait for the next named fire). Do not touch keyboard or mouse. The wake-timer must bring the session back. Stay unattended five minutes — longer than the usual 120-second default, equal to the host-forever pulse. The session does not re-enter S3 or S0ix on the unattended timer. The Grok TUI still accepts input if you then sit down. One silent nap at minute two is a fail if <code>UNATTENDSLEEP</code> was not 0.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a re-slept session after a successful wake is not forever. Last-run must advance across that five minutes.</li>
+          <li><code>UNATTENDSLEEP</code> still 0 on AC. If someone set 2 minutes to “let maintenance finish then sleep,” restore Never on this class of Interactive-only desk. Do not “fix” it by switching the whole plan to High performance.</li>
+          <li>Host that already has 0 on AC, or GUID missing after unhide = skip, not a red soak. Do not invent an unattended-sleep registry value to make this page apply.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the unattended timer stayed Never. Grok schedulers expiring in 7 days is a different list — do not recreate them because <code>UNATTENDSLEEP</code> fired.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a>. That pack is Modern Standby / Interactive-only / 267009 diagnosis.</li>
+        <li>Not <a href="sleep-after-timeout.html">sleep-after-timeout.html</a>. That pack is <code>STANDBYIDLE</code> — attended Sleep after.</li>
+        <li>Not <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>. That pack is S4 / <code>powercfg /h off</code>.</li>
+        <li>Not Hibernate after idle. That timeout is <code>HIBERNATEIDLE</code>. Distinct Sleep-subgroup row. Do not set it here.</li>
+        <li>Not <a href="wake-timers-forever.html">wake-timers-forever.html</a>. That pack arms the wake. This pack keeps the wake from napping again.</li>
+        <li>Not <a href="lid-close-do-nothing.html">lid-close-do-nothing.html</a>. That pack is the lid action.</li>
+        <li>Not <a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a>. That pack is <code>HYBRIDSLEEP</code>.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Host-forever is Windows task <code>LEXXII-Materialize-Forever</code>.</li>
+        <li>Not a Grok in-session scheduler. Those expire in 7 days even when durable.</li>
+        <li>Not a fake cluster. Not Vercel. Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a High-performance plan essay. One hidden Sleep setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="sleep-after-timeout.html">Sleep after</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="wake-timers-forever.html">Wake timers</a> · <a href="hibernate-off-forever.html">Hibernate off</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

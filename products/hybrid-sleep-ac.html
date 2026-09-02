@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allow hybrid sleep vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="HYBRIDSLEEP On writes a hiberfile then S3 so a sleep looks like Fast Startup on wake. Interactive-only Grok tasks miss fires. Task Scheduler still shows Ready. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/hybrid-sleep-ac.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Allow hybrid sleep vs a forever loop","description":"Set Allow hybrid sleep to Off on AC so HYBRIDSLEEP cannot write a hiberfile then S3 after sleep timeouts and Fast Startup are already honest. Companion to sleep-vs-forever. Not Fast Startup. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep timeouts and Fast Startup are already honest"},{"@type":"HowToStep","name":"Open Sleep → Allow hybrid sleep"},{"@type":"HowToStep","name":"Set Plugged in to Off. Leave Hibernate available unless measured otherwise"},{"@type":"HowToStep","name":"Soak. Named task still next-runs after a real sleep/wake. Event log does not lie about hybrid"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="windows-fast-startup.html">Fast Startup</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Allow hybrid sleep vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">sleep vs forever</a> page, not the <a href="windows-fast-startup.html">Fast Startup</a> page, and not an explicit Hibernate essay. Sleep-vs-forever sets timeouts. Fast Startup is hybrid <em>shutdown</em>. This page is the remaining Sleep row: Power Options → Sleep → <strong>Allow hybrid sleep</strong>. That is <code>HYBRIDSLEEP</code>. On writes a hiberfile then enters S3. Wake looks like a kernel restore. Interactive-only <code>LEXXII-Materialize-Forever</code> misses fires. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="hybrid-sleep-ac.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever first</a>
+      <a class="btn" href="windows-fast-startup.html">Fast Startup</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> pack already tells you plugged-in sleep is not 5–20 minutes. <a href="windows-fast-startup.html">Fast Startup</a> already tells you Start-menu Shut down is not a fake boot. That work can be done and a Sleep still lies. Balanced <strong>Allow hybrid sleep</strong> on AC is often On. Windows writes <code>hiberfil.sys</code> then S3. Power loss resumes from the hiberfile. A clean wake still looks like Fast Startup: user session restored without a full logon path the hourly task expected. <code>grok.exe</code> may still be a process. The named task still prints Ready and last result 267009 (still-running). The operator thinks sleep-vs-forever failed. Hybrid sleep mixed two states.</p>
+      <p>This is not Fast Startup. Fast Startup is hybrid <em>shutdown</em> (session closed, kernel hibernated). This is hybrid <em>sleep</em> (session stays, hiberfile plus S3). Do not <code>powercfg /hibernate off</code> as the first click — that kills Fast Startup, explicit Hibernate, and this row together. A UPS-backed desk may still want Hibernate. Set Allow hybrid sleep Off on AC. Leave the hibernate file unless you measured that you do not need it. Do not install systemd to paper over HYBRIDSLEEP. Do not mint a Vercel slug because a sleep looked like a reboot.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle / wake</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby on a 5–20 minute timeout</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Start-menu Shut down restored a kernel without a real boot</td><td>Different layer. <a href="windows-fast-startup.html">Fast Startup</a>.</td></tr>
+            <tr><td>Lid close put the session to Sleep</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>Sleep timeouts already Never. Fast Startup already off. A Sleep still writes hiberfil then S3. Wake looks like a hybrid restore. Hourly task missed</td><td>This page. Allow hybrid sleep on AC.</td></tr>
+            <tr><td>HYBRIDSLEEP already Off; explicit Hibernate is what you clicked</td><td>Different layer. Explicit Hibernate is not this row. Do not invent a registry paste here.</td></tr>
+            <tr><td>Row missing from GUI and from <code>powercfg /query</code></td><td>This firmware or Modern Standby edition did not expose hybrid sleep. Stop. Not a fail.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Allow hybrid sleep Off as the first click on a new host. Sleep timeouts, lid, and Fast Startup first. This page is the remaining Sleep row after those are honest. Do not <code>powercfg /hibernate off</code> to hide this knob. Off on AC is the pass. On battery may stay On if this laptop actually travels.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm Fast Startup is already honest</strong> — if Start-menu Shut down still hybrid-boots, that is <a href="windows-fast-startup.html">Fast Startup</a>, not this page.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Sleep → Allow hybrid sleep</strong> — set <em>Plugged in</em> to <strong>Off</strong>. On battery may stay On if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Leave Hibernate available unless measured</strong> — this page does not delete <code>hiberfil.sys</code>. Do not <code>powercfg /hibernate off</code> as a shortcut. A UPS-backed Grok desk may still want explicit Hibernate.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one Sleep knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the Sleep subgroup. Off on AC is the pass. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_SLEEP
+powercfg /a
+powercfg /hibernate query</pre>
+      <p><code>SUB_SLEEP</code> is the Sleep subgroup. <code>HYBRIDSLEEP</code> is Allow hybrid sleep. <strong>0 = Off</strong>, <strong>1 = On</strong>. Off on AC is the pass for this desk: a Sleep is S3 (or S0ix) without a mandatory hiberfile write. If the row is missing from the GUI, query with <code>powercfg</code> anyway — hidden is not the same as Off. If powercfg also omits the alias, this firmware or Modern Standby edition did not expose the knob — stop; do not invent a registry hack on a public page. Fast Startup is hybrid shutdown, not this click. Sleep after is a timeout, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — Modern Standby, Interactive-only logon, result 267009 still-running as a <em>timeout</em> tell. This page is whether Sleep also writes a hiberfile.</li>
+        <li><a href="windows-fast-startup.html">Fast Startup</a> — hybrid <em>shutdown</em>. Session closed. This page is hybrid <em>sleep</em>.</li>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — lid action. Not the hybrid-sleep row.</li>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — whether Task Scheduler may wake the box. Not whether Sleep is hybrid.</li>
+        <li>This page — AC Allow hybrid sleep = Off so HYBRIDSLEEP cannot mix S3 with a hiberfile while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. Fast Startup already off. Otherwise this soak is lying about shutdown vs sleep.</li>
+          <li><code>HYBRIDSLEEP</code> AC index is 0. Event Viewer Sleep traces do not show a hiberfile write as part of a normal Sleep. A Sleep that still dumps <code>hiberfil.sys</code> then S3 is a fail.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 after a hybrid restore is not forever.</li>
+          <li>Hibernate file still present if this desk wants explicit Hibernate. Missing hiberfile after this click means someone ran <code>/hibernate off</code> — restore it. Do not “fix” hybrid sleep by deleting Hibernate.</li>
+          <li>Missing row on a Modern Standby host = skip, not a red soak. Do not invent HYBRIDSLEEP in the registry.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof hybrid sleep is already Off.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every host exposes hybrid sleep. Modern Standby often hides it.</li>
+        <li>Not sleep-vs-forever, not Fast Startup, not lid-close, not wake timers.</li>
+        <li>Not <code>powercfg /hibernate off</code>. That is a different, broader cut.</li>
+        <li>Not a High-performance plan essay. One Sleep setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="windows-fast-startup.html">Fast Startup</a> · <a href="lid-close-do-nothing.html">Lid close</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

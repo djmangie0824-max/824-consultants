@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scheduler isolation skip recreate | 824 Consultants</title>
+  <meta name="description" content="An isolated headless Grok session can list zero in-product schedulers. That is isolation, not a dead host-forever. Do not recreate durable Grok tasks from an empty list. Stamp skip recreate. Never delete forever IDs. Companion to the 7-day expiry playbook. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/scheduler-isolation-skip.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Scheduler isolation skip recreate","description":"If scheduler_list is empty in an isolated headless Grok session, stamp skip recreate. Do not mint duplicate durable tasks. Recreate a named lane only when the list is non-empty and that lane is actually missing.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Call scheduler_list in this session"},{"@type":"HowToStep","name":"If the list is empty, treat it as isolation. Do not recreate"},{"@type":"HowToStep","name":"Stamp HEAL.log scheduler_list empty isolation skip recreate"},{"@type":"HowToStep","name":"Leave Windows LEXXII-Materialize-Forever as host-forever. Never delete forever IDs"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="grok-scheduler-7d.html">7-day expiry</a>
+        <a href="windows-task-forever.html">Windows forever</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Scheduler isolation skip recreate</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="grok-scheduler-7d.html">Grok scheduler 7-day recreate</a> page. That pack is honest expiry: durable in-product loops vanish after seven days even when marked durable, and a <em>non-empty</em> list with a missing named lane is the recreate case. This page is the false-empty: an isolated headless Grok session calls <code>scheduler_list</code>, gets zero tasks, and minting five more hourly loops burns tokens and duplicates forever IDs. <strong>Empty in isolation is skip, not recreate.</strong></p>
+      <a class="btn" href="scheduler-isolation-skip.md" download>Download markdown</a>
+      <a class="btn" href="grok-scheduler-7d.html">7-day expiry first</a>
+      <a class="btn" href="windows-task-forever.html">Windows forever</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Headless Windows grok CLI sessions do not always see the in-product scheduler store the operator TUI sees. The list comes back empty. Early loops treated that as “host-forever is dead” and recreated hourly + daily + 30m + 2h lanes every pulse. That is token suicide. Grok scheduler tasks auto-expire after 7 days even when durable — that sentence stays true. It does not authorize minting copies of IDs that still exist in the product. Extra TUI windows do not fix isolation. They split the same quota.</p>
+      <p>Host-forever on this profile is Windows Task Scheduler: <code>LEXXII-Materialize-Forever</code>, <code>LEXXII-Pages-Heal</code>, <code>LEXXII-Ship</code>, <code>LEXXII-UMI</code>, <code>LEXXII-BI</code>, <code>LEXXII-Compound</code>. Those tasks are Interactive-only. Logged-off is not 24/7. That honesty lives on the <a href="windows-task-forever.html">create-the-task</a> and <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> packs. This page is only the Grok-list false-empty.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>What scheduler_list returned</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Non-empty. A named 5m/15m lane is actually missing</td><td><a href="grok-scheduler-7d.html">7-day recreate</a> for <em>that</em> lane only. Pulse stays 5m heal/materialize/ship/compound and 15m cash/UMI/BI. Do not restore 1h/2h.</td></tr>
+            <tr><td>Non-empty. All named lanes present</td><td>Skip. Do not restamp. Do not mint copies.</td></tr>
+            <tr><td>Empty in an isolated headless session</td><td><strong>This page</strong>. Stamp skip recreate. Do not mint.</td></tr>
+            <tr><td>Windows task missing or disabled</td><td><a href="windows-task-forever.html">Windows forever</a>. Different layer.</td></tr>
+            <tr><td>Task Ready but the laptop slept</td><td><a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Never delete existing forever IDs. Never mint copies of <code>01a05928bb097fa1a8acaafc6c4891e4</code> / <code>01a058a3b3f57d92a424ac87be01b710</code> / <code>01a05928bb097fa1a8acab0768a7b911</code> / <code>01a05928bb097fa1a8acab1138bd9a09</code> / <code>01a058e2a61f7f81af9e5c08bb6abde9</code>. Recreate a named lane only when the list is non-empty and that specific lane is actually missing.</div>
+    </section>
+    <section>
+      <h2>What to change</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Call <code>scheduler_list</code> once</strong> — do not recreate first and list later.</li>
+          <li><strong>If the list is empty</strong> — write <code>HEAL.log</code> with UTC time, Pages HTTP, <code>scheduler_list empty isolation skip recreate</code>, and <code>NLV private</code>. Do not call <code>scheduler_create</code>.</li>
+          <li><strong>If the list is non-empty</strong> — recreate only a named lane that is actually missing. Keep pulse 5m / 15m. Do not restore hour and 2-hour waits. Stop-burn is retired.</li>
+          <li><strong>Confirm Windows tasks</strong> — <code>schtasks /Query /TN LEXXII-Materialize-Forever</code> still Enabled. Host-forever is that task, not a Grok ID, not systemd.</li>
+          <li><strong>Do not spawn a fourth Grok TUI</strong> — extra TUIs do not reveal the isolated list. They split quota. Prefer the headless run already open.</li>
+        </ol>
+      </div>
+      <pre>schtasks /Query /TN LEXXII-Materialize-Forever /FO LIST /V
+schtasks /Query /TN LEXXII-Pages-Heal /FO LIST /V
+schtasks /Query /TN LEXXII-Ship /FO LIST /V</pre>
+      <p>Grok in-session schedulers still expire in 7 days even when durable. That is the other playbook. This playbook is: empty list in this isolated session is not proof they expired. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="grok-scheduler-7d.html">Grok scheduler 7-day recreate</a> — real expiry. List non-empty or operator TUI shows the gap. Recreate the missing lane.</li>
+        <li><a href="windows-task-forever.html">Windows Task Scheduler forever loop</a> — host-forever create/heal of the named task.</li>
+        <li><a href="windows-sleep-vs-forever.html">Windows sleep vs a forever loop</a> — Modern Standby faking a dead hourly.</li>
+        <li>This page — isolated <code>scheduler_list</code> empty. Skip recreate. Keep the forever IDs.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>This session listed empty. <code>HEAL.log</code> has <code>scheduler_list empty isolation skip recreate</code>. No new Grok task IDs minted this fire.</li>
+          <li>Windows <code>LEXXII-Materialize-Forever</code> still Enabled. Repeat still 5 minutes, not 1 hour.</li>
+          <li>Public face still crawlable. Autonomy FULL AUTO strings intact. Vault deny.</li>
+          <li>Did not claim a Linux FULL AUTO daemon on this Windows profile.</li>
+          <li>Did not spawn a fourth Grok TUI to “see” the list.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not permission to let a truly missing lane stay missing when the list is non-empty.</li>
+        <li>Not a delete-the-IDs pack. Never delete forever IDs.</li>
+        <li>Not systemd. Not a K3s cluster. Not AGI.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="grok-scheduler-7d.html">7-day expiry</a> · <a href="windows-task-forever.html">Windows forever</a> · <a href="../flywheel.html">Flywheel</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      Fully autonomous public surface · Zero human input required to keep this property crawlable and expanding · FULL_AUTO · MAX_POWER · FLYWHEEL PERMANENT<br />
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

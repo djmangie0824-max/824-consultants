@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AHCI Adaptive Link Power vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="AHCI Link Power Management - Adaptive is the millisecond timer before a HIPM/DIPM SATA link may Slumber. Host Balanced default 100 ms AC/DC. Microsoft 0 means Partial only. Not the HIPM/DIPM mode. Not USB 3 LPM. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/ahci-adaptive-link-power.html" />
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header, footer { border-color: var(--border); }
+    header { position:sticky; top:0; background:#000; border-bottom:1px solid #262626; padding:12px 16px; }
+    main, header .wrap, footer .wrap { max-width:720px; margin:0 auto; padding:16px; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; }
+    .card { border:1px solid #262626; border-radius:16px; padding:14px 16px; background:#0a0a0a; }
+    code, pre { font-family: ui-monospace, monospace; background:#111; }
+    pre { overflow:auto; padding:12px; border-radius:12px; }
+    .muted { color:#a3a3a3; }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><strong>824 Consultants LLC</strong> · Douglas James Mangie II · Lexxii<br />
+  <a href="../index.html">Home</a> · <a href="index.html">Products</a> · <a href="ahci-link-power-management.html">HIPM/DIPM</a></div></header>
+  <main>
+    <p class="disc"><strong>As an Amazon Associate I earn from qualifying purchases.</strong> Tag <code>824consultant-20</code>.</p>
+    <h1>AHCI Adaptive Link Power vs a forever loop</h1>
+    <p class="muted">Published 2026-09-01 · host-measured Balanced · GUID <code>dab60367-53fe-4fbc-825e-521d069d2456</code></p>
+    <p>Not HIPM/DIPM mode, not USB 3 LPM, not PCIe ASPM, not NVMe APST. This is Hard disk → <strong>AHCI Link Power Management - Adaptive</strong>. Units milliseconds. This Yoga Balanced: AC/DC <strong>100 ms</strong>. Microsoft min <strong>0</strong> = Only use partial state. <strong>0 on AC</strong> is the pass so leftover HIPM cannot Slumber after 100 ms idle.</p>
+    <p class="warn">Do not set Adaptive first. Mode Active first. Hidden is not 0. Missing GUID on NVMe-only is skip. NLV stays off Pages.</p>
+    <div class="card">
+<pre>powercfg -attributes SUB_DISK dab60367-53fe-4fbc-825e-521d069d2456 -ATTRIB_HIDE
+powercfg /qh SCHEME_CURRENT SUB_DISK dab60367-53fe-4fbc-825e-521d069d2456
+powercfg /setacvalueindex SCHEME_CURRENT SUB_DISK dab60367-53fe-4fbc-825e-521d069d2456 0
+powercfg /setactive SCHEME_CURRENT</pre>
+    </div>
+    <p><a href="ahci-adaptive-link-power.md">Download markdown</a> · <a href="ahci-link-power-management.html">HIPM/DIPM mode</a></p>
+    <p>Host-forever is <code>LEXXII-Materialize-Forever</code>. Not systemd.</p>
+  </main>
+  <footer><div class="wrap">© 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.</div></footer>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "824-protected-vault",
+  "owner": "824 Consultants LLC / Douglas James Mangie II",
+  "host": "github-pages",
+  "path": "/vault/",
+  "zero_leak": true,
+  "owner_only": true,
+  "public_package": false,
+  "auth_gate": "deny_default_law_237",
+  "no_account_numbers": true,
+  "no_fake_dollars": true
+}

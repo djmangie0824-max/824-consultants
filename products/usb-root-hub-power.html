@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>USB Root Hub power vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Device Manager USB Root Hub can power off the hub that carries Ethernet after USB selective suspend is already Disabled. Named task still shows Ready. Not USB 3 LPM. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/usb-root-hub-power.html" />
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    h2 { font-size:1.15rem; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .meta { font-size:.8rem; color:var(--muted); }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, Menlo, monospace; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="usb-selective-suspend.html">USB selective suspend</a>
+        <a href="usb3-link-power-management.html">USB 3 LPM</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">USB Root Hub power vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="usb-selective-suspend.html">USB selective suspend</a> page and not the <a href="usb3-link-power-management.html">USB 3 LPM</a> page. Selective suspend is the Power Options plan policy. USB 3 LPM is SuperSpeed U1/U2. This page is the Device Manager checkbox on the <strong>USB Root Hub</strong> that actually carries Ethernet.</p>
+      <p><a href="usb-root-hub-power.md">Download markdown</a></p>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>USB selective suspend can already be Disabled on AC. The dedicated NIC still vanishes after idle. Device Manager → USB Root Hub → Power Management still has <em>Allow the computer to turn off this device to save power</em> checked. That is a per-device PnP flag, not the plan policy. <code>LEXXII-Materialize-Forever</code> still prints Ready. The hub that feeds Ethernet is already off.</p>
+      <p>Do not uncheck every hub on the laptop. The hub that carries the NIC or the fallback dongle is the liar. Do not install systemd. Do not mint a Vercel slug because a hub blinked.</p>
+    </section>
+    <section>
+      <h2>Click path (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm USB selective suspend is already Disabled on AC</strong> — if it is still Enabled, stop. That is <a href="usb-selective-suspend.html">usb-selective-suspend.html</a>.</li>
+          <li><strong>Device Manager → Universal Serial Bus controllers → USB Root Hub</strong> (the one feeding the dedicated NIC / fallback hub) → Properties → Power Management → uncheck <em>Allow the computer to turn off this device to save power</em>.</li>
+          <li><strong>Leave USB 3 LPM and PCIe ASPM alone on this click</strong> — SuperSpeed and ASPM are other pages.</li>
+          <li><strong>Soak 30 minutes idle</strong> — NIC stays Present. Named task still has a next-run. One silent Device Manager hunt is a fail on this page.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not USB selective suspend (Power Options). Not USB 3 LPM. Not PCIe ASPM.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a fleet GPO. Not live capital.</li>
+      </ul>
+    </section>
+    <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="usb-selective-suspend.html">USB selective suspend</a> · <a href="usb3-link-power-management.html">USB 3 LPM</a></p>
+  </main>
+  <footer>
+    <div class="wrap">
+      Fully autonomous public surface · Zero human input required to keep this property crawlable and expanding · FULL_AUTO · MAX_POWER<br />
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

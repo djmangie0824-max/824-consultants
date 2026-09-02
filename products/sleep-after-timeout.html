@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sleep after vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Sleep after is STANDBYIDLE minutes to S3 or S0ix. Balanced 10–20 minutes dumps the Interactive Grok session while Task Scheduler still shows Ready. Distinct from unattended re-sleep, Hibernate after, and the Modern Standby diagnosis pack. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/sleep-after-timeout.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Sleep after vs a forever loop","description":"Set Power Options → Sleep → Sleep after to Never on AC so STANDBYIDLE cannot idle a signed-in Interactive session into S3 or S0ix while LEXXII-Materialize-Forever still looks Ready. Distinct from UNATTENDSLEEP, HIBERNATEIDLE, and the Modern Standby diagnosis pack. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm lid-close, sleep-button, and power-button on AC are already Do nothing if those hardware keys exist"},{"@type":"HowToStep","name":"Open Sleep → Sleep after"},{"@type":"HowToStep","name":"Set Plugged in to Never. STANDBYIDLE is seconds in powercfg; 0 is Never. /change uses minutes. Do not mix the two units"},{"@type":"HowToStep","name":"Soak past the previous minutes value. Session stays signed in. Named task last-run still advances"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="unattended-sleep-timeout.html">Unattended re-sleep</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Sleep after vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-sleep-vs-forever.html">sleep vs forever</a> diagnosis, not the <a href="unattended-sleep-timeout.html">System unattended sleep timeout</a> page, and not <a href="hibernate-after-idle.html">Hibernate after idle</a>. Sleep-vs-forever names Modern Standby, Interactive-only logon, and result 267009 as a <em>read</em>. Unattended-sleep is <code>UNATTENDSLEEP</code> — the hidden re-nap after a wake-timer. Hibernate after is <code>HIBERNATEIDLE</code> to ACPI S4. This page is the remaining attended minutes knob: Power Options → Sleep → <strong>Sleep after</strong>. That is <code>STANDBYIDLE</code> (GUID <code>29f6c1ee-7b59-4e01-8a3d-97d2b4a0a8e0</code>). Balanced AC is often 10, 15, or 20 minutes. Interactive-only <code>LEXXII-Materialize-Forever</code> misses fires. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="sleep-after-timeout.md" download>Download markdown</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Diagnosis first</a>
+      <a class="btn" href="unattended-sleep-timeout.html">Unattended re-sleep next</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p><code>LEXXII-Materialize-Forever</code> is Interactive-only. That is honest for a Grok TUI that must not stack a fourth window. Lid can already be Do nothing on AC. Sleep button can already be Do nothing. Power button can already be Do nothing. Hibernate can already be off, or Hibernate after can already be Never. Allow wake timers can already be Enable. That work can be done and a 5-minute pulse still dies. Balanced <strong>Sleep after</strong> on AC is still 10–20 minutes. Windows counts <code>STANDBYIDLE</code> in seconds. 600 is ten minutes. 1200 is twenty. The signed-in session goes to S3, or to S0ix on a Modern Standby SKU. Task Scheduler still prints Ready. Next-run sits in the future. Last result 267009 (still-running) is a frozen process, not a live pulse. No 5-minute fire happens until someone wakes the box and the Interactive session is actually there.</p>
+      <p>The <a href="windows-sleep-vs-forever.html">diagnosis pack</a> already told you sleep eats the loop. It did not give you this click. Sibling playbooks already link here as <code>sleep-after-timeout.html</code> and then 404 as the custom deny wall — missing from <code>main</code>, not a vault. This page is that landing. Host-forever is the Windows task on a 5-minute pulse. Grok in-session schedulers expire in 7 days even when durable. They are not this knob. Do not install systemd to paper over 15 minutes. Do not mint a Vercel slug because Sleep after fired. Do not paste live NLV next to a <code>powercfg</code> dump. NLV stays off Pages.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Host looks on, user tasks frozen, RAM still powered — S0ix diagnosis, 267009 as the tell, Sleep after already Never</td><td>Different layer. <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a>. This minutes knob is already honest.</td></tr>
+            <tr><td>Closing the lid was the trigger</td><td>Different layer. <a href="lid-close-do-nothing.html">lid-close-do-nothing.html</a>.</td></tr>
+            <tr><td>Fn+moon, keyboard Sleep, or chassis Sleep button</td><td>Different layer. <a href="sleep-button-action.html">sleep-button-action.html</a>.</td></tr>
+            <tr><td>Chassis power button</td><td>Different layer. <a href="power-button-action-ac.html">power-button-action-ac.html</a>.</td></tr>
+            <tr><td>Sleep writes a hiberfile then S3 (Allow hybrid sleep)</td><td>Different layer. <a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a>. <code>HYBRIDSLEEP</code>, not STANDBYIDLE.</td></tr>
+            <tr><td>Idle hours later: resume-from-hibernate splash. Hibernate after is not Never</td><td>Different layer. <a href="hibernate-after-idle.html">hibernate-after-idle.html</a>. <code>HIBERNATEIDLE</code> to S4.</td></tr>
+            <tr><td>You want S4 gone. Start-menu Hibernate gone. <code>hiberfil.sys</code> gone</td><td>Different layer. <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>. <code>powercfg /h off</code>.</td></tr>
+            <tr><td>Sleep after already Never. Box wakes for the named task, then sleeps again in about two minutes with nobody at the keyboard</td><td>Different layer. <a href="unattended-sleep-timeout.html">unattended-sleep-timeout.html</a>. <code>UNATTENDSLEEP</code>.</td></tr>
+            <tr><td>Panels black, dock re-enumerates, session still awake</td><td>Different layer. <a href="turn-off-display-after.html">turn-off-display-after.html</a>. VIDEOIDLE, not Sleep after.</td></tr>
+            <tr><td>Attended idle 10–20 minutes. No lid. No Sleep key. No power button. Session gone to S3 or S0ix. Sleep after is not Never</td><td>This page. <code>STANDBYIDLE</code> on AC. Attended idle timeout.</td></tr>
+            <tr><td>STANDBYIDLE already 0 on AC</td><td>This minutes knob is already honest. Stop. Remaining silence is another layer. Do not invent a Sleep after registry value.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Sleep after to Never as a substitute for lid-close Do nothing. A closed lid is still a Sleep key until that sibling is honest. Do not mix <code>powercfg /change standby-timeout-ac</code> (minutes) with <code>/setacvalueindex … STANDBYIDLE</code> (seconds). Both accept 0 as Never. Query after you write.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the hardware Sleep keys are not this click</strong> — lid close on AC is Do nothing if this soak will close the lid (<a href="lid-close-do-nothing.html">lid-close</a>). Sleep button on AC is Do nothing if a Fn+moon or keyboard Sleep key exists (<a href="sleep-button-action.html">sleep-button</a>). Power button on AC is Do nothing if a chassis press is in the well (<a href="power-button-action-ac.html">power-button</a>). If a key still Sleeps, this minutes row is not the liar yet.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Sleep → Sleep after</strong> — set <em>Plugged in</em> to <strong>Never</strong> (0 minutes). On battery may stay 10–20 minutes if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Leave System unattended sleep timeout alone on this click</strong> — that is <code>UNATTENDSLEEP</code>. After this page is Never, the <a href="unattended-sleep-timeout.html">unattended pack</a> is the next hidden row.</li>
+          <li><strong>Leave Hibernate after and <code>/h off</code> alone on this click</strong> — <code>HIBERNATEIDLE</code> is idle-to-S4. <code>powercfg /h off</code> deletes S4. Sleep after Never still loses the session if Hibernate after is 180 minutes.</li>
+          <li><strong>Leave Allow hybrid sleep and Allow wake timers alone on this click</strong> — hybrid sleep is a hiberfile then S3. Wake timers recover a logged-on session that slept. This page tries not to sleep on attended idle.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one Sleep-after knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Do not install systemd on this Windows profile.</li>
+          <li><strong>Confirm, then soak</strong> — query STANDBYIDLE. AC index 0 is the pass. GUI Never = 0 seconds in <code>powercfg</code>. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /a
+powercfg /query SCHEME_CURRENT SUB_SLEEP STANDBYIDLE
+powercfg /query SCHEME_CURRENT 238c9fa8-0aad-41ed-83f4-97be242c8f20 29f6c1ee-7b59-4e01-8a3d-97d2b4a0a8e0
+powercfg /setacvalueindex SCHEME_CURRENT SUB_SLEEP STANDBYIDLE 0
+powercfg /setactive SCHEME_CURRENT
+powercfg /query SCHEME_CURRENT SUB_SLEEP STANDBYIDLE</pre>
+      <p><code>SUB_SLEEP</code> / <code>STANDBYIDLE</code> is Sleep after (GUID <code>29f6c1ee-7b59-4e01-8a3d-97d2b4a0a8e0</code>). AC index is <strong>seconds</strong>. <strong>0</strong> is Never. 600 is 10 minutes. 1200 is 20. <code>powercfg /change standby-timeout-ac</code> speaks minutes. Apply with <code>/setactive</code>. Hidden is not Never. <code>UNATTENDSLEEP</code> is unattended re-sleep. <code>HIBERNATEIDLE</code> is Hibernate after. VIDEOIDLE is Turn off display after.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a> — Modern Standby diagnosis. This page is the minutes knob.</li>
+        <li><a href="unattended-sleep-timeout.html">unattended-sleep-timeout.html</a> — <code>UNATTENDSLEEP</code>.</li>
+        <li><a href="hibernate-after-idle.html">hibernate-after-idle.html</a> — <code>HIBERNATEIDLE</code>.</li>
+        <li><a href="hibernate-off-forever.html">hibernate-off-forever.html</a> — <code>powercfg /h off</code>.</li>
+        <li><a href="hybrid-sleep-ac.html">hybrid-sleep-ac.html</a> — <code>HYBRIDSLEEP</code>.</li>
+        <li><a href="lid-close-do-nothing.html">lid-close-do-nothing.html</a> — lid action.</li>
+        <li><a href="sleep-button-action.html">sleep-button-action.html</a> — Sleep key.</li>
+        <li><a href="power-button-action-ac.html">power-button-action-ac.html</a> — chassis power button.</li>
+        <li><a href="wake-timers-forever.html">wake-timers-forever.html</a> — RTC recovery if sleep still happened.</li>
+        <li><a href="turn-off-display-after.html">turn-off-display-after.html</a> — VIDEOIDLE.</li>
+        <li>This page — AC Sleep after = Never so <code>STANDBYIDLE</code> cannot idle the signed-in session into S3 or S0ix while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Lid already Do nothing on AC if this soak closes the lid. Sleep button and power button already Do nothing if those keys exist.</li>
+          <li>Query STANDBYIDLE. Honest prove: set AC to 120 seconds via <code>/setacvalueindex</code>, idle three minutes, confirm sleep. Then set 0. Repeat — session stays signed in. Leave Never. Do not leave a two-minute prove value on a forever desk.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Last-run must advance across the soak.</li>
+          <li>STANDBYIDLE still 0 on AC. Do not switch the whole plan to High performance. Do not <code>/h off</code> as a substitute.</li>
+          <li>STANDBYIDLE already 0 with remaining S0ix freeze is <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever</a>, not a second paste of 0.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running. Grok schedulers expire in 7 days even when durable.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not the Modern Standby diagnosis. That is <a href="windows-sleep-vs-forever.html">windows-sleep-vs-forever.html</a>.</li>
+        <li>Not <code>UNATTENDSLEEP</code>. That is <a href="unattended-sleep-timeout.html">unattended-sleep-timeout.html</a>.</li>
+        <li>Not <code>HIBERNATEIDLE</code>. That is <a href="hibernate-after-idle.html">hibernate-after-idle.html</a>.</li>
+        <li>Not <code>powercfg /h off</code>. That is <a href="hibernate-off-forever.html">hibernate-off-forever.html</a>.</li>
+        <li>Not lid, Sleep key, or chassis power button. Those are sibling pages.</li>
+        <li>Not VIDEOIDLE. That is <a href="turn-off-display-after.html">turn-off-display-after.html</a>.</li>
+        <li>Not a Linux FULL AUTO daemon. Host-forever is Windows task <code>LEXXII-Materialize-Forever</code>.</li>
+        <li>Not a Grok in-session scheduler. Those expire in 7 days even when durable.</li>
+        <li>Not a fake cluster. Not Vercel. Not a High-performance plan essay. One Sleep-after setting.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="unattended-sleep-timeout.html">Unattended re-sleep</a> · <a href="hibernate-after-idle.html">Hibernate after</a> · <a href="lid-close-do-nothing.html">Lid close</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

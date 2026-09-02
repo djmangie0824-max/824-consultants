@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>USB hub selective suspend timeout vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Hub Selective Suspend Timeout is a millisecond idle timer, default often 50. Max is 100 seconds — not a 5-minute pulse. Distinct from USB selective suspend on/off and USB 3 LPM U1/U2. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/usb-hub-suspend-timeout.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"USB hub selective suspend timeout vs a forever loop","description":"Query USB settings → Hub Selective Suspend Timeout after USB selective suspend is already Disabled and USB 3 LPM is already Off. Default 50 is milliseconds, not seconds. Max 100000 ms is 100 seconds — not a 5-minute host pulse. Not the on/off. Not U1/U2. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm USB selective suspend is already Disabled on AC"},{"@type":"HowToStep","name":"Confirm USB 3 Link Power Management is already Off on AC"},{"@type":"HowToStep","name":"Query Hub Selective Suspend Timeout by GUID. Read units. Do not treat 0 as Never"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Dedicated NIC and hub stay Present. A 100-second max is not a 5-minute pulse"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="usb-selective-suspend.html">USB selective suspend</a>
+        <a href="usb3-link-power-management.html">USB 3 LPM</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">USB hub selective suspend timeout vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="usb-selective-suspend.html">USB selective suspend</a> page and not the <a href="usb3-link-power-management.html">USB 3 Link Power Management</a> page. Selective suspend is the on/off (Enabled / Disabled). USB 3 LPM is SuperSpeed U1/U2. This page is the remaining USB timer: Power Options → USB settings → <strong>Hub Selective Suspend Timeout</strong>. GUID <code>0853a681-27c8-4100-a2fd-82013e970683</code>. No powercfg alias. Units in the dump are <strong>milliseconds</strong>. Default index is often <strong>50</strong> — fifty milliseconds, not fifty seconds. Converted to seconds, the ceiling is 100. A 5-minute host pulse still looks Ready while the hub already napped.</p>
+      <a class="btn" href="usb-hub-suspend-timeout.md" download>Download markdown</a>
+      <a class="btn" href="usb-selective-suspend.html">USB selective suspend first</a>
+      <a class="btn" href="usb3-link-power-management.html">USB 3 LPM</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="usb-selective-suspend.html">USB selective suspend</a> pack already sets that row to Disabled on AC and unchecks <em>Allow the computer to turn off this device to save power</em> on the hub that carries Ethernet. The <a href="usb3-link-power-management.html">USB 3 LPM</a> pack already sets SuperSpeed U1/U2 to Off on AC. That work can be done and a <a href="../reviews/usb-c-hub-operator-fallback.html">fallback hub</a> or dedicated USB NIC still vanishes tens of milliseconds after the ports go idle. The remaining USB settings row is not another boolean and not another U-state. It is Hub Selective Suspend Timeout — idle time for <em>all</em> USB hubs before the hub itself requests selective suspend.</p>
+      <p>Balanced hides the row. Hidden is the default, not a pass. Query it anyway. Index <strong>50</strong> is 50 ms. Maximum documented is <strong>100000</strong> ms = <strong>100 seconds</strong>. <code>LEXXII-Materialize-Forever</code> is a 5-minute Windows task. Math: this timer cannot outlast the pulse. An operator who raises the timeout instead of disabling selective suspend still loses Ethernet before the next fire. <code>grok.exe</code> is alive. Task Scheduler still prints Ready and last result 267009 (still-running). The operator thinks GitHub MCP died. A hub idle timer fired.</p>
+      <p>Zero on this GUID is not Never. Zero is immediate — 0 ms idle, then suspend. Do not cargo-cult <code>DISKIDLE 0</code> onto this row. Do not install systemd to paper over 50 ms. Do not mint a Vercel slug because the hub blinked. Do not paste live NLV next to a <code>powercfg</code> dump. NLV stays off Pages.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>USB selective suspend still Enabled on AC, or the hub still has “turn off this device”</td><td>Different layer. Heal <a href="usb-selective-suspend.html">USB selective suspend</a> first. This timeout cannot replace Disabled on a 5-minute pulse.</td></tr>
+            <tr><td>USB suspend already Disabled; SuperSpeed NIC still flaps / re-enumerates</td><td>Different layer first. <a href="usb3-link-power-management.html">USB 3 LPM</a> (U1/U2).</td></tr>
+            <tr><td>USB already honest. Thunderbolt/USB4 dock or NVMe still drops</td><td>Different layer. <a href="pcie-link-state-power.html">PCI Express ASPM</a>.</td></tr>
+            <tr><td>NIC stays Present; ping gaps or speed downshifts after idle</td><td>Different layer. <a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a>.</td></tr>
+            <tr><td>USB suspend Disabled. USB 3 LPM Off. Session awake. Named task Ready / 267009. Hub or USB NIC still vanishes in tens of ms after ports idle. Timeout index still 50</td><td>This page. Hub Selective Suspend Timeout.</td></tr>
+            <tr><td>Timeout already queried; units milliseconds; raise to max still cannot cover 5 minutes; hub stays Present after Disabled</td><td>This firmware ignores the timer once Disabled is honest. Stop. Not a fail. Not a registry hack.</td></tr>
+            <tr><td>No dedicated NIC; Wi-Fi is the only path</td><td>Hardware fail. <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet review</a>. Do not treat a 50 ms hub timer as a Wi-Fi fix.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Hub Selective Suspend Timeout as the first click on a new host. USB selective suspend Disabled first. USB 3 LPM Off second if the row exists. This page is the remaining millisecond timer after those are honest. Do not treat 0 as Never. Do not treat 100000 as forever. Do not cargo-cult <code>powercfg -attributes … -ATTRIB_HIDE</code> from a forum to “fix” a hidden row — query works while hidden. Unhiding is not the soak.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the USB suspend layer is already done</strong> — Power Options → USB settings → USB selective suspend → <em>Plugged in</em> = <strong>Disabled</strong>. Hub that carries Ethernet already unchecked for <em>Allow the computer to turn off this device to save power</em>. See <a href="usb-selective-suspend.html">that playbook</a>. If that is still Enabled, stop here. A 100-second ceiling cannot cover a 5-minute pulse.</li>
+          <li><strong>Confirm USB 3 LPM is already Off on AC if the row exists</strong> — if U1/U2 still parks SuperSpeed, that is <a href="usb3-link-power-management.html">USB 3 LPM</a>, not this page.</li>
+          <li><strong>Query Hub Selective Suspend Timeout by GUID</strong> — it is often hidden from the GUI. Hidden is not the same as a forever timeout. Do not unhide as the first click. <code>powercfg /query</code> still prints the index while Attributes hide the row.</li>
+          <li><strong>Read Possible Settings units before you set anything</strong> — this GUID prints <strong>Millisecond</strong>. Index 50 = 50 ms. Index 100000 = 100 seconds. Index 0 = immediate suspend. Do not paste a <code>DISKIDLE 0</code> habit onto this row.</li>
+          <li><strong>If the dump still shows 50 and a hub still naps in tens of ms after Disabled is honest</strong> — raise <em>Plugged in</em> toward <strong>100000</strong> (100 seconds) as a delay, not as forever. On battery may stay 50 if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one USB timer, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the same GUID again. 50 remaining on AC is the usual Balanced lie. 0 remaining on AC is a fail (immediate). 100000 is the ceiling, still not a 5-minute pulse. If the GUID is missing from the query, this firmware or edition did not expose the knob — stop; do not invent a registry hack on a public page. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 0853a681-27c8-4100-a2fd-82013e970683
+powercfg /query SCHEME_CURRENT SUB_USB
+powercfg /a</pre>
+      <p><code>2a737441-1930-4402-8d77-b2bebba308a3</code> is <code>SUB_USB</code>. Sibling <code>48e6b7a6-50f5-4782-a5d4-53bb8f07e226</code> is USB selective suspend (0 = Disabled, 1 = Enabled) — that stays on <a href="usb-selective-suspend.html">usb-selective-suspend.html</a>. This GUID <code>0853a681-27c8-4100-a2fd-82013e970683</code> is the hub idle timer. No alias. Units are milliseconds. Minimum 0. Maximum 100000. Increment 1. Apply a GUI change with <code>/setactive SCHEME_CURRENT</code> or it does not take. If you set after reading units and Disabled is already honest:</p>
+      <pre>powercfg /setacvalueindex SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 0853a681-27c8-4100-a2fd-82013e970683 100000
+powercfg /setactive SCHEME_CURRENT</pre>
+      <p>That second block is a delay to 100 seconds, not Never. Do not run it if USB selective suspend is still Enabled and you think the timer replaced Disabled. It did not. USB 3 LPM is SuperSpeed, not this click. PCIe ASPM is the dock/NVMe bus, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — device-level D3 / U3 on/off and the hub Power Management checkbox. That pack is the boolean. This pack is the millisecond timer. Disabled still has to win a 5-minute pulse.</li>
+        <li><a href="usb3-link-power-management.html">USB 3 Link Power Management</a> — SuperSpeed U1/U2 on the dedicated NIC. Not a hub idle count.</li>
+        <li><a href="pcie-link-state-power.html">PCI Express Link State Power Management</a> — ASPM L0s/L1 on a USB4/Thunderbolt tunnel or NVMe. Not a USB hub timer.</li>
+        <li><a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a> — IEEE 802.3az / Green Ethernet on the adapter PHY. The NIC stays Present.</li>
+        <li><a href="hard-disk-idle-timeout.html">Hard disk idle timeout</a> — <code>DISKIDLE</code> seconds, where 0 is Never. Do not copy that 0 onto this GUID.</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — Modern Standby, Interactive-only logon, result 267009 still-running.</li>
+        <li><a href="../reviews/usb-c-hub-operator-fallback.html">USB-C hub review</a> — hardware fallback box. Buy after the USB policies are honest, not instead of them.</li>
+        <li>This page — Hub Selective Suspend Timeout so a 50 ms default cannot park every hub while the named task still looks Ready. Converted to seconds the ceiling is 100. Forever is still Disabled, not this timer.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>USB selective suspend already Disabled on AC. Hub Power Management already honest. USB 3 LPM already Off on AC if the row exists. Lid close already Do nothing on AC. Otherwise this soak is lying about the bus.</li>
+          <li>Query the timeout GUID. Units milliseconds. 0 on AC is a fail. 50 on AC with a hub that vanishes in tens of ms is this page. 100000 on AC is the ceiling — still not a 5-minute pulse.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. The NIC stays Present. The hub stays enumerated. One silent re-enumerate is a fail on this page if the timeout was still 50 and Disabled was already honest.</li>
+          <li>Ping out the USB NIC. One silent gap is a fail — but if USB suspend is still Enabled, it is the USB suspend page, not this one. If U1/U2 still flaps SuperSpeed, it is USB 3 LPM, not this one. If the NIC stays Present and only speed downshifts, it is EEE, not this one.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. A Ready task with a hub that napped at 50 ms is not forever. A Ready task with timeout maxed at 100 s and suspend still Enabled is also not forever — go back to Disabled.</li>
+          <li>Firmware that ignores the timer once Disabled is honest = skip, not a red soak. Do not invent a registry paste to make this page apply.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the hub stayed up.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim the timeout is already raised on every host. It is the click path after USB selective suspend and USB 3 LPM.</li>
+        <li>Not USB selective suspend and not the Device Manager hub checkbox. Those stay on <a href="usb-selective-suspend.html">usb-selective-suspend.html</a>.</li>
+        <li>Not USB 3 Link Power Management. That SuperSpeed knob is <a href="usb3-link-power-management.html">usb3-link-power-management.html</a>.</li>
+        <li>Not PCI Express ASPM. That PCIe knob is <a href="pcie-link-state-power.html">pcie-link-state-power.html</a>.</li>
+        <li>Not Energy Efficient Ethernet. That PHY knob is <a href="energy-efficient-ethernet.html">energy-efficient-ethernet.html</a>.</li>
+        <li>Not <code>DISKIDLE 0</code>. Hard-disk Never is a different subgroup. 0 on this GUID is immediate.</li>
+        <li>Not a High-performance plan essay. One USB timer. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="usb-selective-suspend.html">USB selective suspend</a> · <a href="usb3-link-power-management.html">USB 3 LPM</a> · <a href="../reviews/usb-c-hub-operator-fallback.html">USB-C hub</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

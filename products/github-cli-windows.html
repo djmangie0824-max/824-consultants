@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GitHub CLI on a Windows Grok host — 824 Consultants LLC</title>
+  <meta name="description" content="Free pack: WinGet GitHub.cli as a third ship path when GitHub MCP is absent and GCM has no PAT. Token never published. Not a Vercel slug. 824 Consultants LLC." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/github-cli-windows.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"GitHub CLI on a Windows Grok host","description":"Optional third ship path: install gh.exe via WinGet when GitHub MCP is absent and Git Credential Manager has no stored PAT. Never publish the token.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm git.exe exists and MCP/GCM are empty"},{"@type":"HowToStep","name":"WinGet install GitHub.cli"},{"@type":"HowToStep","name":"Operator gh auth login once"},{"@type":"HowToStep","name":"Headless GH_PROMPT_DISABLED=1 — fail fast, never hang"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    main { padding:28px 16px 80px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    ol, ul { padding-left:1.2rem; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="github-pat-windows-gcm.html">PAT in GCM</a>
+        <a href="git-node-windows-host.html">Git + Node</a>
+        <a href="../autonomy.html">Autonomy</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>.
+    </div>
+    <section>
+      <span class="badge">Live pack · $0 · optional third path</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">GitHub CLI on a Windows Grok host</h1>
+      <p>The PAT pack stores a token in Git Credential Manager. Git + Node names the hang. This pack is the optional third ship path: <code>gh.exe</code> via WinGet when the GitHub connector is absent from the Grok session <em>and</em> GCM has no GitHub account. It is not required. Missing <code>gh</code> is not “Git is missing.” Missing <code>gh</code> is not a Vercel slug.</p>
+      <a class="btn" href="github-cli-windows.md" download>Download markdown</a>
+      <a class="btn" href="github-pat-windows-gcm.html">PAT in GCM</a>
+      <a class="btn" href="git-node-windows-host.html">Git + Node pack</a>
+    </section>
+    <section>
+      <h2>Incident this pack was written from</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Probe (2026-08-31 Windows host)</th><th>Fact</th></tr></thead>
+          <tbody>
+            <tr><td><code>git.exe</code></td><td>2.55 on PATH. Anonymous fetch of public <code>824-consultants</code> works.</td></tr>
+            <tr><td>GitHub MCP / Contents API</td><td>Absent this session. Doctrine still prefers it when attached.</td></tr>
+            <tr><td><code>Get-Command gh</code></td><td>Empty. Not a broken Node install.</td></tr>
+            <tr><td><code>GITHUB_TOKEN</code> / <code>GH_TOKEN</code></td><td>Unset in the user environment. Correct — tokens do not live in Pages.</td></tr>
+            <tr><td>Fail-fast <code>git push</code></td><td><code>GIT_TERMINAL_PROMPT=0</code> → no username. Must not hang.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>Three ship paths (pick one that is actually attached)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>GitHub connector in Grok</strong> — Contents API. Preferred when the session has it. This session did not.</li>
+          <li><strong>Fine-grained PAT in Windows GCM</strong> — <a href="github-pat-windows-gcm.html">github-pat-windows-gcm.html</a>. Then <code>git push</code> with <code>GIT_TERMINAL_PROMPT=0</code>.</li>
+          <li><strong>GitHub CLI</strong> — this pack. <code>winget install --id GitHub.cli</code>, then one operator <code>gh auth login</code>. Headless turns set <code>GH_PROMPT_DISABLED=1</code>.</li>
+        </ol>
+      </div>
+      <p>Do not install all three “for redundancy.” Do not mint a tenth repo to test the login. Do not copy <code>~/.grok/auth.json</code> into <code>gh</code>.</p>
+    </section>
+    <section>
+      <h2>Operator one-time (token never published)</h2>
+      <div class="card">
+        <ol>
+          <li>WinGet: <code>winget install --id GitHub.cli -e --accept-source-agreements --accept-package-agreements</code>.</li>
+          <li>New shell so <code>gh.exe</code> is on PATH. Confirm <code>gh --version</code>.</li>
+          <li>Signed in as <code>djmangie0824-max</code>, run <code>gh auth login</code> (browser) <em>or</em> paste a fine-grained PAT into <code>gh auth login --with-token</code> at the operator keyboard — never into this site, Notion, Drive, or chat.</li>
+          <li>Scope the PAT the same as the GCM pack: only <code>djmangie0824-max/824-consultants</code>, contents read/write. Nothing else.</li>
+          <li>Headless ships then set <code>GH_PROMPT_DISABLED=1</code>. <code>gh auth status</code> succeeds or fails fast. It must not open a browser from a Grok turn.</li>
+        </ol>
+      </div>
+      <div class="warn">Never paste the PAT, <code>gh</code> token, or <code>~/.grok/auth.json</code> into Pages, a git remote URL, or this markdown. A token in a public file is a revoke, not a ship.</div>
+    </section>
+    <section>
+      <h2>Fail-fast probe</h2>
+      <pre>GH_PROMPT_DISABLED=1
+gh auth status
+GIT_TERMINAL_PROMPT=0
+GCM_INTERACTIVE=never
+git -c credential.helper= ls-remote origin HEAD</pre>
+      <p>Anonymous <code>ls-remote</code> on the public repo must work even when <code>gh</code> is missing. If <code>gh auth status</code> wants a browser, this pack’s operator click is still pending — same class as SiteStripe, not a missing <code>git.exe</code>.</p>
+    </section>
+    <section>
+      <h2>What this is not</h2>
+      <div class="card">
+        <ul>
+          <li>Not the <a href="git-node-windows-host.html">Git + Node first-use pack</a> (versions, <code>npm.ps1</code> trap).</li>
+          <li>Not the <a href="github-pat-windows-gcm.html">PAT in GCM pack</a> (store for <code>git push</code>).</li>
+          <li>Not a license to mint another Vercel slug or Linux systemd unit.</li>
+          <li>Not a required install. A host with GCM or GitHub MCP already ships.</li>
+        </ul>
+      </div>
+    </section>
+    <p><a href="index.html">← Product hub</a> · <a href="github-pat-windows-gcm.html">PAT in GCM</a> · <a href="grok-scheduler-7d.html">Grok 7-day recreate</a></p>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

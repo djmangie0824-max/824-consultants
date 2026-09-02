@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dim display after vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Windows Dim display after (VIDEODIM) can drop laptop nits after Turn off display after and Console lock display off are already Never. Dual ultrawide stay enumerated. Dim is not a DP unplug. Not VIDEOIDLE. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/dim-display-after.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Dim display after vs a forever loop","description":"Set Dim display after to Never on AC so VIDEODIM cannot idle-dim a live panel after VIDEOIDLE and VIDEOCONLOCK are already 0. Dim is not a DP unplug. Not Turn off display after. Not Console lock display off. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm Turn off display after and Console lock display off are already 0 on AC"},{"@type":"HowToStep","name":"Unhide Dim display after if the row is ATTRIB_HIDE"},{"@type":"HowToStep","name":"Set Plugged in to 0 minutes (Never). Leave VIDEOIDLE, VIDEOCONLOCK, ALS, and Display brightness alone"},{"@type":"HowToStep","name":"Soak idle past the old dim minutes. Panels stay at the working level and stay enumerated. Named task still next-runs"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="turn-off-display-after.html">Turn off display after</a>
+        <a href="console-lock-display-off.html">Console lock</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Dim display after vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="turn-off-display-after.html">Turn off display after</a> page, not the <a href="console-lock-display-off.html">Console lock display off</a> page, and not a <a href="../reviews/displayport-cable-sitstand.html">DisplayPort cable</a> review. VIDEOIDLE blacks unlocked idle. VIDEOCONLOCK blacks the lock screen. The cable is slack and latch. This page is the remaining idle-dim timer: Power Options → Display → <strong>Dim display after</strong>. Five minutes on AC still drops laptop nits. Dual ultrawide stay listed. Task Scheduler still shows Ready. <strong>Dim is not a DP unplug.</strong></p>
+      <a class="btn" href="dim-display-after.md" download>Download markdown</a>
+      <a class="btn" href="turn-off-display-after.html">Turn off display after first</a>
+      <a class="btn" href="console-lock-display-off.html">Console lock</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="turn-off-display-after.html">display idle</a> pack already tells you plugged-in <strong>Turn off display after</strong> is 0 (Never). The <a href="console-lock-display-off.html">lock-screen timer</a> can already be 0. Sleep and lid can already be honest. That work can be done and the operator still thinks video died after a few idle minutes. Balanced <strong>Dim display after</strong> on AC is often 5 minutes. The laptop lid drops to the dimmed level. External DP/HDMI keep their OSD. Display settings still lists both screens. The <a href="../reviews/dock-multi-monitor.html">dock</a> does not re-enumerate. The Grok TUI is still a process. The named task still prints Ready and last result 267009 (still-running). The operator buys another DP lead. A timer napped the backlight. The link never dropped.</p>
+      <p>This is not Sleep. This is not VIDEOIDLE. This is not VIDEOCONLOCK. A black panel with a handshake and a dock re-enumerate is an off timer — those are the other two pages. This page is dim, still enumerated. <code>powercfg /a</code> still reports the same standby type. Requests can still be None. VIDEOIDLE can still be 0. VIDEOCONLOCK can still be 0. The idle-dim policy is the liar. Do not install systemd to paper over 5 minutes. Do not mint a Vercel slug because a lid looked asleep. Do not buy another DP cable until this row is 0 on AC and you have watched Display settings during the dip. <strong>Dim is not a DP unplug.</strong></p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Lid close put the desk to Sleep</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>Session unlocked. Panels black. Dock re-enumerates. VIDEOIDLE is not 0</td><td>Different layer. <a href="turn-off-display-after.html">Turn off display after</a>. That is a DP drop. Not this page.</td></tr>
+            <tr><td>VIDEOIDLE already 0. Session locked. Panels black in about a minute. Dock re-enumerates</td><td>Different layer. <a href="console-lock-display-off.html">Console lock display off</a>. That is a DP drop. Not this page.</td></tr>
+            <tr><td>Brightness hunts with room light / ALS. Dim-after is already 0</td><td>Different layer. <a href="adaptive-brightness-ac.html">Enable adaptive brightness</a>. ALS, not an idle timer.</td></tr>
+            <tr><td>Internal panel looks dead from the first second on AC. Percentage is a leftover 20–40. No wait for idle minutes</td><td>Different layer. <a href="display-brightness-ac.html">Display brightness on AC</a>. Static percentage, not VIDEODIM.</td></tr>
+            <tr><td>Quick Settings leaf on. ~30% dim. Power mode greyed. Always use energy saver On</td><td>Different layer. Energy saver overlay. Not <code>VIDEODIM</code>.</td></tr>
+            <tr><td>Cable yank on sit/stand rise; timers already 0; brightness already operator-set</td><td>Different layer. <a href="../reviews/displayport-cable-sitstand.html">DisplayPort cable</a>.</td></tr>
+            <tr><td>VIDEOIDLE and VIDEOCONLOCK already 0 on AC. Named task Ready / 267009. Dual ultrawide stay listed. Laptop lid (or any Windows-driven backlight) drops after a few idle minutes, then recovers on first input with no handshake and no dock re-plug. Dim display after is not 0 on AC</td><td>This page. Dim display after on AC. Dim is not a DP unplug.</td></tr>
+            <tr><td>GUID missing from <code>powercfg /query SCHEME_CURRENT SUB_VIDEO</code> after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Dim display after to Never as the first click on a new host. Sleep, lid, Turn off display after, and Console lock display off first. This page is the remaining idle-dim minutes after the off timers cannot drop the link. Never on AC is 0. Hidden is not Never. A black panel with a dock re-plug is VIDEOIDLE or VIDEOCONLOCK, not this click. Dim is not a DP unplug.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the off-timer layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Turn off display after is 0 on AC. Console lock display off is 0 on AC (or the GUID was missing after unhide — that is a skip, not a leftover 60 seconds). See <a href="turn-off-display-after.html">turn-off-display-after</a> and <a href="console-lock-display-off.html">console-lock-display-off</a>. If VIDEOIDLE is still 5–10 minutes, stop here. A black-then-handshake is those pages.</li>
+          <li><strong>Unhide the row if it is missing</strong> — Dim display after is ATTRIB_HIDE on many consumer images, and Windows 11 often omits it from the GUI even when powercfg still has the GUID. Missing from Display before this step is expected, not a skip.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Display → Dim display after</strong> — set <em>Plugged in</em> to <strong>0</strong> minutes (Never). On battery may stay 2–5 if this laptop actually travels. A desk that never unplugs should not idle-dim the operator TUI.</li>
+          <li><strong>Leave Turn off display after and Console lock display off alone on this click</strong> — VIDEOIDLE and VIDEOCONLOCK are blackouts and link drops. VIDEODIM is an idle nits cut. Do not treat 0 on one as 0 on the other. Dim is not off.</li>
+          <li><strong>Leave Display brightness, Enable adaptive brightness, Energy saver, and Dimmed display brightness alone on this click</strong> — <code>VIDEONORMALLEVEL</code> is the working percentage. <code>ADAPTBRIGHT</code> is the ALS hunt. Energy saver is the leaf overlay. Dimmed display brightness is the nits floor <em>after</em> this timer fires. Zeroing the timer is the pass; dragging the dimmed floor is not Never.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one display knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Do not Apply all on Energy recommendations; that card can smash sleep and display timers.</li>
+          <li><strong>Confirm, then soak</strong> — query <code>VIDEODIM</code>. 0 on AC is the pass. If the alias is missing, query the GUID. If the GUID is missing after unhide, stop. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg -attributes SUB_VIDEO 17aaa29b-8b43-4b94-aafe-35f64daaf1ee -ATTRIB_HIDE
+powercfg /query SCHEME_CURRENT SUB_VIDEO VIDEODIM
+powercfg /query SCHEME_CURRENT SUB_VIDEO 17aaa29b-8b43-4b94-aafe-35f64daaf1ee
+powercfg /setacvalueindex SCHEME_CURRENT SUB_VIDEO VIDEODIM 0
+powercfg /setactive SCHEME_CURRENT
+powercfg /a</pre>
+      <p><code>SUB_VIDEO</code> / <code>VIDEODIM</code> is Dim display after (GUID <code>17aaa29b-8b43-4b94-aafe-35f64daaf1ee</code>). The AC index is <strong>seconds</strong> in the query; the GUI speaks minutes. <strong>0</strong> is Never. 300 remaining on AC is 5 minutes — Balanced laptop default, not a pass. Apply with <code>/setactive</code> or the GUI change does not take. Query by GUID if the alias is missing. Unhide is not a registry paste; <code>powercfg -attributes … -ATTRIB_HIDE</code> is the documented reveal. If powercfg still omits the GUID after that, this edition did not expose the knob — stop; do not invent an idle-dim hack on a public page. VIDEOIDLE is unlocked off, not this click. VIDEOCONLOCK is lock-screen off, not this click. STANDBYIDLE is Sleep after, not this click. Dimmed display brightness is the floor, not the timer. External DP/HDMI often ignore this Windows dim and keep their own OSD — a dim lid with both screens still listed is this click, not a handshake. Dim is not a DP unplug.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="turn-off-display-after.html">Turn off display after</a> — unlocked VIDEOIDLE. Panels black. DP/HDMI drop. Dock re-enumerates. Not idle-dim.</li>
+        <li><a href="console-lock-display-off.html">Console lock display off</a> — lock-screen VIDEOCONLOCK. Same drop, lock-screen timer. Not idle-dim.</li>
+        <li><a href="adaptive-brightness-ac.html">Enable adaptive brightness</a> — ALS hunt when the room changes. Not minutes of idle.</li>
+        <li><a href="display-brightness-ac.html">Display brightness on AC</a> — leftover working percentage from the first second. Not a timer.</li>
+        <li><a href="windows-sleep-vs-forever.html">Windows sleep vs a forever loop</a> — session sleep / Modern Standby. Not panel nits.</li>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — lid action. Not Display minutes.</li>
+        <li><a href="powercfg-requests-blockers.html">powercfg /requests</a> — a named holder pinning DISPLAY. Not VIDEODIM.</li>
+        <li><a href="../reviews/displayport-cable-sitstand.html">DisplayPort cable sit/stand</a> — slack and latch. A real yank. Not a timer.</li>
+        <li>This page — AC Dim display after = 0 so idle minutes cannot cut nits on a live, enumerated panel while the named task still looks Ready. Dim is not a DP unplug.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep, lid, VIDEOIDLE, and VIDEOCONLOCK already honest. Otherwise this soak is lying about an off-timer blackout.</li>
+          <li>Leave the desk idle past the old dim minutes (10 minutes covers a leftover 5). Lid closed, dedicated NIC plugged, dual ultrawide up. Laptop lid (or any Windows-driven backlight) stays at the operator-set working level — not a surprise drop to the dimmed floor. Display settings still shows the same screens. No dock re-plug. First input does not handshake.</li>
+          <li><strong>Dim is not a DP unplug.</strong> Fail this soak only if the idle-dim timer was the liar. A black-then-handshake on first input with a dock re-enumerate is a VIDEOIDLE or VIDEOCONLOCK fail, not this page. Do not buy a DP cable because the laptop lid looked dark.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a dimmed lid is not forever if VIDEODIM is still 300. Ready + 267009 with a dead DP link is the off-timer pages, not this one. Host-forever on this Windows profile is that named task. Grok in-session schedulers still expire in 7 days even when durable — recreate them if missing. Do not claim the Windows task is a Linux systemd unit.</li>
+          <li>VIDEODIM still 0 on AC. If someone set 5 minutes to “save the OLED lid,” restore 0 on this class of operator desk. Do not “fix” it by switching the whole plan to High performance.</li>
+          <li>Missing GUID after unhide = skip, not a red soak. Do not invent the idle-dim value in the registry to make this page apply. Then check <a href="adaptive-brightness-ac.html">ALS</a> and <a href="display-brightness-ac.html">Display brightness</a>; those siblings can still make a live panel look dead.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the idle-dim timer is already Never.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Host-forever is Task Scheduler <code>LEXXII-Materialize-Forever</code>.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not Turn off display after. That blackout is <a href="turn-off-display-after.html">VIDEOIDLE</a>.</li>
+        <li>Not Console lock display off. That blackout is <a href="console-lock-display-off.html">VIDEOCONLOCK</a>.</li>
+        <li>Not Enable adaptive brightness. That ALS hunt is <a href="adaptive-brightness-ac.html">adaptive-brightness-ac</a>.</li>
+        <li>Not Display brightness on AC. That leftover percentage is <a href="display-brightness-ac.html">display-brightness-ac</a>.</li>
+        <li>Not Energy saver Always-use. A leaf-on 30% cut is the overlay, not <code>VIDEODIM</code>.</li>
+        <li>Not Dimmed display brightness. That is the nits floor after this timer fires, not the timer.</li>
+        <li>Not a DisplayPort or dock SKU and not a commission claim. Dim is not a reason to buy another cable.</li>
+        <li>Not a High-performance plan essay. One display setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a registry paste. If Settings and <code>powercfg</code> omit the knob after unhide, stop.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="turn-off-display-after.html">Turn off display after</a> · <a href="console-lock-display-off.html">Console lock</a> · <a href="adaptive-brightness-ac.html">Adaptive brightness</a> · <a href="display-brightness-ac.html">Display brightness</a> · <a href="../reviews/displayport-cable-sitstand.html">DisplayPort cable</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

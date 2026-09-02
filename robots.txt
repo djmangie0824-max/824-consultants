@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /vault/
+Disallow: /dashboard.html
+Disallow: /command/
+Disallow: /living/
+Disallow: /instruments-decoder
+
+Sitemap: https://djmangie0824-max.github.io/824-consultants/sitemap.xml

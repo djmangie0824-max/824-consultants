@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wireless adapter power saving vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Maximum Power Saving on the Wi-Fi radio drops the fallback path after USB Ethernet is already honest. Companion to USB 3 LPM. Not EEE. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/wifi-adapter-power-saving.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Wireless adapter power saving vs a forever loop","description":"Set Wireless Adapter Settings Power Saving Mode to Maximum Performance on AC so the Wi-Fi radio cannot nap the fallback path after USB Ethernet is already honest. Companion to USB 3 LPM. Not EEE. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm USB suspend and USB 3 LPM are already honest on AC"},{"@type":"HowToStep","name":"Open Wireless Adapter Settings → Power Saving Mode"},{"@type":"HowToStep","name":"Set Plugged in to Maximum Performance. Uncheck turn-off-this-device on the Wi-Fi adapter"},{"@type":"HowToStep","name":"Soak 30 minutes idle. Wi-Fi stays Present. Ethernet stays the primary rail"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="usb3-link-power-management.html">USB 3 LPM</a>
+        <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Wireless adapter power saving vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="usb3-link-power-management.html">USB 3 Link Power Management</a> page, not the <a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a> page, and not the <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet</a> buy guide. SuperSpeed U1/U2 is a USB NIC. EEE is the Ethernet PHY. Ethernet is still the primary rail. This page is the remaining radio: Power Options → <strong>Wireless Adapter Settings → Power Saving Mode</strong>. Maximum Power Saving can drop Wi-Fi after idle so the fallback is gone the moment the dedicated NIC flaps. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="wifi-adapter-power-saving.md" download>Download markdown</a>
+      <a class="btn" href="usb3-link-power-management.html">USB 3 LPM first</a>
+      <a class="btn" href="../reviews/usb-ethernet-operator-host.html">USB Ethernet stays primary</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="usb-selective-suspend.html">USB selective suspend</a> and <a href="usb3-link-power-management.html">USB 3 LPM</a> packs already tell you to keep the dedicated NIC awake on AC. That work can be done and a ship still dies when the NIC re-enumerates, because the radio that should catch the gap is napping. Balanced defaults Wireless Adapter Settings to Medium or Maximum Power Saving on AC. The adapter parks MIMO antennas, misses beacons, and looks disconnected for seconds. GitHub MCP vanishes. A <code>git push</code> hangs. <code>LEXXII-Materialize-Forever</code> still claims Ready. The operator thinks Git is missing. The radio left.</p>
+      <p>This happens while the machine is awake. It is not Modern Standby. It is not USB U1/U2. It is not IEEE 802.3az. Do not install systemd to paper over a napping radio. Do not mint a Vercel slug because Wi-Fi blinked. Do not make Wi-Fi the primary rail — buy the NIC.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Lid close put the session to Sleep</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>USB selective suspend still Enabled on AC</td><td>Different layer. Heal <a href="usb-selective-suspend.html">USB selective suspend</a> first.</td></tr>
+            <tr><td>USB suspend already Disabled; SuperSpeed NIC still flaps</td><td>Different layer. <a href="usb3-link-power-management.html">USB 3 LPM</a>.</td></tr>
+            <tr><td>NIC stays Present; ping gaps or speed downshifts</td><td>Different layer. <a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a>.</td></tr>
+            <tr><td>NIC drops only after the laptop entered standby</td><td>Different layer. <a href="network-standby-connectivity.html">Network connectivity in Standby</a>.</td></tr>
+            <tr><td>Ethernet already honest; Wi-Fi radio still drops / reassociates while awake</td><td>This page. Wireless Adapter Settings + the Device Manager radio checkbox.</td></tr>
+            <tr><td>No dedicated NIC; Wi-Fi is the only path</td><td>Hardware fail first. <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet review</a>. This page does not make Wi-Fi the ship path.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Wireless Adapter Settings to Maximum Performance as the first click on a new host. USB suspend and USB 3 LPM first if this SKU has a dedicated NIC. This page is the remaining radio nap after those are honest. Do not cargo-cult a High performance plan to hide three other forever-loop bugs. Do not unplug Ethernet as a lifestyle.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the USB layer is already done</strong> — USB selective suspend Plugged in = Disabled. USB 3 Link Power Management on AC = Off if the row exists. Dedicated NIC still exists. See <a href="usb-selective-suspend.html">USB suspend</a> and <a href="usb3-link-power-management.html">USB 3 LPM</a>. If those are still wrong, stop here.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Wireless Adapter Settings → Power Saving Mode</strong> — set <em>Plugged in</em> to <strong>Maximum Performance</strong>. On battery may stay Medium Power Saving if this laptop actually travels. A desk that never unplugs should not pretend it is a travel cube.</li>
+          <li><strong>Device Manager → Network adapters → the Wi-Fi adapter → Properties → Power Management</strong> — uncheck <em>Allow the computer to turn off this device to save power</em>. That checkbox is the radio sibling of the USB hub checkbox. Do it here, not as a second USB essay.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one wireless knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the wireless subgroup. Maximum Performance on AC is the pass. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_WIFI
+powercfg /devicequery wake_armed</pre>
+      <p><code>SUB_WIFI</code> is the wireless subgroup on SKUs that expose it. Maximum Performance on AC is the pass for this desk. If the subgroup is missing, this firmware or edition did not expose the plan row — stop at the Device Manager checkbox; do not invent a registry hack on a public page. Hidden is not the same as Maximum Performance.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — device-level D3 / U3 and the hub Power Management checkbox. USB, not radio.</li>
+        <li><a href="usb3-link-power-management.html">USB 3 Link Power Management</a> — SuperSpeed U1/U2 on the dedicated NIC. Not Wi-Fi.</li>
+        <li><a href="energy-efficient-ethernet.html">Energy Efficient Ethernet</a> — IEEE 802.3az / Green Ethernet on the adapter PHY. The NIC stays Present.</li>
+        <li><a href="network-standby-connectivity.html">Network connectivity in Standby</a> — NIC policy during S0ix, after the laptop actually slept.</li>
+        <li><a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet review</a> — hardware criteria, SKU pending. Ethernet stays the primary rail.</li>
+        <li>This page — radio Power Saving Mode so Wi-Fi is still there when SuperSpeed blinks. Not a Wi-Fi-only desk.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>USB suspend already Disabled on AC. USB 3 LPM already Off on AC if the row exists. Lid close already Do nothing on AC. Dedicated NIC still Present. Otherwise this soak is lying.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, Ethernet plugged. The Wi-Fi adapter stays Present in Device Manager. One silent radio reassociate is a fail on this page.</li>
+          <li>Do not unplug Ethernet as a required soak. The primary rail stays the dedicated NIC. If you need a fallback proof, disable the Ethernet <em>adapter</em> for 60 seconds — not the cable yank — and confirm Wi-Fi already has a known SSID and does not sit in Power Saving. Then re-enable Ethernet.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. A Ready task with a napping radio is not forever.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not a Wi-Fi bug.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim the knob is already Maximum Performance on every host. It is the click path after USB is honest.</li>
+        <li>Not USB selective suspend and not USB 3 LPM. Those stay on their own pages.</li>
+        <li>Not Energy Efficient Ethernet. That PHY knob is <a href="energy-efficient-ethernet.html">energy-efficient-ethernet.html</a>.</li>
+        <li>Not a claim that Wi-Fi is the ship path. Ethernet stays primary. <a href="../reviews/usb-ethernet-operator-host.html">Buy the NIC</a> if you do not have one.</li>
+        <li>Not a High-performance plan essay. One wireless setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="usb3-link-power-management.html">USB 3 LPM</a> · <a href="energy-efficient-ethernet.html">EEE</a> · <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

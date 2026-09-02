@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Failure handling · 824 Consultants</title>
+  <meta name="description" content="Deploy failure handling steps for the public research surface." />
+  <style>
+    :root { color-scheme: dark; --bg:#070a12; --ink:#e8eefc; --mut:#93a0c0; --line:#1c2744; --ok:#3dd68c; --bad:#ff6b7a; --accent:#7aa2ff; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background: radial-gradient(1200px 600px at 20% -10%, #152044, var(--bg)); color: var(--ink); line-height: 1.55; }
+    main { max-width: 720px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    a { color: var(--accent); }
+    h1 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 .5rem; }
+    .mut { color: var(--mut); font-size: .95rem; }
+    ol.steps { padding-left: 1.2rem; }
+    ol.steps li { margin: .55rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: 1rem 0; }
+    th, td { border: 1px solid var(--line); padding: .5rem .6rem; text-align: left; vertical-align: top; }
+    th { color: var(--mut); font-weight: 600; }
+    code { font-size: .85em; background: #0d1428; padding: .1rem .35rem; border-radius: 4px; }
+    .pill { display:inline-block; border:1px solid var(--line); border-radius:999px; padding:.15rem .6rem; font-size:.8rem; color:var(--mut); }
+    .nav { display:flex; gap:.75rem; flex-wrap:wrap; margin: 1rem 0 1.5rem; }
+    .nav a { text-decoration:none; border:1px solid var(--line); padding:.4rem .75rem; border-radius:10px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="pill">Deploy ops · public playbook</p>
+    <h1>Failure handling steps</h1>
+    <p class="mut">What happens when GitHub Pages deploy fails — and how it is recovered. Owner: Douglas James Mangie II / 824 Consultants LLC.</p>
+    <div class="nav">
+      <a href="./">Hub</a>
+      <a href="./DEPLOY_STAMP.json">Live stamp</a>
+      <a href="https://github.com/djmangie0824-max/824-consultants/actions">Actions</a>
+      <a href="https://github.com/djmangie0824-max/824-consultants/issues/1">Deploy log</a>
+    </div>
+
+    <h2>Automatic</h2>
+    <table>
+      <tr><th>Event</th><th>Handling</th></tr>
+      <tr><td>validate fails</td><td>Fail fast + recovery steps · no auto re-run</td></tr>
+      <tr><td>upload / deploy / checkout</td><td>Notify + <strong>one</strong> automatic re-run</td></tr>
+      <tr><td>still failing</td><td>Manual steps below</td></tr>
+    </table>
+
+    <h2>Operator steps</h2>
+    <ol class="steps">
+      <li>Open the failed <a href="https://github.com/djmangie0824-max/824-consultants/actions">Actions run</a> and read the failed job log.</li>
+      <li>Note the stage: <code>validate</code>, <code>assemble</code>, <code>upload</code>, <code>deploy</code>, or <code>checkout</code>.</li>
+      <li><strong>validate:</strong> restore FULL AUTO strings and immersive hub title — never gut them to pass.</li>
+      <li><strong>upload/deploy/checkout:</strong> click <strong>Re-run failed jobs</strong> first (often transient).</li>
+      <li>Confirm <a href="./DEPLOY_STAMP.json">DEPLOY_STAMP.json</a> shows a new SHA.</li>
+      <li>Confirm hub still says <strong>Touch. Talk. Go.</strong> and autonomy still declares full auto posture.</li>
+    </ol>
+
+    <h2>Hard rules</h2>
+    <ul>
+      <li>Never gut FULL AUTO / zero-human crawl language</li>
+      <li>Never disable the deploy workflow to hide errors</li>
+      <li>Never publish private vault, keys, or trading secrets</li>
+    </ul>
+
+    <p class="mut">Full repo playbook: <code>docs/FAILURE_HANDLING.md</code> · CLI: <code>./scripts/recover_failed_deploy.sh</code></p>
+    <p class="mut">© 2026 824 Consultants LLC. ONLY YOU. FOREVER.</p>
+  </main>
+</body>
+</html>

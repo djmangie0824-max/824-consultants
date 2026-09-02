@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Processor performance decrease threshold vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Processor performance decrease threshold is the percent busy below which Windows steps a P-state down. Distinct from increase threshold, min/max state, boost, parking, and idle disable. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/processor-perf-decrease-threshold.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Processor performance decrease threshold vs a forever loop","description":"Lower Processor performance decrease threshold on AC after min/max state, boost, and parking are already honest so a Grok pulse does not drop a P-state on a 20 percent dip. Distinct from increase threshold. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm processor min/max state, boost, parking, and idle-disable are already honest on AC"},{"@type":"HowToStep","name":"Unhide Processor performance decrease threshold if ATTRIB_HIDE"},{"@type":"HowToStep","name":"Set Plugged in far below the Balanced 20 percent default"},{"@type":"HowToStep","name":"Soak a quiet gap between 5-minute pulses. Named task still next-runs. First token is not a stall"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="processor-perf-increase-threshold.html">Increase threshold</a>
+        <a href="processor-min-state-ac.html">Processor min state</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Processor performance decrease threshold vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-perf-increase-threshold.html">increase threshold</a> page, not <a href="processor-min-state-ac.html">processor min state</a>, not <a href="processor-max-state-ac.html">processor max state</a>, not <a href="processor-boost-mode.html">boost mode</a>, not <a href="processor-core-parking.html">core parking</a>, and not <a href="processor-idle-disable.html">idle disable</a>. Min/max are floors and ceilings. Boost is turbo policy. Parking is core count. Idle disable is C-state. Increase threshold is the percent busy that must be <em>crossed upward</em> before Windows steps a P-state up. This page is the remaining percent: Power Options → Processor power management → <strong>Processor performance decrease threshold</strong>. GUID <code>12a0ab44-fe28-4fa9-b3bd-4b64f44960a6</code>. Alias <code>PERFDECTHRESHOLD</code>. Units are percent. Balanced default on this class of image is often <strong>20% AC / 30% DC</strong>. When utilization drops below that percent, Windows steps a P-state <em>down</em>. A 5-minute Grok pulse with a quiet gap looks like 20%. The next token waits on a ramp. Task Scheduler still shows Ready. The decrease percent is not the increase percent.</p>
+      <a class="btn" href="processor-perf-decrease-threshold.md" download>Download markdown</a>
+      <a class="btn" href="processor-perf-increase-threshold.html">Increase threshold</a>
+      <a class="btn" href="processor-min-state-ac.html">Min state</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Min state on AC can already be 100. Max state can already be 100. Boost can already be Enabled. Parking can already be unparked. Increase threshold can already be lowered. A ship still hitch-pauses on the first inference after a quiet 20 seconds. <code>grok.exe</code> is still running. <code>schtasks</code> still prints Ready and last result 267009. The operator thinks the model stalled. <strong>Processor performance decrease threshold</strong> is still 20% on AC. Utilization dipped under 20% between pulses. Windows stepped the P-state down. The next prompt pays the ramp. Lowering this GUID means Windows only steps down when the desk is nearly idle. Raising it means Windows steps down while you are still working. This forever desk wants the lower number on AC.</p>
+      <p>Zero percent is a legal value (min 0, max 100). Zero means “almost never step down on utilization.” That is not a switch to High performance. Do not install systemd. Do not mint a Vercel slug because a P-state ramped.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom between pulses</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Package parks cores; parking is not 100% min cores</td><td>Different layer. <a href="processor-core-parking.html">processor-core-parking</a>.</td></tr>
+            <tr><td>Min state on AC is not 100; frequency floor is low</td><td>Different layer. <a href="processor-min-state-ac.html">processor-min-state-ac</a>.</td></tr>
+            <tr><td>Boost is Disabled; turbo never engages</td><td>Different layer. <a href="processor-boost-mode.html">processor-boost-mode</a>.</td></tr>
+            <tr><td>Ramp-up is slow; increase threshold still ~60–90%</td><td>Different layer. <a href="processor-perf-increase-threshold.html">processor-perf-increase-threshold</a>.</td></tr>
+            <tr><td>Idle disable still lets deep C-states; first token waits on C-exit</td><td>Different layer. <a href="processor-idle-disable.html">processor-idle-disable</a>.</td></tr>
+            <tr><td>Min/max/boost/parking/increase already honest. Utilization dips under ~20% between 5-minute fires. Next token ramps. Named task Ready / 267009</td><td><strong>This page.</strong> Decrease threshold. Not increase. Not min state.</td></tr>
+            <tr><td>GUID missing from powercfg after unhide</td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set decrease threshold as the first click. Min state, max state, boost, parking, idle disable, and increase threshold first. Hidden is not a low percent. Raising this GUID is the battery direction, not forever. Do not claim a fleet GPO. Do not paste live brokerage numbers next to a percent.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the earlier layers are already done</strong> — processor min state on AC is already honest. Max state 100. Boost Enabled if the row exists. Parking not sitting at a low min-cores percent. Increase threshold already lowered if that GUID exists. See <a href="processor-min-state-ac.html">processor-min-state-ac</a> and <a href="processor-perf-increase-threshold.html">processor-perf-increase-threshold</a>.</li>
+          <li><strong>Unhide the row if it is missing</strong> — Processor performance decrease threshold is ATTRIB_HIDE on many images. Missing from Processor power management before this step is expected, not a skip.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Processor power management → Processor performance decrease threshold</strong> — set <em>Plugged in</em> far below 20%. On this forever desk, <strong>5%</strong> is an honest try (only step down when nearly idle). <strong>0%</strong> is the legal floor if 5% still ramps. On battery may stay 30% if the laptop actually travels.</li>
+          <li><strong>Leave increase threshold as a sibling</strong> — GUID <code>06cadf0e-64ed-448a-8927-ce7bf90eb35d</code> is the upward percent, not this click.</li>
+          <li><strong>Leave min/max/boost/parking/idle-disable alone on this click</strong> — this is one percent. Not a High performance plan switch.</li>
+          <li><strong>Leave the current plan in place</strong> — do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the GUID. Units are percent. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg -attributes SUB_PROCESSOR 12a0ab44-fe28-4fa9-b3bd-4b64f44960a6 -ATTRIB_HIDE
+powercfg /query SCHEME_CURRENT SUB_PROCESSOR 12a0ab44-fe28-4fa9-b3bd-4b64f44960a6
+powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR 12a0ab44-fe28-4fa9-b3bd-4b64f44960a6 5
+powercfg /setactive SCHEME_CURRENT</pre>
+      <p><code>SUB_PROCESSOR</code> / GUID <code>12a0ab44-fe28-4fa9-b3bd-4b64f44960a6</code> is Processor performance decrease threshold. Alias <code>PERFDECTHRESHOLD</code>. Units are percent. Microsoft min 0, max 100, increment 1. Balanced default is often 20% AC / 30% DC — that is not a pass for a 5-minute Interactive pulse. <strong>5% on AC</strong> is the honest host-forever try. 0% is the floor if 5% still ramps. If powercfg omits the GUID after unhide, this edition did not expose the knob — stop. Increase threshold is <a href="processor-perf-increase-threshold.html">processor-perf-increase-threshold</a>. Min state is <a href="processor-min-state-ac.html">processor-min-state-ac</a>. This host is Windows. Not systemd.</p>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>Min/max/boost/parking/increase already honest. Otherwise this soak is lying about the floor or the ramp-up.</li>
+          <li>Confirm AC index is 5 (or 0). Idle a quiet gap between 5-minute fires. First token / first write is not a P-state ramp. Named task still has a next-run.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with a ramped first token is not forever if this GUID is still 20. Grok schedulers expire in 7 days even when durable. Host-forever is that named Windows task. Not systemd.</li>
+          <li>Missing GUID after unhide = skip, not a red soak. Do not invent the percent in the registry.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the decrease threshold is already 5.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Processor performance increase threshold. That upward percent is <a href="processor-perf-increase-threshold.html">processor-perf-increase-threshold</a>.</li>
+        <li>Not processor min/max state. Those floors/ceilings are <a href="processor-min-state-ac.html">processor-min-state-ac</a> and <a href="processor-max-state-ac.html">processor-max-state-ac</a>.</li>
+        <li>Not boost mode. That turbo policy is <a href="processor-boost-mode.html">processor-boost-mode</a>.</li>
+        <li>Not core parking. That pack is <a href="processor-core-parking.html">processor-core-parking</a>.</li>
+        <li>Not idle disable. That C-state pack is <a href="processor-idle-disable.html">processor-idle-disable</a>.</li>
+        <li>Not a High-performance plan essay. One Processor power management percent.</li>
+        <li>Not live capital. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="processor-perf-increase-threshold.html">Increase threshold</a> · <a href="processor-min-state-ac.html">Min state</a> · <a href="processor-boost-mode.html">Boost</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

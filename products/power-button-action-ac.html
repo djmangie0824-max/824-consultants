@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Power button action vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="PBUTTONACTION Sleep on AC turns an accidental press into Standby after lid-close is already Do nothing. Interactive-only Grok tasks miss fires. Task Scheduler still shows Ready. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/power-button-action-ac.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Power button action vs a forever loop","description":"Set Power button action to Do nothing on AC so an accidental press cannot Sleep the Interactive Grok desk after lid-close is already Do nothing. Companion to lid-close. Not hybrid sleep. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm lid-close on AC is already Do nothing"},{"@type":"HowToStep","name":"Open Power buttons and lid → Power button action"},{"@type":"HowToStep","name":"Set Plugged in to Do nothing. Leave Sleep button as a sibling"},{"@type":"HowToStep","name":"Press the button once. Session stays awake. Named task still next-runs"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="lid-close-do-nothing.html">Lid close</a>
+        <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Power button action vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="lid-close-do-nothing.html">lid close</a> page, not the <a href="windows-sleep-vs-forever.html">sleep vs forever</a> page, and not <a href="hybrid-sleep-ac.html">hybrid sleep</a>. Lid is the hinge. Timeouts are idle. Hybrid sleep is the Sleep row. This page is the remaining hardware key: Power Options → Power buttons and lid → <strong>Power button action</strong>. That is <code>PBUTTONACTION</code>. Balanced AC is often Sleep. A brush of the chassis key is Standby. Interactive-only <code>LEXXII-Materialize-Forever</code> misses the hour. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="power-button-action-ac.md" download>Download markdown</a>
+      <a class="btn" href="lid-close-do-nothing.html">Lid close first</a>
+      <a class="btn" href="windows-sleep-vs-forever.html">Sleep vs forever</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="lid-close-do-nothing.html">lid-close</a> pack already tells you plugged-in lid action is Do nothing. Sleep timeouts can already be Never. That work can be done and one press still kills the loop. Balanced <strong>Power button action</strong> on AC is Sleep. A closed-lid Ultra 7 on a cooling stand still has a power key on the chassis or a dock button that maps to the same action. The operator leans, the stand shifts, the key clicks. Windows Sleeps. <code>grok.exe</code> pauses. The named task still prints Ready and last result 267009 (still-running). The operator thinks lid-close lied. A different button did the Sleep.</p>
+      <p>This is not lid-close. Lid is <code>LIDACTION</code>. This is <code>PBUTTONACTION</code>. Do not set Shut down as a “fix.” Do not Hibernate the forever desk from a bump. Do nothing on AC is the pass. On battery may stay Sleep if this laptop actually travels. Do not install systemd to paper over a chassis key. Do not mint a Vercel slug because a press looked like a dead task.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Closing the lid put the session to Sleep</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>Idle timeout 5–20 minutes, no button press</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Start-menu Shut down restored a kernel</td><td>Different layer. <a href="windows-fast-startup.html">Fast Startup</a>.</td></tr>
+            <tr><td>Sleep still writes hiberfil then S3</td><td>Different layer. <a href="hybrid-sleep-ac.html">Allow hybrid sleep</a>.</td></tr>
+            <tr><td>Lid already Do nothing. A press of the chassis or dock power key Sleeps the session. Hourly task missed</td><td>This page. Power button action on AC.</td></tr>
+            <tr><td>Sleep <em>button</em> (not power button) Sleeps the session</td><td>Sibling. Sleep button action is not this click. Do not invent a registry paste here.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Power button action to Do nothing as the first click on a new host. Lid-close and sleep timeouts first. This page is the remaining chassis key after those are honest. Do nothing on AC is the pass. Sleep on battery may stay. Do not Shut down from this row to “make it obvious.”</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm lid-close on AC is already Do nothing</strong> — if closing the lid still Sleeps, that is <a href="lid-close-do-nothing.html">lid-close</a>, not this page.</li>
+          <li><strong>Confirm sleep timeouts are already honest</strong> — plugged-in sleep / hibernate are not 5–20 minutes. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a>.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Power buttons and lid → Power button action</strong> — set <em>Plugged in</em> to <strong>Do nothing</strong>. On battery may stay Sleep if this laptop actually travels.</li>
+          <li><strong>Leave Sleep button action as a sibling</strong> — if this chassis has a dedicated Sleep key, that is <code>SBUTTONACTION</code>, not this click. Do not treat it as Power button action.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — this page is one button knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the buttons subgroup. Do nothing on AC is the pass. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_BUTTONS
+powercfg /a</pre>
+      <p><code>SUB_BUTTONS</code> is Power buttons and lid. <code>PBUTTONACTION</code> is Power button action. Typical values: <strong>0 = Do nothing</strong>, <strong>1 = Sleep</strong>, <strong>2 = Hibernate</strong>, <strong>3 = Shut down</strong>. 0 on AC is the pass for this desk. If the row is missing from the GUI, query with <code>powercfg</code> anyway — hidden is not the same as Do nothing. If powercfg also omits the alias, this firmware did not expose the knob — stop; do not invent a registry hack on a public page. Lid action is a sibling, not this click. Sleep button action is a sibling, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — hinge action (<code>LIDACTION</code>). This page is the chassis/dock power key (<code>PBUTTONACTION</code>).</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — idle timeouts. Not a button.</li>
+        <li><a href="hybrid-sleep-ac.html">Allow hybrid sleep</a> — whether Sleep writes a hiberfile. Not which button starts Sleep.</li>
+        <li><a href="windows-fast-startup.html">Fast Startup</a> — hybrid shutdown from Start menu. Not the power key while running.</li>
+        <li>This page — AC Power button action = Do nothing so a bump cannot Sleep an Interactive Grok CLI while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Lid already Do nothing on AC. Sleep timeouts already honest. Otherwise this soak is lying about which button fired.</li>
+          <li>Press the chassis power key once, lid closed, dedicated NIC plugged. The session stays awake. The Grok TUI still accepts input. Sleep or a black panel is a fail.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 after a power-key Sleep is not forever.</li>
+          <li>AC index still 0. If someone set Sleep to “have a real off switch,” restore Do nothing. Use Start-menu Shut down when you mean off — after Fast Startup is honest.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof the power key is already Do nothing.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not lid-close, not sleep-vs-forever, not hybrid sleep, not Fast Startup.</li>
+        <li>Not Sleep button action. That sibling is a different alias.</li>
+        <li>Not a High-performance plan essay. One button setting.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="lid-close-do-nothing.html">Lid close</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a> · <a href="hybrid-sleep-ac.html">Hybrid sleep</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

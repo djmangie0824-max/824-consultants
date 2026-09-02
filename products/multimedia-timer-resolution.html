@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multimedia timer resolution vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="timeBeginPeriod 1ms leftover from Chrome or Node can starve C-states or sleep a JS interval. Grok CLI looks hung. Task Scheduler still shows Ready. Not When sharing media. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/multimedia-timer-resolution.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Multimedia timer resolution vs a forever loop","description":"Measure Windows timer resolution with ClockRes and powercfg /energy. Close leftover 1ms requesters. Do not call timeBeginPeriod to keep a Grok TUI alive. The 5m pulse is Task Scheduler, not JS setInterval. Not When sharing media. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep timeouts and When sharing media are already honest on AC"},{"@type":"HowToStep","name":"Measure current timer interval with ClockRes and powercfg /energy Platform Timer Resolution"},{"@type":"HowToStep","name":"Name and close the 1.0 ms requester. Do not call timeBeginPeriod to keep the loop alive"},{"@type":"HowToStep","name":"Keep the 5m pulse on Windows Task Scheduler. Soak until Current returns toward 15.625 ms when idle"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="multimedia-sharing-sleep.html">When sharing media</a>
+        <a href="windows-task-forever.html">Windows task forever</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Multimedia timer resolution vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="multimedia-sharing-sleep.html">When sharing media</a> policy page and not the Power Options row <strong>When playing video</strong>. Sharing media can pin SYSTEM / AWAYMODE with no player. When playing video is display quality while a file is actually playing. This page is the kernel interrupt period: <code>timeBeginPeriod</code> / <code>NtSetTimerResolution</code>. A leftover 1.0&nbsp;ms request starves C-states. A JS <code>setInterval</code> pretending to be the 5m pulse goes to sleep. Grok CLI looks hung. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="multimedia-timer-resolution.md" download>Download markdown</a>
+      <a class="btn" href="multimedia-sharing-sleep.html">When sharing media</a>
+      <a class="btn" href="windows-task-forever.html">Windows task forever</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Windows default timer interrupt is <strong>15.625&nbsp;ms</strong> (64&nbsp;Hz). WinMM <code>timeBeginPeriod(1)</code> and ntdll <code>NtSetTimerResolution</code> request a finer period, usually <strong>1.000&nbsp;ms</strong> or <strong>0.500&nbsp;ms</strong>. Chrome, Edge, Discord, Spotify, OBS, games, and some Node / Electron hosts request it. The request is not a Power Options Multimedia settings click. It is a process asking the kernel to fire more often.</p>
+      <p>Two lies show up on a plugged-in Grok desk after sleep and sharing-media are already honest:</p>
+      <p><strong>Starving.</strong> A leftover 1.0&nbsp;ms request keeps the package out of deep C-states. Timer interrupts stay hot. Fans rise. Task Manager looks “busy” with no ship in flight. The Interactive Grok TUI paints late or eats input. <code>LEXXII-Materialize-Forever</code> still prints Ready and last result 267009 (still-running). The operator thinks <code>grok.exe</code> is spinning. A browser that already closed the tab is holding the period.</p>
+      <p><strong>Sleeping.</strong> Someone implements the 5m pulse as JS <code>setTimeout</code> / <code>setInterval</code> inside the TUI. Chromium background timer throttling (1&nbsp;s, then ~1&nbsp;min). Coarse 15.625&nbsp;ms resolution plus timer coalescing. The JS loop naps. Host-forever on this Windows profile is Task Scheduler, not a JavaScript interval. Do not call <code>timeBeginPeriod(1)</code> to “un-sleep” that interval. That pins C-states. It does not run the hourly.</p>
+      <p>Windows 10 2004 and later made many resolution requests process-local. That does not make this page obsolete. Hidden Chromium GPU / utility processes, WASAPI exclusive, and some <code>NtSetTimerResolution</code> callers still move Current on ClockRes. <code>powercfg /energy</code> still names an Outstanding Timer Request. Measure. Do not cargo-cult TimerTool.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Plan still has 5–20 minute sleep / hibernate on AC</td><td>Different layer. Heal timeouts first. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Nothing playing. AWAYMODE or SYSTEM held. Sharing media is Prevent or Away Mode</td><td>Different layer. <a href="multimedia-sharing-sleep.html">When sharing media</a>.</td></tr>
+            <tr><td>A video is actually playing and the panel stays awake</td><td>Different layer. Power Options <strong>When playing video</strong> is display quality, not timer period. Do not treat Optimize video quality as a 1&nbsp;ms pin.</td></tr>
+            <tr><td>Named PROCESS holds DISPLAY / SYSTEM (player, Teams, audio)</td><td>Different layer. Close the holder. <a href="powercfg-requests-blockers.html">powercfg /requests</a>.</td></tr>
+            <tr><td>Timeouts honest. Requests None. ClockRes Current is 1.000 or 0.500 ms with no player. TUI looks hung or a JS interval missed the 5m fire</td><td>This page.</td></tr>
+            <tr><td>Last result 267009</td><td>Still running. Do not spawn a 4th TUI.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not call <code>timeBeginPeriod(1)</code> to “keep the forever loop alive.” That is a C-state pin, not a pulse. Do not replace Task Scheduler with JS <code>setInterval</code>. Do not run TimerTool, bcdedit dynamic-tick cargo-cult, or a 0.5&nbsp;ms global hack on a public page. Do not change this on battery to paper over an unplugged desk.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout and share layers are already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. When sharing media on AC is Allow the computer to sleep. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="multimedia-sharing-sleep.html">sharing media</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Measure Current</strong> — Sysinternals ClockRes. Default Current near <strong>15.625000&nbsp;ms</strong>. Current <strong>1.000000&nbsp;ms</strong> or <strong>0.500000&nbsp;ms</strong> with nothing playing is a requester, not a healthy idle.</li>
+          <li><strong>Name the requester</strong> — elevated <code>powercfg /energy /duration 60</code>, then open <code>energy-report.html</code>. Read <em>Platform Timer Resolution</em> / Outstanding Timer Request. Requested Period <strong>10000</strong> (100-ns units) is 1.000&nbsp;ms. The path is the liar. Typical leftovers: Chrome / Edge after a closed tab, Discord, Spotify, OBS, a game launcher, a Node helper that called WinMM and never <code>timeEndPeriod</code>.</li>
+          <li><strong>Close the leftover. Do not raise the period to hide it</strong> — stop the named process. Do not install TimerTool. Do not <code>bcdedit /set disabledynamictick</code>. Do not paste a registry “timer resolution” tweak. HPET in firmware is a different clock; it is not this click.</li>
+          <li><strong>Keep the 5m pulse on Task Scheduler</strong> — <code>LEXXII-Materialize-Forever</code> / Pages-Heal / Ship / Compound. An idle Grok TUI should not hold 1.0&nbsp;ms. A streaming reply may hold 1.0&nbsp;ms while tokens paint; that should drop when the turn ends. JS <code>setInterval(300000)</code> is not the host loop. See <a href="windows-task-forever.html">windows-task-forever</a>.</li>
+          <li><strong>Confirm, then soak</strong> — ClockRes Current returns toward 15.625&nbsp;ms with no player and no live grok turn. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>clockres
+powercfg /energy /duration 60
+powercfg /requests</pre>
+      <p>ClockRes prints Maximum / Minimum / Current timer interval. Maximum near 15.625&nbsp;ms is the default ceiling. Minimum near 0.500&nbsp;ms is what the HAL will grant. Current is what someone is actually holding. <code>/energy</code> writes <code>energy-report.html</code> in the working directory — that report is local, not a Pages artifact. Empty <code>/requests</code> with Current still at 1.000&nbsp;ms is this page, not a sleep holder. If ClockRes is already ~15.625&nbsp;ms idle and the TUI still starves, this is not the liar — go back to <a href="processor-boost-mode.html">boost mode</a> or <a href="powercfg-requests-blockers.html">requests</a>.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="multimedia-sharing-sleep.html">When sharing media</a> — Power Options sleep / Away Mode policy. A share pin, not interrupt period.</li>
+        <li>When playing video — Power Options display quality while a video is actually playing. Not <code>timeBeginPeriod</code>. A closed player should not keep Current at 1.0&nbsp;ms; if it does, that is this page.</li>
+        <li><a href="powercfg-requests-blockers.html">powercfg /requests</a> — who holds DISPLAY / SYSTEM / AWAYMODE right now. Timer resolution can be 1&nbsp;ms with requests still None.</li>
+        <li><a href="windows-task-forever.html">Windows task forever</a> — the real 5m / hourly pulse. JS timers are not a substitute.</li>
+        <li><a href="grok-scheduler-7d.html">Grok scheduler 7-day recreate</a> — in-product schedulers expire in 7 days. That cap is not ClockRes.</li>
+        <li>This page — measure Current, name the 1&nbsp;ms requester, do not WinMM-keep-alive the TUI.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep timeouts already honest on AC. When sharing media is Allow. Otherwise this soak is lying.</li>
+          <li>Idle session, no player, no live grok turn. ClockRes Current near 15.625&nbsp;ms, not 1.000 or 0.500.</li>
+          <li><code>powercfg /energy</code> does not list a leftover Outstanding Timer Request from Chrome / Discord / a helper that should have exited.</li>
+          <li>Starting a real stream or a grok turn may move Current to 1.0&nbsp;ms; ending the turn / stopping the player returns it. A Current that survives “quit the app” is a leftover process, not the TUI.</li>
+          <li>The 5m fire is still a named Windows task, not a JS interval. No fourth Grok TUI. Last result 267009 is still-running, not a timer-resolution proof.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not When sharing media and not When playing video. Those are Power Options Multimedia settings rows.</li>
+        <li>Not permission to run TimerTool, 0.5&nbsp;ms global hacks, or <code>bcdedit</code> dynamic-tick cargo-cult.</li>
+        <li>Not HPET vs TSC firmware trivia. Measure ClockRes. Do not flash a BIOS checkbox from a forum.</li>
+        <li>Not a JS scheduler product. The pulse is Task Scheduler.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="multimedia-sharing-sleep.html">When sharing media</a> · <a href="windows-task-forever.html">Windows task</a> · <a href="powercfg-requests-blockers.html">powercfg /requests</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

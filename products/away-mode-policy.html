@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allow Away Mode vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Sleep Allow Away Mode On makes fake-sleep an available state. Panel dark, fans up, Interactive hourly looks dead. Distinct from sharing media and powercfg /requests. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/away-mode-policy.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Allow Away Mode vs a forever loop","description":"Set Sleep Allow Away Mode to Off on AC so AWAYMODE cannot fake-sleep a logged-on Grok desk after sharing media and timeouts are already honest. Companion to multimedia-sharing and powercfg /requests. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm sleep timeouts and When sharing media are already honest on the plugged-in desk"},{"@type":"HowToStep","name":"Open Sleep → Allow Away Mode"},{"@type":"HowToStep","name":"Set Plugged in to Off so AWAYMODE is not an available sleep state"},{"@type":"HowToStep","name":"Soak. powercfg /a does not list Away Mode. Idle /requests AWAYMODE is None"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="multimedia-sharing-sleep.html">When sharing media</a>
+        <a href="powercfg-requests-blockers.html">powercfg /requests</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Allow Away Mode vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="multimedia-sharing-sleep.html">When sharing media</a> page and not the <a href="powercfg-requests-blockers.html">powercfg /requests</a> diagnostic. Sharing is the Multimedia row that can <em>ask</em> for fake-sleep. Requests names who is holding the AWAYMODE bucket <em>right now</em>. This page is the Sleep permission: Power Options → Sleep → <strong>Allow Away Mode</strong>. That is <code>AWAYMODE</code> under <code>SUB_SLEEP</code>. On lets a Sleep verb become media-center fake-sleep. Interactive-only <code>LEXXII-Materialize-Forever</code> looks dead. Task Scheduler still shows Ready.</p>
+      <a class="btn" href="away-mode-policy.md" download>Download markdown</a>
+      <a class="btn" href="multimedia-sharing-sleep.html">Sharing media first</a>
+      <a class="btn" href="powercfg-requests-blockers.html">Read the holders</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>The <a href="multimedia-sharing-sleep.html">sharing-media</a> pack already tells you not to set When sharing media to Prevent or “Allow the computer to enter Away Mode.” <a href="powercfg-requests-blockers.html">/requests</a> already tells you to name a live AWAYMODE holder. That work can be done and fake-sleep still exists as a <em>state</em>. Balanced and OEM entertainment plans ship <strong>Allow Away Mode</strong> On. Windows then lists Away Mode under <code>powercfg /a</code>. Display goes dark. Fans, NIC, and the logged-on session stay up. The operator hunts <a href="wake-timers-forever.html">wake timers</a> for a sleep that never happened. <code>schtasks</code> still prints Ready and last result 267009 (still-running). Fake-sleep is not host-forever. It is a Media Center leftover.</p>
+      <p>Two objects, one word. Sharing media is a Multimedia <em>value</em> (Allow sleep / Prevent / enter Away Mode). This page is the Sleep <em>policy</em> that allows the fake-sleep state at all. A share request cannot enter Away Mode if Allow Away Mode is Off. Do not set this On to “keep the forever loop alive.” That pins a dark panel with the session still running. It does not fire the named hourly. Do not install systemd to paper over AWAYMODE. Do not mint a Vercel slug because the fans stayed up while the screen looked asleep.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Plan still has 5–20 minute sleep / hibernate on AC</td><td>Different layer. Heal timeouts first. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>When sharing media is Prevent or “enter Away Mode”</td><td>Different layer. <a href="multimedia-sharing-sleep.html">When sharing media</a>.</td></tr>
+            <tr><td>A named PROCESS/DRIVER holds DISPLAY, SYSTEM, or AWAYMODE</td><td>Different layer. Close the holder. <a href="powercfg-requests-blockers.html">powercfg /requests</a>.</td></tr>
+            <tr><td>Sleep still writes hiberfil then S3</td><td>Different layer. <a href="hybrid-sleep-ac.html">Allow hybrid sleep</a>.</td></tr>
+            <tr><td>Sleep still happened, next-run in the past, task Enabled</td><td>Different layer. <a href="wake-timers-forever.html">Allow wake timers</a>.</td></tr>
+            <tr><td>Sharing already Allow sleep. Timeouts honest. <code>AWAYMODE</code> AC index is On. <code>/a</code> lists Away Mode. Panel dark, fans up, session still running, hourly looks dead</td><td>This page. Allow Away Mode on AC.</td></tr>
+            <tr><td>Row missing from GUI and from <code>powercfg /query</code></td><td>This firmware or Modern Standby edition did not expose Allow Away Mode. Stop. Not a fail.</td></tr>
+            <tr><td>Last result 267009</td><td>Still running. Do not spawn a 4th TUI.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Allow Away Mode On to “keep the forever loop alive.” That is fake-sleep, not the named hourly. Do not use Away Mode as a lid-close substitute. Do not treat a live <code>/requests</code> AWAYMODE holder as this policy until you have queried the Sleep row.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>.</li>
+          <li><strong>Confirm When sharing media is already Allow the computer to sleep on AC</strong> — not Prevent, not enter Away Mode. If that row is still the liar, that is <a href="multimedia-sharing-sleep.html">sharing media</a>, not this page.</li>
+          <li><strong>Power Options → Change plan settings → Change advanced power settings → Sleep → Allow Away Mode</strong> — set <em>Plugged in</em> to <strong>Off</strong>. On battery may stay On if this chassis is actually a media PC that travels. A Grok desk that never unplugs should not pretend it is a living-room recorder.</li>
+          <li><strong>Leave Sleep after, hybrid sleep, and Hibernate as their own pages</strong> — this click is one Sleep permission. Do not <code>powercfg /hibernate off</code> to hide it. Do not switch the plan to High performance.</li>
+          <li><strong>Leave the current plan in place</strong> — do not rename the plan. Do not claim a fleet GPO.</li>
+          <li><strong>Confirm, then soak</strong> — query the Sleep alias. Off on AC is the pass. Do not paste live brokerage numbers next to that output. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /query SCHEME_CURRENT SUB_SLEEP AWAYMODE
+powercfg /a
+powercfg /requests</pre>
+      <p><code>SUB_SLEEP</code> is the Sleep subgroup. <code>AWAYMODE</code> is Allow Away Mode. <strong>0 = Off</strong>, <strong>1 = On</strong>. Off on AC is the pass for this desk: Away Mode is not an available sleep state. If the row is missing from the GUI, query with <code>powercfg</code> anyway — hidden is not the same as Off. If powercfg also omits the alias, this firmware or edition did not expose the knob — stop; do not invent a registry hack on a public page. Idle <code>/requests</code> AWAYMODE = None is expected after Off. A leftover named holder is <a href="powercfg-requests-blockers.html">requests</a>, not this row. Sleep after is a timeout, not this click. Hybrid sleep is a hiberfile, not this click.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="multimedia-sharing-sleep.html">When sharing media</a> — Multimedia value that can <em>request</em> fake-sleep. This page is whether Sleep is <em>allowed</em> to enter that state.</li>
+        <li><a href="powercfg-requests-blockers.html">powercfg /requests</a> — who is holding the AWAYMODE bucket right now. Not a plan value.</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — timeouts, Modern Standby, Interactive-only, result 267009 as a timeout tell.</li>
+        <li><a href="hybrid-sleep-ac.html">Allow hybrid sleep</a> — hiberfile then S3. Not fake-sleep with fans up.</li>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — the lid is not a Sleep key. Away Mode is not a lid policy.</li>
+        <li><a href="turn-off-display-after.html">Turn off display after</a> — VIDEOIDLE. Dark panel with an honest awake session is not Away Mode.</li>
+        <li>This page — AC Allow Away Mode = Off so <code>AWAYMODE</code> cannot list fake-sleep as an available state while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. Sharing media already Allow sleep. Otherwise this soak is lying about which layer faked sleep.</li>
+          <li><code>AWAYMODE</code> AC index is 0. <code>powercfg /a</code> does not list Away Mode as available (policy, not firmware, is the tell when the alias exists).</li>
+          <li>Idle session, no player, no Cast. <code>powercfg /requests</code> prints None under AWAYMODE.</li>
+          <li>Display-off from VIDEOIDLE is not this page. Fans and session stay up <em>and</em> <code>/a</code> still lists Away Mode = this page is not done.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 after fake-sleep is not forever.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof Allow Away Mode is already Off.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every host exposes Allow Away Mode. Modern Standby often hides it.</li>
+        <li>Not When sharing media, not <code>/requests</code>, not sleep-vs-forever, not hybrid sleep, not lid-close.</li>
+        <li>Not Away Mode as host-forever.</li>
+        <li>Not a High-performance plan essay. One Sleep setting. Leave the rest of the plan alone until a soak names the next layer.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="multimedia-sharing-sleep.html">When sharing media</a> · <a href="powercfg-requests-blockers.html">powercfg /requests</a> · <a href="windows-sleep-vs-forever.html">Sleep vs forever</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

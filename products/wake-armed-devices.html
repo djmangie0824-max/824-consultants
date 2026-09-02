@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>powercfg /devicequery wake_armed vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="powercfg /devicequery wake_armed is the live list of devices allowed to yank a docked Interactive Grok desk. wake_programmable is who could be armed. Not Magic Packet. Not lastwake. Not wake timers. Not lid-close." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/wake-armed-devices.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"powercfg /devicequery wake_armed vs a forever loop","description":"Read powercfg /devicequery wake_armed and wake_programmable as the live device inventory on a docked AC Grok desk. Classify each name. Disarm named surprises with /devicedisablewake. Do not disable the dedicated NIC. Distinct from Magic Packet, lastwake, wake timers, and lid-close.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Confirm lastwake, Allow wake timers, lid-close, and Magic Packet are the wrong layer or already honest"},{"@type":"HowToStep","name":"Run powercfg /devicequery wake_armed then wake_programmable. Armed is the live list. Programmable is who could be armed"},{"@type":"HowToStep","name":"Classify each name: keep the dedicated NIC enabled, HID bump vs OEM surprise vs leftover radio. Disarm surprises with /devicedisablewake using the exact string"},{"@type":"HowToStep","name":"Re-query. Soak lid-closed. Named task still next-runs. No surprise S0 from an armed HID the operator did not bump on purpose"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="powercfg-lastwake.html">lastwake</a>
+        <a href="wake-on-magic-packet.html">Magic Packet</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">powercfg /devicequery wake_armed vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="wake-on-magic-packet.html">Wake on Magic Packet</a> page, not <a href="powercfg-lastwake.html">powercfg /lastwake</a>, not <a href="wake-timers-forever.html">Allow wake timers</a>, and not <a href="lid-close-do-nothing.html">lid-close Do nothing</a>. Magic Packet is one Advanced checkbox on the dedicated NIC. lastwake is who yanked the <em>previous</em> sleep. Wake timers are the Windows RTC list and the plan policy. Lid-close is whether the lid is a Sleep key. This page is the inventory: <code>powercfg /devicequery wake_armed</code> — who is allowed to yank a docked Interactive Grok desk <em>right now</em>. <code>powercfg /devicequery wake_programmable</code> is who <em>could</em> be armed. Those two dumps are not lastwake and not <code>/waketimers</code>.</p>
+      <a class="btn" href="wake-armed-devices.md" download>Download markdown</a>
+      <a class="btn" href="powercfg-lastwake.html">lastwake is history</a>
+      <a class="btn" href="wake-on-magic-packet.html">Magic Packet is one NIC click</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>A closed-lid AC desk can already have honest sleep, lid, USB suspend, and Allow wake timers. The named task still looks Ready. Then a HID bump, leftover radio, dock audio, or OEM management engine yanks S0ix / S3. The operator reads lastwake after the fact and hunts Grok. lastwake is one wake, already spent. It does not tell you who is still armed for the <em>next</em> nap. <code>/waketimers</code> names Windows RTC owners. It does not name HID-compliant mouse. The live device list is <code>wake_armed</code>.</p>
+      <p>OEM images often arm more than the dedicated Ethernet. A programmable device that is not armed is honest. An armed device the operator did not intend is the surprise. Empty <code>wake_armed</code> (powercfg prints <code>NONE</code>) is a pass when this desk wants only the named task / RTC — not proof the last yank was a timer. Turning the whole USB Ethernet adapter off is the wrong fix. The <a href="../reviews/usb-ethernet-operator-host.html">dedicated NIC</a> is the ship path. This page lists names. It does not disable that NIC. Do not install systemd. Do not mint a Vercel slug because a mouse woke the lid.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Need the name of the last yank</td><td>Different layer. <a href="powercfg-lastwake.html">powercfg /lastwake</a>. Come back here after it names a Device.</td></tr>
+            <tr><td>Need the Windows RTC list / plan policy</td><td>Different layer. <a href="wake-timers-forever.html">Allow wake timers</a> plus <code>powercfg /waketimers</code> on the lastwake pack.</td></tr>
+            <tr><td>Lid close put the session to Sleep</td><td>Different layer. <a href="lid-close-do-nothing.html">Lid close Do nothing</a>.</td></tr>
+            <tr><td>Dedicated NIC Advanced: Magic Packet / pattern match still On and directed wake is not in use</td><td>Different layer. <a href="wake-on-magic-packet.html">Wake on Magic Packet</a>. Inventory here first so you know the NIC is even armed.</td></tr>
+            <tr><td>USB NIC itself napped</td><td>Different layer. <a href="usb-selective-suspend.html">USB selective suspend</a>.</td></tr>
+            <tr><td>Unattended sleep after a legitimate wake</td><td>Different layer. <a href="unattended-sleep-timeout.html">UNATTENDSLEEP</a>.</td></tr>
+            <tr><td>Need who is allowed to yank <em>now</em>, before the next sleep</td><td><strong>This page.</strong> <code>wake_armed</code> live list. <code>wake_programmable</code> candidate list.</td></tr>
+            <tr><td><code>wake_armed</code> prints NONE and the operator wanted no device wake</td><td>This page, pass. Confirm lastwake if a yank still happened — that was history, not this inventory.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not disable the dedicated NIC. Do not treat <code>wake_programmable</code> as a fail — programmable is capability, armed is the live grant. Do not paste live brokerage numbers next to device names. Do not paste <code>auth.json</code>. Do not cargo-cult <code>/devicedisablewake</code> on the Ethernet string because a HID was the liar.</div>
+    </section>
+    <section>
+      <h2>Read the two lists (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the other layers are the wrong object or already honest</strong> — lid-close on AC is Do nothing. Allow wake timers is already the policy pack. If you only need who yanked the last sleep, stop and use lastwake. If you only need the Magic Packet checkbox, inventory here first, then that pack.</li>
+          <li><strong>Elevated Command Prompt, while the desk is awake</strong> — run the two queries below. Save the output locally. Do not publish the dump. Device instance paths do not belong on Pages.</li>
+          <li><strong>Classify every <code>wake_armed</code> line</strong> — dedicated USB Ethernet or dock NIC: expected if the Power Management wake checkbox is on; leave the adapter Enabled; Magic Packet is the sibling click, not a disable. HID keyboard / mouse: a bump yanks a closed lid; disarm the HID, not the lid policy. Wi-Fi or Bluetooth leftover: radio wake is not wireless power-saving and not the dedicated NIC. OEM audio, unused hub, management engine: surprise; try exact-name disarm; some firmware will not drop — skip, not a registry hack.</li>
+          <li><strong>Read <code>wake_programmable</code> as the candidate set</strong> — longer than armed is normal. A name only on programmable is not armed. Do not empty programmable. The pass is armed matching intent.</li>
+          <li><strong>Disarm named surprises only</strong> — <code>powercfg /devicedisablewake</code> with the exact string from the dump, quoted. Re-query <code>wake_armed</code>. Missing name after disable is the pass for that row. Device Manager → that device → Power Management → uncheck <em>Allow this device to wake the computer</em> is the same grant in the GUI. Leave “Allow the computer to turn off this device to save power” to the USB-suspend pack.</li>
+          <li><strong>Never disable the dedicated NIC as the inventory fix</strong> — do not uncheck the adapter Enabled bit. Do not <code>/devicedisablewake</code> the Ethernet string by default. Directed-wake desks keep that NIC armed on purpose.</li>
+        </ol>
+      </div>
+      <pre>powercfg /devicequery wake_armed
+powercfg /devicequery wake_programmable
+powercfg /devicedisablewake "exact name from wake_armed"</pre>
+      <p><code>wake_armed</code> is the live grant. <code>wake_programmable</code> is who <em>could</em> be armed. <code>/devicedisablewake</code> takes the exact friendly name powercfg printed — not a guess, not a truncated OEM string. Quotes are required when the name has spaces. powercfg printing <code>NONE</code> on armed means the live list is empty, not that lastwake is empty. <code>/lastwake</code> and <code>/waketimers</code> stay on the other packs. If disablewake errors, this driver did not expose the grant — stop. Do not invent a wake DWORD in the registry on a public page. Do not paste live brokerage numbers next to those names. Do not paste <code>auth.json</code>.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="wake-on-magic-packet.html">Wake on Magic Packet</a> — NIC Advanced Magic Packet / pattern match. This page is whether that NIC (or anything else) is even on the armed list.</li>
+        <li><a href="powercfg-lastwake.html">powercfg /lastwake</a> — the previous yank. This page is who may yank the next one.</li>
+        <li><a href="wake-timers-forever.html">Allow wake timers</a> — Windows RTC / important-only plus WakeToRun. Not a device name.</li>
+        <li><a href="lid-close-do-nothing.html">Lid close Do nothing</a> — the lid is not a Sleep key. Not a HID grant.</li>
+        <li><a href="usb-selective-suspend.html">USB selective suspend</a> — the device napped. This page is the device waking the PC.</li>
+        <li><a href="unattended-sleep-timeout.html">Unattended sleep timeout</a> — sleep <em>after</em> a wake. Not the arm list.</li>
+        <li>This page — live <code>wake_armed</code> / <code>wake_programmable</code> inventory on a docked AC desk.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test</h2>
+      <div class="card">
+        <ol>
+          <li>Sleep, lid, USB suspend, and Allow wake timers already honest, or this soak is lying about a different layer.</li>
+          <li>Re-run <code>powercfg /devicequery wake_armed</code>. The dedicated NIC is still Enabled and still has a link. Armed names match intent: NIC only if directed wake is in use; no surprise HID / OEM / leftover radio.</li>
+          <li>Lid closed, named task next-run still in the future. No surprise S0 from a mouse bump or a packet the operator did not send. A bump that still wakes means that HID is still armed — re-query, do not blame lid-close.</li>
+          <li><code>wake_programmable</code> may still list the HID. That is capability. Fail the soak only if it returned to <code>wake_armed</code>.</li>
+          <li>Host-forever is still Task Scheduler <code>LEXXII-Materialize-Forever</code>. Grok in-session schedulers expire in 7 days. Isolation-empty <code>scheduler_list</code> is skip recreate, not a missing-forever. Not systemd. Last result 267009 is still-running, not proof the arm list is honest.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not Wake on Magic Packet. That Advanced checkbox is <a href="wake-on-magic-packet.html">wake-on-magic-packet</a>.</li>
+        <li>Not lastwake. That history dump is <a href="powercfg-lastwake.html">powercfg-lastwake</a>.</li>
+        <li>Not Allow wake timers / <code>/waketimers</code>. That RTC list is the timer packs.</li>
+        <li>Not lid-close Do nothing. The lid is <a href="lid-close-do-nothing.html">lid-close-do-nothing</a>.</li>
+        <li>Not “disable the NIC.” The dedicated Ethernet review still stands.</li>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. Device names stay off the public dump.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="powercfg-lastwake.html">lastwake</a> · <a href="wake-on-magic-packet.html">Magic Packet</a> · <a href="wake-timers-forever.html">Wake timers</a> · <a href="lid-close-do-nothing.html">Lid close</a> · <a href="../reviews/usb-ethernet-operator-host.html">USB Ethernet</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

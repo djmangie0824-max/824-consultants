@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Processor duty cycling vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="PERFDUTYCYCLING is package on/off modulation, not IDLEDISABLE C-states and not THROTTLING T-states. This desk: Disabled 0/0 on AC and DC. Do not Enable to save watts on a forever desk. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/processor-duty-cycling.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"Processor duty cycling vs a forever loop","description":"Query Processor duty cycling (PERFDUTYCYCLING / GUID 4e4450b3-6179-4e91-b8f1-5bb9938f81a1) under SUB_PROCESSOR. On a plugged-in Grok desk confirm Disabled (0) on AC. Do not Enable as a save-watts cargo-cult — Enabled modulates the package on/off and looks like a hung Interactive CLI while Task Scheduler still shows Ready / 267009. Alias is PERFDUTYCYCLING, not DUTYCYCLING. Not IDLEDISABLE. Not THROTTLING. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Query powercfg /qh SCHEME_CURRENT SUB_PROCESSOR PERFDUTYCYCLING. Alias DUTYCYCLING is invalid on this SKU — use PERFDUTYCYCLING or the GUID"},{"@type":"HowToStep","name":"Confirm Possible Setting 000 Disabled / 001 Enabled. This Yoga Balanced measured AC 0 / DC 0 Disabled"},{"@type":"HowToStep","name":"If AC is already 0, stop. That is the pass. Do not Enable to save watts on a forever desk"},{"@type":"HowToStep","name":"If someone Enabled it, set AC to 0 Disabled, activate the scheme, re-query. Soak: named task still Ready / 267009 and the TUI is not package-modulated quiet"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="processor-idle-disable.html">Idle disable</a>
+        <a href="allow-throttle-states.html">Allow Throttle States</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">Processor duty cycling vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="processor-idle-disable.html">Processor idle disable</a> page (C-states / <code>IDLEDISABLE</code>), not <a href="processor-boost-mode.html">Processor performance boost mode</a>, not <a href="processor-power-throttling.html">processor power throttling</a> (EcoQoS / max-state catalog mix), and not <a href="allow-throttle-states.html">Allow Throttle States</a> (ACPI T-states / <code>THROTTLING</code>). This page is Power Options → Processor power management → <strong>Processor duty cycling</strong>. Alias <code>PERFDUTYCYCLING</code>. GUID <code>4e4450b3-6179-4e91-b8f1-5bb9938f81a1</code>. Possible values: <strong>0 Disabled</strong>, <strong>1 Enabled</strong>. On this Yoga Balanced the measured pass is already <strong>Disabled</strong> on AC and DC. The short alias <code>DUTYCYCLING</code> is <strong>invalid</strong> on this SKU — use <code>PERFDUTYCYCLING</code> or the GUID.</p>
+      <a class="btn" href="processor-duty-cycling.md" download>Download markdown</a>
+      <a class="btn" href="processor-idle-disable.html">Idle disable</a>
+      <a class="btn" href="allow-throttle-states.html">Allow Throttle States</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Sibling processor knobs can already be honest on AC. Frequency floor named. Turbo allowed. Parking named. Idle policy named. Allow Throttle States already Off if that pack ran. Someone still “optimizes watts” by turning <strong>Processor duty cycling</strong> to Enabled. Enabled duty-cycles the package — modulated on/off — so an Interactive Grok CLI looks hung between bursts. <code>grok.exe</code> is alive. Task Scheduler still prints Ready and last result 267009 (still-running). The operator thinks the loop died. The package was chopped.</p>
+      <p>This is not a C-state lie and not an ACPI T-state lie. <code>IDLEDISABLE</code> 0 still lets deep C. <code>THROTTLING</code> Automatic still allows clock-modulation T-states. This GUID is a separate allow for package duty cycling. Do not install systemd to paper over Enabled duty cycling. Do not mint a Vercel slug because the TUI paused while the package was off in the duty cycle. Do not switch the whole plan to High performance to hide ten other forever-loop bugs. Do not cargo-cult <code>DUTYCYCLING</code> as the alias — on this host that string is invalid; <code>PERFDUTYCYCLING</code> is the live alias.</p>
+    </section>
+    <section>
+      <h2>Live query on this host (2026-09-01)</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Field</th><th>This desk</th></tr></thead>
+          <tbody>
+            <tr><td>Scheme</td><td><code>SCHEME_BALANCED</code> <code>381b4222-f694-41f0-9685-ff5bb260df2e</code></td></tr>
+            <tr><td>Subgroup</td><td><code>SUB_PROCESSOR</code> <code>54533251-82be-4824-96c1-47b60b740d00</code></td></tr>
+            <tr><td>Setting GUID</td><td><code>4e4450b3-6179-4e91-b8f1-5bb9938f81a1</code> alias <code>PERFDUTYCYCLING</code></td></tr>
+            <tr><td>Invalid alias</td><td><code>DUTYCYCLING</code> — not accepted on this SKU</td></tr>
+            <tr><td>Possible</td><td>000 Disabled · 001 Enabled</td></tr>
+            <tr><td>AC / DC</td><td><code>0x00000000</code> / <code>0x00000000</code> = <strong>Disabled</strong> — already the pass</td></tr>
+            <tr><td>Sibling <code>IDLEDISABLE</code></td><td>C-state allow/deny. Different pack.</td></tr>
+            <tr><td>Sibling <code>THROTTLING</code></td><td>ACPI T-states Off/On/Automatic. Different pack.</td></tr>
+            <tr><td>Sibling <code>PERFBOOSTMODE</code></td><td>Turbo allow. Different pack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>powercfg /qh</code> printed this row on this SKU. Hidden in the GUI is not missing. Do not cargo-cult <code>-ATTRIB_HIDE</code> on a public page to “unhide” a row you can already query with <code>/qh</code>. If <code>/qh</code> omits the GUID, <strong>stop</strong> — not a registry hack.</p>
+    </section>
+    <section>
+      <h2>Duty cycling is not idle and not T-states</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Layer</th><th>What it actually is</th></tr></thead>
+          <tbody>
+            <tr><td>Processor idle disable</td><td>C-state allow. <code>IDLEDISABLE</code>. 0 = Enable idle. 1 = Disable idle (stay C0). Package sleep, not on/off modulation.</td></tr>
+            <tr><td>Allow Throttle States</td><td>ACPI T-state allow. <code>THROTTLING</code>. 0 Off · 1 On · 2 Automatic. Clock duty cuts under a P-state.</td></tr>
+            <tr><td>Processor power throttling page</td><td>Catalog mix of max-state ceiling + EcoQoS process overlay. Filename collision. Not this GUID.</td></tr>
+            <tr><td>Processor performance boost mode</td><td>Turbo P-state allow. <code>PERFBOOSTMODE</code>. Only while executing.</td></tr>
+            <tr><td>Processor duty cycling</td><td>Package on/off modulation. <code>PERFDUTYCYCLING</code>. 0 Disabled · 1 Enabled. This page.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Enabled duty cycling looks like a hung TUI with a still-healthy scheduler. Disabled is the forever-desk pass on this host. Enabling it to “save watts” on a plugged-in Grok desk is a cargo-cult fail.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop went to S0ix / Modern Standby</td><td>Different layer. <a href="windows-sleep-vs-forever.html">Sleep vs forever</a>.</td></tr>
+            <tr><td>Wake stall after a quiet minute; C-states still Enabled</td><td>Different layer. <a href="processor-idle-disable.html">Processor idle disable</a>.</td></tr>
+            <tr><td><code>THROTTLING</code> still Automatic or On on AC</td><td>Different layer. <a href="allow-throttle-states.html">Allow Throttle States</a>.</td></tr>
+            <tr><td>Task Manager Details shows Power throttling on grok.exe while this GUID is already Disabled</td><td>Different layer. EcoQoS. See <a href="processor-power-throttling.html">processor power throttling</a>.</td></tr>
+            <tr><td>Boost mode is Disabled; clocks sit at base while executing</td><td>Different layer. <a href="processor-boost-mode.html">Processor performance boost mode</a>.</td></tr>
+            <tr><td>Alias <code>DUTYCYCLING</code> errors; GUID still present as <code>PERFDUTYCYCLING</code></td><td>This page. Use the live alias, not the forum short name.</td></tr>
+            <tr><td>GUID missing from <code>powercfg /qh</code></td><td>This edition did not expose the knob. Stop. Not a fail. Not a registry hack.</td></tr>
+            <tr><td>Session awake. Named task Ready / 267009. Grok TUI looks frozen in on/off chops. <code>PERFDUTYCYCLING</code> on AC is 1 Enabled</td><td>This page. Restore Disabled (0) on AC.</td></tr>
+            <tr><td>AC already 0 Disabled; TUI still stalls</td><td>Different layer. Idle / T-states / EcoQoS / thermal — not this click. Do not Enable “to try something.”</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not set Processor duty cycling as the first click on a new host. Timeouts, requests, min-state, parking, boost, cooling, idle disable, and Allow Throttle States first. Do not Enable to “save watts” on a forever desk. Leave DC Disabled if the laptop never travels as a travel cube, or leave travel defaults alone on DC if it does. If <code>/qh</code> omits the GUID, stop; do not invent a registry paste. Alias <code>DUTYCYCLING</code> is invalid here — use <code>PERFDUTYCYCLING</code>.</div>
+    </section>
+    <section>
+      <h2>What to change (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the timeout layer is already done</strong> — plugged-in sleep / hibernate are not 5–20 minutes. Lid close on AC is Do nothing. Fast Startup is already honest. See <a href="windows-sleep-vs-forever.html">sleep-vs-forever</a> and <a href="lid-close-do-nothing.html">lid-close</a>. If the desk still <em>intends</em> to sleep every idle, stop here.</li>
+          <li><strong>Confirm idle disable, Allow Throttle States, boost, and parking are already named</strong> — C-state and T-state siblings first. Duty cycling is not a substitute for those packs.</li>
+          <li><strong>Query <code>PERFDUTYCYCLING</code> with <code>/qh</code> before you write</strong> — <code>powercfg /query</code> omits ATTRIB_HIDE rows. This host printed Disabled 0/0. If <code>/qh</code> omits the GUID, this edition did not expose the knob. <strong>Stop.</strong> Do not invent a registry paste. Do not guess GUID <code>4e4450b3-6179-4e91-b8f1-5bb9938f81a1</code> from a forum as a fleet trick. Do not use alias <code>DUTYCYCLING</code> — it is invalid on this SKU.</li>
+          <li><strong>If AC is already Disabled (0), stop</strong> — that is the pass for this forever desk. Do not Enable. Enabling package duty cycling to “save watts” is the cargo-cult fail this page exists to prevent.</li>
+          <li><strong>If AC is Enabled (1), set Plugged in to Disabled</strong> — index <strong>0</strong>. On battery stays Disabled (0) on this desk (already measured). A travel laptop that actually unplugs may keep a travel default on DC — this Yoga measured 0/0.</li>
+          <li><strong>Activate the current scheme after the AC index write</strong> — <code>/setacvalueindex</code> does not apply until <code>/setactive SCHEME_CURRENT</code>. Query again. AC <code>0x00000000</code> Disabled is the pass. <code>0x00000001</code> Enabled is a fail for this desk.</li>
+          <li><strong>Leave idle disable, THROTTLING, EcoQoS, and boost as siblings</strong> — this click does not write <code>IDLEDISABLE</code>, does not set T-states Off, does not clear Task Manager Power throttling, and does not change boost mode.</li>
+          <li><strong>Leave the Balanced (or current) plan in place</strong> — one processor knob, not a switch to High performance. Do not rename the plan. Do not claim a fleet GPO. Do not paste live brokerage numbers. Do not paste <code>auth.json</code>.</li>
+        </ol>
+      </div>
+      <pre>powercfg /qh SCHEME_CURRENT SUB_PROCESSOR PERFDUTYCYCLING
+powercfg /qh SCHEME_CURRENT SUB_PROCESSOR 4e4450b3-6179-4e91-b8f1-5bb9938f81a1
+rem If AC is already 0 Disabled: stop. That is the pass.
+rem Only if AC is 1 Enabled:
+powercfg /setacvalueindex SCHEME_CURRENT SUB_PROCESSOR PERFDUTYCYCLING 0
+powercfg /setactive SCHEME_CURRENT
+powercfg /qh SCHEME_CURRENT SUB_PROCESSOR PERFDUTYCYCLING</pre>
+      <p><code>SUB_PROCESSOR</code> is the processor subgroup. <code>PERFDUTYCYCLING</code> is Processor duty cycling. Possible values: <strong>0 = Disabled</strong>, <strong>1 = Enabled</strong>. This host’s Balanced measurement is <strong>AC 0 / DC 0 Disabled</strong> — already the pass. Run the <code>/qh</code> line first. If the GUID is omitted, skip every write. Alias <code>DUTYCYCLING</code> is invalid here. Idle disable is a sibling. Allow Throttle States is a sibling. Do not Enable to save watts on a forever desk.</p>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="processor-idle-disable.html">Processor idle disable</a> — C-state allow/deny. Enable idle vs stay C0. Heat. Not package on/off duty cycling.</li>
+        <li><a href="allow-throttle-states.html">Allow Throttle States</a> — ACPI T-states Off/On/Automatic. Clock modulation under a P-state. Different GUID.</li>
+        <li><a href="processor-power-throttling.html">Processor power throttling</a> — max-state / EcoQoS catalog mix. Same English “throttling.” Different object.</li>
+        <li><a href="processor-boost-mode.html">Processor performance boost mode</a> — turbo allow. Enabled turbo under Enabled duty cycling can still look hung between chops.</li>
+        <li><a href="processor-idle-time-check.html">Processor idle time check</a> — C-state sample window in microseconds. Not this click.</li>
+        <li>This page — confirm <code>PERFDUTYCYCLING</code> Disabled (0) on AC so package on/off modulation cannot stall an Interactive Grok CLI while the named task still looks Ready.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Timeouts already honest. Lid already Do nothing on AC. Sibling idle / T-state / boost packs already named if those packs ran. Stand in the path.</li>
+          <li>Leave the desk idle 30 minutes, lid closed, cooling stand in place, dedicated NIC plugged. Fire a 5-minute named task. The TUI is not chopped on/off by package duty cycling.</li>
+          <li>Task Scheduler still has a next-run for <code>LEXXII-Materialize-Forever</code>. Ready + 267009 with PERFDUTYCYCLING Enabled is not proof the desk is healthy — that is the fail symptom.</li>
+          <li>PERFDUTYCYCLING still 0 on AC. If someone Enabled it to “save watts,” restore 0 on AC. Do not “fix” it by switching the whole plan to High performance.</li>
+          <li>No fourth Grok TUI. Last result 267009 is still-running, not proof duty cycling is honest. Grok in-session schedulers expire in 7 days even when durable. Isolation-empty <code>scheduler_list</code> is skip recreate, not missing-forever. The Windows task is the host-forever pulse. Not systemd.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Not systemd.</li>
+        <li>Not a group-policy pack for a fleet we do not run.</li>
+        <li>Not a claim every host ships Enabled. This Yoga measured Disabled 0/0 on Balanced.</li>
+        <li>Not Processor idle disable, not Allow Throttle States, not boost mode, not EcoQoS power throttling.</li>
+        <li>Not the invalid alias <code>DUTYCYCLING</code>.</li>
+        <li>Not a High-performance plan essay. One processor setting.</li>
+        <li>Not a SKU and not a commission claim.</li>
+        <li>Not a brokerage number. Live capital stays off Pages. NLV stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="processor-idle-disable.html">Idle disable</a> · <a href="allow-throttle-states.html">Allow Throttle States</a> · <a href="processor-boost-mode.html">Boost mode</a> · <a href="processor-power-throttling.html">Power throttling</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>

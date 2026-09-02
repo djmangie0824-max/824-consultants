@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>schtasks last result 267009 vs a forever loop | 824 Consultants</title>
+  <meta name="description" content="Last Result 267009 is SCHED_S_TASK_RUNNING (0x41301), not a Win32 fail. Distinct from windows-task-forever, grok-scheduler-7d, and scheduler-isolation-skip. Do not spawn another grok.exe. Not systemd." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Douglas James Mangie II, 824 Consultants LLC" />
+  <meta name="twitter:site" content="@DJMangie0824" />
+  <link rel="canonical" href="https://djmangie0824-max.github.io/824-consultants/products/schtasks-lastresult-267009.html" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"schtasks last result 267009 vs a forever loop","description":"Decode Task Scheduler Last Result on a Windows Grok desk. 267009 is SCHED_S_TASK_RUNNING. 0 is last-run success. 1 is a real fail. Distinct from creating the named task, the 7-day Grok cap, and isolation-empty skip recreate. Do not spawn another grok.exe because Status is Running. Not systemd.","author":{"@type":"Organization","name":"824 Consultants LLC"},"step":[{"@type":"HowToStep","name":"Query the named task with schtasks /Query /FO LIST /V. Read Status and Last Result as two columns"},{"@type":"HowToStep","name":"Classify 267009 as still-running (0x41301). Classify 0 as last completed success. Classify 1 as a real fail of the last action"},{"@type":"HowToStep","name":"Do not spawn another grok.exe TUI. Do not recreate Grok schedulers because Last Result is 267009. Isolation-empty skip is a different pack"},{"@type":"HowToStep","name":"Soak: next-run still in the future, last-run advanced, 267009 while Status=Running is a pass of this forensic"}]}
+  </script>
+  <style>
+    :root { color-scheme: dark; --bg:#000; --fg:#f5f5f5; --muted:#a3a3a3; --border:#262626; --true:#4ade80; --ice:#a5f3fc; --warn:#fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    a { color:var(--ice); }
+    header { position:sticky; top:0; background:rgba(0,0,0,.92); border-bottom:1px solid var(--border); padding:12px 16px; z-index:10; }
+    header .wrap, main, footer .wrap { max-width:720px; margin:0 auto; }
+    h1 { font-size:1.45rem; margin:0 0 4px; letter-spacing:-.02em; }
+    .sub { color:var(--muted); font-size:.9rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 14px; margin-top:10px; font-size:.85rem; }
+    nav a { color:var(--muted); text-decoration:none; }
+    nav a:hover { color:var(--fg); }
+    main { padding:28px 16px 80px; }
+    section { margin-bottom:32px; }
+    h2 { font-size:1.15rem; margin:0 0 10px; }
+    p, li { color:var(--muted); font-size:.95rem; }
+    ol, ul { padding-left:1.2rem; }
+    .badge { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:2px 10px; font-size:.72rem; color:var(--true); margin-bottom:12px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin:12px 0; background:#0a0a0a; }
+    .disc { border:1px solid #14532d; background:#052e16; color:#bbf7d0; border-radius:14px; padding:12px 14px; font-size:.9rem; margin-bottom:20px; }
+    .warn { border:1px solid #78350f; background:#1c1003; color:#fde68a; border-radius:14px; padding:12px 14px; font-size:.9rem; margin:16px 0; }
+    .meta { font-size:.8rem; color:var(--muted); margin-bottom:16px; }
+    .btn { display:inline-block; margin:8px 8px 0 0; padding:8px 14px; border-radius:10px; border:1px solid var(--border); color:var(--fg); text-decoration:none; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--border); color:var(--muted); vertical-align:top; }
+    th { color:var(--fg); font-weight:600; }
+    pre { overflow:auto; background:#111; border:1px solid var(--border); border-radius:12px; padding:12px; font-size:.8rem; color:#e5e5e5; }
+    footer { border-top:1px solid var(--border); padding:20px 16px 40px; color:var(--muted); font-size:.8rem; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#111; padding:1px 5px; border-radius:4px; }
+    strong { color:var(--fg); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>824 Consultants LLC</h1>
+      <div class="sub">Douglas James Mangie II · Lexxii · ONLY YOU. FOREVER.</div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="index.html">Products</a>
+        <a href="windows-task-forever.html">Task forever</a>
+        <a href="scheduler-isolation-skip.html">Isolation skip</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="disc" role="note">
+      <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
+      Tag <code>824consultant-20</code>. This page is a host playbook, not a SKU card.
+    </div>
+    <section>
+      <span class="badge">Live · $0 · host-forever</span>
+      <h1 style="font-size:1.35rem;margin-bottom:8px;">schtasks last result 267009 vs a forever loop</h1>
+      <p class="meta">Published 2026-09-01 · 824 Consultants LLC · Windows Grok host playbook</p>
+      <p>This is not the <a href="windows-task-forever.html">Windows Task Scheduler forever</a> pack that creates <code>LEXXII-Materialize-Forever</code>. It is not the <a href="grok-scheduler-7d.html">Grok 7-day expiry</a> pack. It is not the <a href="scheduler-isolation-skip.html">isolation-empty skip recreate</a> pack. Those pages arm, disclose, or refuse to mint. This page is the remaining decoder: <strong>Last Result 267009</strong>. Decimal 267009 is HRESULT <code>0x41301</code>, <code>SCHED_S_TASK_RUNNING</code>. It is a success-class scheduler status, not a Win32 error. Operators treat the column as <code>exit 1</code>. They spawn another <code>grok.exe</code>. They recreate Grok lanes. They write “the 5-minute pulse is dead.” Status is Running. Next run is still in the future. The previous instance has not returned. That is the pulse working.</p>
+      <a class="btn" href="schtasks-lastresult-267009.md" download>Download markdown</a>
+      <a class="btn" href="windows-task-forever.html">Create / arm first</a>
+      <a class="btn" href="grok-scheduler-7d.html">Grok 7-day cap</a>
+    </section>
+    <section>
+      <h2>The problem</h2>
+      <p>Task Scheduler GUI and <code>schtasks /Query /FO LIST /V</code> print two different facts in two columns. <strong>Status</strong> is now: Ready, Running, Disabled, Could not start. <strong>Last Result</strong> is either the last action’s exit code <em>or</em> a scheduler HRESULT while the action is still in flight. On a 5-minute Interactive-only Grok desk, the named tasks overlap their own query. <code>LEXXII-Materialize-Forever</code>, Pages-Heal, Ship, Compound, and Wormhole sit at Status=Running and Last Result=267009 for the whole fire. That is Queue / ignore-new doing its job. It is not proof the prompt died.</p>
+      <p>267009 looks like a four-digit fail because every other Windows error the operator knows is decimal. It is not <code>ERROR_FILE_NOT_FOUND</code>. It is not Git exit 128. Convert: <code>0x41301</code> = 267009. The <code>0x000413xx</code> band is Task Scheduler success status, not Win32. Last Result <strong>0</strong> means the last completed run returned success. Last Result <strong>1</strong> means the last completed action returned 1 — that is the real fail this pack does not paper over. Last Result <strong>267011</strong> (<code>SCHED_S_TASK_HAS_NOT_RUN</code>) with last-run 1999-11-30 is the never-fired daily that <a href="windows-task-forever.html">windows-task-forever</a> already healed. Do not mix those three.</p>
+      <p>Extra Grok TUI windows split the same quota. Four <code>grok.exe</code> already running is already too many for “one more to be sure.” Fusion is 32 queued subagents plus the 5-minute Windows tasks. Do not install systemd because 267009 printed. Do not paste live brokerage numbers next to a Last Result dump. Capital stays off Pages.</p>
+    </section>
+    <section>
+      <h2>When this page applies</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Symptom after idle</th><th>Layer</th></tr></thead>
+          <tbody>
+            <tr><td>Named task missing, daily 07:15, last-run 1999-11-30, Last Result 267011</td><td>Different layer. Create / heal the task. <a href="windows-task-forever.html">Windows Task Scheduler forever</a>.</td></tr>
+            <tr><td>Need the 7-day Grok in-session cap disclosed</td><td>Different layer. <a href="grok-scheduler-7d.html">Grok scheduler 7d</a>.</td></tr>
+            <tr><td>This headless session’s <code>scheduler_list</code> is empty. Tempted to mint new forever IDs</td><td>Different layer. Isolation skip. <a href="scheduler-isolation-skip.html">scheduler-isolation-skip</a>. Do not recreate. Do not delete the kept IDs.</td></tr>
+            <tr><td>Last Result 1 after the action returned. Status Ready. Next-run advanced</td><td>Real fail of the last cmd. Read the lane log. Not this decoder. Do not treat it as 267009.</td></tr>
+            <tr><td>Status Running. Last Result 267009. Next-run still in the future. Operator wants another grok.exe window</td><td>This page. Still-running. Do not spawn a TUI. Do not recreate Grok lanes.</td></tr>
+            <tr><td>Need who yanked sleep, not the Last Result column</td><td>Different forensic. <a href="powercfg-lastwake.html">/lastwake</a>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">Do not spawn another Grok TUI because Last Result is 267009. Do not recreate Grok schedulers because this isolation’s list is empty — that is the skip pack, not this decoder. Do not treat 267009 as exit 1. Do not paste <code>auth.json</code> or brokerage numbers next to a <code>schtasks</code> dump.</div>
+    </section>
+    <section>
+      <h2>What to run (plugged-in Grok desk)</h2>
+      <div class="card">
+        <ol>
+          <li><strong>Confirm the named task exists</strong> — if Query says the task does not exist, this decoder has nothing to decode. Create it with <a href="windows-task-forever.html">windows-task-forever</a>. Do not mint a Grok lane as a substitute.</li>
+          <li><strong>Query, do not start</strong> — <code>schtasks /Query /TN "\LEXXII-Wormhole" /FO LIST /V</code> (or Materialize / Pages-Heal / Ship / Compound). Read <em>Status</em>, <em>Last Result</em>, <em>Last Run Time</em>, <em>Next Run Time</em>, <em>Repeat: Every</em> as four facts. Do not <code>/Run</code> because 267009 scared you.</li>
+          <li><strong>Classify Last Result</strong> — 267009 while Status=Running: still in flight. 0 while Status=Ready: last completed success. 1 while Status=Ready: last action failed. 267011: never run. Convert unknown decimals with a hex calculator to the <code>0x413xx</code> band before calling them fails.</li>
+          <li><strong>Count grok.exe, then stop</strong> — extra windows split quota. If Status is Running, the fire already has a process. Do not open a fifth TUI. Do not install systemd. Do not <code>git push</code> from this host to “heal” a Last Result.</li>
+        </ol>
+      </div>
+      <pre>schtasks /Query /TN "\LEXXII-Wormhole" /FO LIST /V
+schtasks /Query /TN "\LEXXII-Materialize-Forever" /FO LIST /V
+schtasks /Query /TN "\LEXXII-Pages-Heal" /FO LIST /V
+:: 267009 = 0x41301 SCHED_S_TASK_RUNNING
+:: 267008 = 0x41300 SCHED_S_TASK_READY
+:: 267011 = 0x41303 SCHED_S_TASK_HAS_NOT_RUN
+:: 0 = last completed action succeeded
+:: 1 = last completed action returned 1</pre>
+      <p>HRESULT <code>0x41301</code> is documented as “The task is currently running.” The GUI decimal is 267009. <code>0x41300</code> is Ready (267008). <code>0x41303</code> is has-not-run (267011). Those three are scheduler status, not cmd exit codes. Exit 0 and exit 1 live in the same Last Result column after the action returns. Read Status first. Then read Last Result. Then read Next Run. A 5-minute Repeat with Next Run a few minutes out is the pulse. A Ready + 1 + next-run in the past is a fail of the <em>action</em>, logged in the lane <code>.log</code>, not healed by another TUI.</p>
+    </section>
+    <section>
+      <h2>How to read the column</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Last Result</th><th>HRESULT / name</th><th>What to do</th></tr></thead>
+          <tbody>
+            <tr><td>267009</td><td><code>0x41301</code> SCHED_S_TASK_RUNNING</td><td>Still in flight. Pass of this forensic. Do not spawn a TUI. Do not /Run a second instance if overlap is Ignore new.</td></tr>
+            <tr><td>267008</td><td><code>0x41300</code> SCHED_S_TASK_READY</td><td>Armed, not currently executing. Wait for next-run. Not a fail.</td></tr>
+            <tr><td>267011</td><td><code>0x41303</code> SCHED_S_TASK_HAS_NOT_RUN</td><td>Never fired (often last-run 1999-11-30). Heal the trigger. <a href="windows-task-forever.html">windows-task-forever</a>.</td></tr>
+            <tr><td>267010</td><td><code>0x41302</code> SCHED_S_TASK_DISABLED</td><td>Disabled. Enable the task. Not a Grok recreate.</td></tr>
+            <tr><td>0</td><td>Last action succeeded</td><td>Last completed run returned 0. Status should be Ready. Pulse is alive.</td></tr>
+            <tr><td>1</td><td>Last action returned 1</td><td>Real fail. Read <code>logs\lane-*.log</code>. Do not call this 267009. Do not invent a Linux daemon.</td></tr>
+            <tr><td>267014</td><td><code>0x41306</code> SCHED_S_TASK_TERMINATED</td><td>Someone stopped it. Find who. Do not stack a TUI to replace it.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>How it splits from the other playbooks</h2>
+      <ul>
+        <li><a href="windows-task-forever.html">Windows Task Scheduler forever</a> — create / heal the named task (hourly-then-5m, batteries, Queue). This page assumes the task exists and decodes Last Result.</li>
+        <li><a href="grok-scheduler-7d.html">Grok scheduler 7d</a> — in-session durable lanes expire in 7 days. Host-forever is still the Windows task. This page does not recreate those IDs.</li>
+        <li><a href="scheduler-isolation-skip.html">Isolation skip</a> — empty <code>scheduler_list</code> in a headless isolation is skip recreate, keep forever IDs. 267009 is not emptiness.</li>
+        <li><a href="windows-sleep-vs-forever.html">Sleep vs forever</a> — idle timeouts and Interactive-only. 267009 can print while the session is awake. It is not proof S0ix ate the pulse.</li>
+        <li>This page — Status + Last Result + Next Run. 267009 = still-running. Do not spawn another <code>grok.exe</code>.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Soak test (what "passes" means)</h2>
+      <div class="card">
+        <ol>
+          <li>Named task exists. Repeat is 5 minutes (heal/ship/compound/wormhole) or 15 minutes (UMI/BI). Batteries allowed. Duration 1 day.</li>
+          <li>During a fire: Status=Running and Last Result=267009. Next Run still in the future. That is a pass. Do not /Run. Do not open another TUI.</li>
+          <li>After a fire returns 0: Status=Ready and Last Result=0. Last Run Time moved. That is also a pass.</li>
+          <li>Last Result=1 is a fail of the action, not of this decoder. Read the log. Do not relabel it 267009.</li>
+          <li>Last Result=267011 with last-run 1999-11-30 is a fail of the trigger pack, not this decoder.</li>
+          <li>No extra Grok TUI. Isolation-empty still skip recreate. Forever IDs kept. Not systemd. Not <code>/home/workdir</code>. Capital stays off Pages.</li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>What this page is not</h2>
+      <ul>
+        <li>Not a Linux FULL AUTO daemon on this Windows profile. Host-forever is Task Scheduler.</li>
+        <li>Not permission to spawn a fifth <code>grok.exe</code> because Status is Running.</li>
+        <li>Not permission to recreate Grok lanes because Last Result is 267009 or because <code>scheduler_list</code> is empty in this isolation.</li>
+        <li>Not <a href="windows-task-forever.html">windows-task-forever</a>. That pack creates the task.</li>
+        <li>Not <a href="grok-scheduler-7d.html">grok-scheduler-7d</a>. That pack discloses the 7-day cap.</li>
+        <li>Not <a href="scheduler-isolation-skip.html">scheduler-isolation-skip</a>. Empty list ≠ 267009.</li>
+        <li>Not a published live <code>schtasks</code> dump with hostnames, account names, or capital figures on GitHub Pages.</li>
+        <li>Not a brokerage number. Live capital stays off Pages.</li>
+      </ul>
+    </section>
+    <section>
+      <p><a href="../index.html">← Home</a> · <a href="index.html">Products</a> · <a href="windows-task-forever.html">Task forever</a> · <a href="grok-scheduler-7d.html">Grok 7d</a> · <a href="scheduler-isolation-skip.html">Isolation skip</a></p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      © 2026 824 Consultants LLC / Douglas James Mangie II / Lexxii · ONLY YOU. FOREVER.<br />
+      As an Amazon Associate I earn from qualifying purchases.
+    </div>
+  </footer>
+</body>
+</html>
