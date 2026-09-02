@@ -9,20 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Public face must stay crawlable
+      - name: Crawlable catalog
         run: |
           set -euo pipefail
           grep -q "Touch. Talk. Go." index.html
           grep -q "canvas#field" index.html
           grep -q "As an Amazon Associate" index.html
-          grep -q "Fully autonomous public surface" autonomy.html
-          grep -q "Zero human input required" autonomy.html
-          if grep -q "Deny by default" products/index.html; then
-            echo "products/index.html is a deny wall" >&2
+          if grep -q "Deny by default" products/index.html; then echo "products hub deny wall" >&2; exit 1; fi
+          if grep -q "^Disallow: /$" robots.txt && ! grep -q "^Allow: /$" robots.txt; then echo "robots disallow all" >&2; exit 1; fi
+          echo "catalog ok"
+      - name: Forbid leaked objects
+        run: |
+          set -euo pipefail
+          if grep -R -n --exclude-dir=.git -E "buy\.stripe\.com/test_|sk_live_|sk_test_|ghp_[A-Za-z0-9]|HMAC=|BILL-CIPHER" .; then
+            echo "forbidden object on public face" >&2
             exit 1
           fi
-          if grep -q "^Disallow: /$" robots.txt && ! grep -q "^Allow: /$" robots.txt; then
-            echo "robots.txt disallows all" >&2
-            exit 1
-          fi
-          echo "public face validate ok"
+          echo "forbid ok"

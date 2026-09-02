@@ -1,25 +1,10 @@
 name: seal-history
 on:
   workflow_dispatch:
-permissions:
-  contents: write
-concurrency:
-  group: seal-history
-  cancel-in-progress: false
 jobs:
-  seal:
+  retired:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-      - name: orphan-root and force main
-        run: |
-          set -euo pipefail
-          git config user.name "824 Consultants LLC"
-          git config user.email "djmangie0824@gmail.com"
-          git checkout --orphan sealed-root
-          git add -A
-          git commit -m "Public face sealed. Civic titles only. Catalog kept. History reset."
-          git branch -M main
-          git push --force origin main
+      - run: |
+          echo "History seal already ran. This job no longer force-pushes."
+          echo "Default branch is the orphan root. Do not restore old SHAs."

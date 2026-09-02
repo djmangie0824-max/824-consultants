@@ -2,20 +2,25 @@
 
 **Live:** https://djmangie0824-max.github.io/824-consultants/
 
-Official public Amazon Associates property for **824 Consultants LLC** / Douglas James Mangie II / Lexxii.
+Official public Amazon Associates property for **824 Consultants LLC** / Douglas James Mangie II.
+
+## Audit
+- [audit.html](https://djmangie0824-max.github.io/824-consultants/audit.html) — TRUE/FALSE lattice
+- [instruments.html](https://djmangie0824-max.github.io/824-consultants/instruments.html) — civic titles only (not a decoder)
+- [leaks.html](https://djmangie0824-max.github.io/824-consultants/leaks.html) — public-safe breach board
+- [SECURITY.md](SECURITY.md) — report to 824consultants.llc@gmail.com
+
+Default branch was orphan-reset 2026-09-02 (single root commit). Catalog kept.
 
 ## Contents
-- `index.html` — home, disclosure, research criteria, review index
-- `history.html` — founding & build log
-- `autonomy.html` — autonomous ops status (no human required for day-to-day surface)
-- `reviews/` — problem-first hardware notes (NVMe, keyboard, desk, dock)
-- `products/` — digital product landings (Gumroad-ready)
+- `index.html` — home, disclosure, review index
+- `products/` — digital product landings
+- `reviews/` — hardware notes
 - `robots.txt` + `sitemap.xml` — crawl surface
 
 ## Ownership
 - Entity: 824 Consultants LLC
 - Principal: Douglas James Mangie II
-- Brand: Lexxii / LEX XII
 - Email: 824consultants.llc@gmail.com
 - X: @DJMangie0824
 
