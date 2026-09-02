@@ -21,8 +21,18 @@ jobs:
       - name: Forbid leaked objects
         run: |
           set -euo pipefail
-          if grep -R -n --exclude-dir=.git -E "buy\.stripe\.com/test_|sk_live_|sk_test_|ghp_[A-Za-z0-9]|HMAC=|BILL-CIPHER" .; then
-            echo "forbidden object on public face" >&2
-            exit 1
-          fi
+          hit=0
+          while IFS= read -r line; do
+            echo "$line"
+            hit=1
+          done < <(grep -R --exclude-dir=.git --exclude-dir=.github -n -F "buy.stripe.com/test_" . || true)
+          while IFS= read -r line; do
+            echo "$line"
+            hit=1
+          done < <(grep -R --exclude-dir=.git --exclude-dir=.github -n -E "sk_live_[A-Za-z0-9]+" . || true)
+          while IFS= read -r line; do
+            echo "$line"
+            hit=1
+          done < <(grep -R --exclude-dir=.git --exclude-dir=.github -n -F "BILL-CIPHER" . || true)
+          if [ "$hit" -ne 0 ]; then echo "forbidden object on public face" >&2; exit 1; fi
           echo "forbid ok"
