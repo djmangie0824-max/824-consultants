@@ -7,3 +7,4 @@ Disallow: /living/
 Disallow: /instruments-decoder
 
 Sitemap: https://djmangie0824-max.github.io/824-consultants/sitemap.xml
+Sitemap: https://djmangie0824-max.github.io/824-consultants/sitemap-cash.xml
