@@ -41,7 +41,7 @@ Official Amazon help: https://affiliate-program.amazon.com/help/node/topic/GJMMT
 ## Where tagged links are allowed today
 Live example (already on Pages):
 
-https://www.amazon.com/dp/B0B7CQ2J2V?tag=824consultant-20
+https://www.amazon.com/dp/B0BHJF2VRN?tag=824consultant-20
 
 Review: https://djmangie0824-max.github.io/824-consultants/reviews/nvme-ubuntu-local-ai.html
 
