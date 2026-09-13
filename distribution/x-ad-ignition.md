@@ -13,7 +13,7 @@ https://djmangie0824-max.github.io/824-consultants/
 If we would not buy it with $0 commission, it does not earn a link.
 
 3/ First tagged product: Samsung 990 PRO 1TB — Rank-1 stack boot + hot cache for local models.
-https://www.amazon.com/dp/B0B7CQ2J2V?tag=824consultant-20
+https://www.amazon.com/dp/B0BHJF2VRN?tag=824consultant-20
 
 #ad · As an Amazon Associate I earn from qualifying purchases.
 
